@@ -15,7 +15,7 @@ keywords: ["DBMS interview questions", "ACID properties interview", "Normalizati
 
 ## MODULE 1: Introduction & Architecture
 
-### 1.1 DBMS vs. File System
+### 1.1 DBMS vs. File System 
 
 **Definition:** A **file system** stores data as flat files, with no built-in understanding of relationships, constraints, or concurrent access control. A **DBMS** (Database Management System) is software that manages structured data with defined relationships, integrity constraints, concurrent access, and recovery mechanisms.
 
