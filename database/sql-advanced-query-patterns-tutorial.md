@@ -9,11 +9,13 @@ keywords: ["SQL interview questions", "SQL window functions tutorial", "SQL join
 
 # SQL Interview Handbook: From MariaDB Setup to Advanced Query Patterns
 
-![SQL Interview Handbook](/images/sql-interview-handbook.png)
-
+[SQL Interview Handbook](/images/sql-interview-handbook.png)
 
 ## Installing mysql(maria db lighter image (70mb))
-- For install docker ![install docker](devops/docker/docker-full-tutorial.md#3.Installing Docker)
+
+[install docker](https://rajendrapancholi.vercel.app/blogs/b/git/database/sql-advanced-query-patterns-tutorial#2-distinct)
+
+- For install docker [install docker](devops/docker/docker-full-tutorial#3-installing-docker)
 
 ```bash
 # 1. Pull the absolute minimum, ultra-lightweight MariaDB image built on Alpine Linux
