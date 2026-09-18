@@ -21,21 +21,22 @@ This page is the hub for the DevOps tutorials in this repo - bookmark it and wor
 
 Docker packages an application and all its dependencies into a single, portable container image - the foundational skill for everything else in DevOps.
 
-- **[Docker Interview Questions](docker/docker-interview-questions.md)** - commonly asked Docker questions and answers, useful both for learning the fundamentals and for interview prep.
+- **[Docker Interview Questions](devops/docker/docker-interview-questions.md)** - commonly asked Docker questions and answers, useful both for learning the fundamentals and for interview prep.
 
 ## 2. Orchestration - Kubernetes
 
 Once you're comfortable with containers, the next step is running many of them reliably in production - that's what Kubernetes (K8s) is for.
 
-- **[Introduction to Kubernetes](k8s/introduction-to-kubernetes.md)** - core concepts: pods, deployments, services, and the overall K8s architecture.
-- **[Kubernetes Setup and Installation Guide](k8s/kubernetes-setup-and-Installation-guide.md)** - get a cluster up and running locally or in the cloud.
-- **[Kubernetes Full Tutorial](k8s/kubernetes-full-tutorial.md)** - an end-to-end, in-depth walkthrough of Kubernetes.
-- **[Kubernetes Interview Questions](k8s/kubernetes-interview-questions.md)** - test your understanding with common interview questions.
+- **[Introduction to Kubernetes](devops/k8s/introduction-to-kubernetes.md)** - core concepts: pods, deployments, services, and the overall K8s architecture.
+- **[Kubernetes Setup and Installation Guide](devops/k8s/kubernetes-setup-and-Installation-guide.md)** - get a cluster up and running locally or in the cloud.
+- **[Kubernetes Full Tutorial](devops/k8s/kubernetes-full-tutorial.md)** - an end-to-end, in-depth walkthrough of Kubernetes.
+- **[Kubernetes Interview Questions](devops/k8s/kubernetes-interview-questions.md)** - test your understanding with common interview questions.
 
 ## Suggested order
 
-1. [Docker Interview Questions](docker/docker-interview-questions.md) - build or confirm your container fundamentals.
-2. [Introduction to Kubernetes](k8s/introduction-to-kubernetes.md) - learn the core K8s concepts.
-3. [Kubernetes Setup and Installation Guide](k8s/kubernetes-setup-and-Installation-guide.md) - get hands-on with a real cluster.
-4. [Kubernetes Full Tutorial](k8s/kubernetes-full-tutorial.md) - go deep.
-5. [Kubernetes Interview Questions](k8s/kubernetes-interview-questions.md) - validate what you've learned.
+1. [Docker Interview Questions](devops/docker/docker-interview-questions.md) - build or confirm your container fundamentals.
+2. [Introduction to Kubernetes](devops/k8s/introduction-to-kubernetes.md) - learn the core K8s concepts.
+3. [Kubernetes Setup and Installation Guide](devops/k8s/kubernetes-setup-and-Installation-guide.md) - get hands-on with a real cluster.
+4. [Kubernetes Full Tutorial](devops/k8s/kubernetes-full-tutorial.md) - go deep.
+5. [Kubernetes Interview Questions](devops/k8s/kubernetes-interview-questions.md) - validate what you've learned.
+

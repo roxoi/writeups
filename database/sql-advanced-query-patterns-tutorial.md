@@ -13,6 +13,7 @@ keywords: ["SQL interview questions", "SQL window functions tutorial", "SQL join
 
 
 ## Installing mysql(maria db lighter image (70mb))
+- For install docker ![install docker](devops/docker/docker-full-tutorial.md#3.Installing Docker)
 
 ```bash
 # 1. Pull the absolute minimum, ultra-lightweight MariaDB image built on Alpine Linux
