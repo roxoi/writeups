@@ -1,7 +1,7 @@
 ---
 title: "SQL Interview Handbook: From MariaDB Setup to Advanced Query Patterns"
 description: "A practical, interview-focused guide to SQL — covering MariaDB setup, query execution order, joins, conditional aggregation, window functions, CTEs, set operations, and high-ROI patterns like gaps & islands and Top-N per group, with worked examples and solutions."
-author: [{"name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"}]
+author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/sql-interview-handbook.png"
 tags: [SQL, MariaDB, MySQL, SDE-Interview, DBMS, Window-Functions, Query-Optimization]
 keywords: ["SQL interview questions", "SQL window functions tutorial", "SQL joins interview questions", "CTE recursive SQL examples", "gaps and islands SQL", "Top N per group SQL", "conditional aggregation SQL CASE WHEN", "MariaDB Docker setup", "SQL execution order interview"]
@@ -12,8 +12,6 @@ keywords: ["SQL interview questions", "SQL window functions tutorial", "SQL join
 [SQL Interview Handbook](/images/sql-interview-handbook.png)
 
 ## Installing mysql(maria db lighter image (70mb))
-
-[install docker](https://rajendrapancholi.vercel.app/blogs/b/git/database/sql-advanced-query-patterns-tutorial#2-distinct)
 
 - For install docker [install docker](devops/docker/docker-full-tutorial#3-installing-docker)
 

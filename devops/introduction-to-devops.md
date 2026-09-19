@@ -1,7 +1,7 @@
 ---
 title: "Introduction to DevOps"
 description: "A beginner-friendly hub for learning DevOps - start with containers, move on to orchestration, and build a full picture of how modern software ships."
-author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com" ]
+author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/intro-devops.png"
 tags: [DevOps, Docker, Kubernetes, Cloud-Computing]
 keywords: ["Introduction to DevOps", "DevOps tutorial for beginners", "Docker and Kubernetes roadmap", "Learn DevOps step by step"]
