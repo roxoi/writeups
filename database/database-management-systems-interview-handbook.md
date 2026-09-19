@@ -1,13 +1,13 @@
 ---
-title: "Database Management Systems Interview Handbook: From Fundamentals to Whiteboard-Ready Answers"
+title: "Database Management Systems Interview Handbook"
 description: "A ground-up, interview-focused guide to DBMS for SDE roles — covering normalization, ACID, concurrency control, indexing, and SQL vs NoSQL with worked examples and query snippets."
-author: [{"name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"}]
+author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/dbms-interview-handbook.png"
 tags: [DBMS, SQL, SDE-Interview, Computer-Science, System-Design, CS-Fundamentals]
 keywords: ["DBMS interview questions", "ACID properties interview", "Normalization 1NF 2NF 3NF BCNF", "SQL joins interview questions", "B+ tree indexing explained", "CAP theorem interview", "DBMS interview cheat sheet SDE"]
 ---
 
-# Database Management Systems Interview Handbook: From Fundamentals to Whiteboard-Ready Answers
+# Database Management Systems Interview Handbook
 
 ![Database Management Systems Interview Handbook](/images/dbms-interview-handbook.png)
 
