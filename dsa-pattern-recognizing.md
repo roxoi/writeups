@@ -47,7 +47,7 @@ Higher precedence = evaluated first. Same precedence = follow associativity (lef
 | Code | Evaluates As | Correct? |
 |---|---|---|
 | `a + b * c` | `a + (b * c)` | ✓ YES (* before +) |
-| `a && b || c` | `(a && b) || c` | ✓ YES (&& before \|\|) |
+| `a && b \|\| c` | `(a && b) \|\| c` | ✓ YES (&& before \|\|) |
 | `a \| b & c` | `a \| (b & c)` | ✓ YES (& before \|) |
 | `a < b && c < d` | `(a < b) && (c < d)` | ✓ YES (< before &&) |
 | `a = b = c` | `a = (b = c)` | ✓ YES (= is right-to-left) |
