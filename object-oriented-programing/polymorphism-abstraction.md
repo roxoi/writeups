@@ -118,7 +118,7 @@ Overloads are also chosen **at compile time by static types**, in phases: first 
 ### Code: overload resolution in action
 
 ```cpp
-##include <cstdio>
+#include <cstdio>
 
 // Overload set: resolved on STATIC types at compile time
 void show(int)         { puts("int"); }          // _Z4showi
@@ -200,7 +200,7 @@ double compute_d(double x);       // symbol: compute_d  (two C names, no overloa
 ##endif
 
 // lib.cpp
-##include "lib.h"
+#include "lib.h"
 extern "C" int    compute_i(int x)    { return x * 2; }
 extern "C" double compute_d(double x) { return x * 2; }
 ```
@@ -294,11 +294,11 @@ Class-hierarchy analysis can also devirtualize and later _deoptimize_ if a new s
 ### Code: dynamic dispatch, and what is _not_ dynamic
 
 ```cpp
-##include <cmath>
-##include <iostream>
-##include <memory>
-##include <string>
-##include <vector>
+#include <cmath>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
 
 struct Shape {
     virtual ~Shape() = default;
@@ -521,9 +521,9 @@ The object header holds a **klass pointer** (not a vptr into a per-function tabl
 ### Code: build a vtable by hand, then peek at the real one
 
 ```cpp
-##include <cstdio>
-##include <cstring>
-##include <typeinfo>
+#include <cstdio>
+#include <cstring>
+#include <typeinfo>
 
 // ===== Part 1: the compiler's job, done by hand in plain C-style code =====
 struct ShapeVT {                                   // "vtable": one per class, constant
@@ -599,7 +599,7 @@ struct Foo {
     int x;
 };
 // main.cpp
-##include "foo.h"
+#include "foo.h"
 int main() { Foo f; }
 ```
 
@@ -609,7 +609,7 @@ Fixes:
 
 ```cpp
 // foo.cpp: define the key function in exactly ONE translation unit
-##include "foo.h"
+#include "foo.h"
 Foo::~Foo() = default;
 void Foo::run() {}
 // OR make all virtuals inline/defaulted in the header: the vtable is then emitted (weakly) wherever it is used:
@@ -697,13 +697,13 @@ Templates are "duck-typed" interfaces (and C++20 concepts name and check them). 
 ### Code: interface, skeleton, concrete class
 
 ```cpp
-##include <cstddef>
-##include <optional>
-##include <stdexcept>
-##include <string>
-##include <type_traits>
-##include <unordered_map>
-##include <utility>
+#include <cstddef>
+#include <optional>
+#include <stdexcept>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
 
 // ===== INTERFACE: contract only. No data, no logic, deleted copy (anti-slicing). =====
 class IStorage {
@@ -877,9 +877,9 @@ There are no destructors, so this bug class does not exist for memory (the GC fr
 ### Code: correct, broken, and guarded
 
 ```cpp
-##include <cstdio>
-##include <memory>
-##include <vector>
+#include <cstdio>
+#include <memory>
+#include <vector>
 
 static int g_live = 0;                                      // counts live Tracker objects (proves destruction)
 struct Tracker { Tracker() { ++g_live; } Tracker(const Tracker&) { ++g_live; } ~Tracker() { --g_live; } };
@@ -1078,11 +1078,11 @@ Generics are **erased**: one compiled body, `Object`-typed internally, with boxi
 ### Code: five ways to compute areas
 
 ```cpp
-##include <cmath>
-##include <memory>
-##include <utility>
-##include <variant>
-##include <vector>
+#include <cmath>
+#include <memory>
+#include <utility>
+#include <variant>
+#include <vector>
 
 struct Circle { double r; double area() const { return 3.14159 * r * r; } };   // no base class at all
 struct Square { double s; double area() const { return s * s; } };

@@ -74,7 +74,7 @@ The object has **one header** (mark word plus klass pointer, 12–16 bytes). The
 ### Code: layouts you can check with `static_assert`
 
 ```cpp
-##include <cstdio>
+#include <cstdio>
 
 // --- Tail-padding reuse: same fields, different sizeof depending on "POD-ness" of the base ---
 struct Animal { int age; char kind; Animal() : age(0), kind('a') {} };  // non-POD: age@0, kind@4, pad 5..7
@@ -233,7 +233,7 @@ Java classes have **single inheritance**, so there is no state diamond. But inte
 ### Code: broken diamond vs. fixed diamond
 
 ```cpp
-##include <cstdio>
+#include <cstdio>
 
 // ---- BROKEN: non-virtual diamond ----
 struct A0 { int v = 0; };
@@ -426,7 +426,7 @@ Class initialization (`<clinit>`, superclass first) happens once. For `new D()`:
 ### Code: watch the whole chain run
 
 ```cpp
-##include <cstdio>
+#include <cstdio>
 inline void log(const char* s) { std::puts(s); }
 
 struct VBase { VBase() { log("VBase()"); } virtual ~VBase() { log("~VBase()"); } };
@@ -606,9 +606,9 @@ Effective Java Item 18 says "favor composition over inheritance," and Item 19 sa
 ### Code: the Square/Rectangle failure and two fixes
 
 ```cpp
-##include <cassert>
-##include <memory>
-##include <set>
+#include <cassert>
+#include <memory>
+#include <set>
 
 // ---- 1. LSP VIOLATION: a Square is-a Rectangle mathematically, but NOT behaviorally (mutable) ----
 class Rectangle {
@@ -788,8 +788,8 @@ This topic teaches you to tell them apart, and gives you the tools (`override`, 
 ### Code: every trap in one file
 
 ```cpp
-##include <cstdio>
-##include <memory>
+#include <cstdio>
+#include <memory>
 
 struct Base {
     virtual void f(int x = 1) const { std::printf("Base::f(%d)\n", x); }

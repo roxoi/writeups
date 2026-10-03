@@ -35,7 +35,7 @@ Each topic starts with a plain-language idea, then goes step by step deeper into
 A **class** is a plan, like the drawing of a house. An **object** is a real house built from that plan. One plan can build many houses. Each house has its own furniture, but they all follow the same drawing.
 
 ```cpp
-##include <string>
+#include <string>
 
 class Dog {
 public:
@@ -85,9 +85,9 @@ Every Java object has a header (a "mark word" plus a "klass pointer"), usually 1
 ### Code: seeing padding with your own eyes
 
 ```cpp
-##include <cstddef>   // offsetof
-##include <cstdint>
-##include <iostream>
+#include <cstddef>   // offsetof
+#include <cstdint>
+#include <iostream>
 
 static_assert(sizeof(void*) == 8, "Layout numbers below assume LP64");
 
@@ -172,9 +172,9 @@ static_assert(sizeof(MsgCompact) == 16, "");
 #### Q2 \[SDE-2\]: What does this print, and why is it a bug?
 
 ```cpp
-##include <iostream>
-##include <array>
-##include <string>
+#include <iostream>
+#include <array>
+#include <string>
 struct Base {
     int id = 1;
     virtual std::string name() const { return "Base"; }
@@ -249,10 +249,10 @@ Formally: _automatic (stack) storage_ is tied to a block of code and freed autom
 ### Code: where does each thing live?
 
 ```cpp
-##include <iostream>
-##include <memory>
-##include <string>
-##include <vector>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
 
 int g_initialized = 42;   // .data segment
 int g_zeroed;             // .bss segment
@@ -336,8 +336,8 @@ void leak() {
 3. `leak`: the early return leaks 400 bytes, and `delete p` should be `delete[] p` (UB). All of this disappears with RAII.
 
 ```cpp
-##include <string>
-##include <vector>
+#include <string>
+#include <vector>
 int  make_counter()   { return 0; }                 // return by value
 std::string greeting() { return "hello"; }          // std::string owns its storage
 void no_leak() {
@@ -391,10 +391,10 @@ The kinds of constructor:
 ### Code: shallow copy vs. a correct deep-copy class
 
 ```cpp
-##include <algorithm>
-##include <cstddef>
-##include <iostream>
-##include <utility>
+#include <algorithm>
+#include <cstddef>
+#include <iostream>
+#include <utility>
 
 // BAD: implicit copy duplicates the pointer, so the destructor runs twice on one block.
 class ShallowBuffer {
@@ -538,12 +538,12 @@ Two big differences to remember:
 ### Code: an RAII file wrapper and a polymorphic base
 
 ```cpp
-##include <cstdio>
-##include <memory>
-##include <stdexcept>
-##include <string>
-##include <string_view>
-##include <utility>
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <utility>
 
 // RAII wrapper: exclusive ownership of a FILE* (like unique_ptr, but explicit for teaching).
 class File {
@@ -684,8 +684,8 @@ So `this` means "the object I am working on right now."
 ### Code: chaining and the hidden parameter made visible
 
 ```cpp
-##include <iostream>
-##include <string>
+#include <iostream>
+#include <string>
 
 class Counter {
     int count_ = 0;
@@ -827,9 +827,9 @@ If a class manages a resource, you must answer all three **consistently**. The "
 ### Code: all five special members
 
 ```cpp
-##include <algorithm>
-##include <cstddef>
-##include <utility>
+#include <algorithm>
+#include <cstddef>
+#include <utility>
 
 class Buffer {
     std::size_t size_ = 0;

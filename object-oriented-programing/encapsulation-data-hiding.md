@@ -60,9 +60,9 @@ Here is the most important thing to understand, and many beginners get it wrong:
 ### Code: five access-control ideas in one file
 
 ```cpp
-##include <cstring>
-##include <iostream>
-##include <type_traits>
+#include <cstring>
+#include <iostream>
+#include <type_traits>
 
 // ---- 1. Access is per-CLASS, not per-OBJECT ----
 class Account {
@@ -228,11 +228,11 @@ A **mutator** is any function that changes the object. The reason we hide data a
 ### Code: a bank account that guards its rules
 
 ```cpp
-##include <cassert>
-##include <cstdint>
-##include <stdexcept>
-##include <string>
-##include <utility>
+#include <cassert>
+#include <cstdint>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 class Account {
     static constexpr std::int64_t kMaxCents = 1'000'000'000'000LL;   // hard cap: $10B
@@ -373,7 +373,7 @@ public:
 The implicit constructor also allows `Inventory inv = vec;`.
 
 ```cpp
-##include <algorithm>
+#include <algorithm>
 class Inventory {
     std::vector<int> stock_;                                   // invariant: every element >= 0
 public:
@@ -418,12 +418,12 @@ The biggest beginner trap: **`const` does not mean immutable.** `const` is shall
 ### Code: a deeply immutable config and a lock-free snapshot holder
 
 ```cpp
-##include <atomic>
-##include <memory>
-##include <stdexcept>
-##include <string>
-##include <utility>
-##include <vector>
+#include <atomic>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 
 // ---- Deeply immutable value with O(1) copies and "wither" updates ----
 class Config {
@@ -610,10 +610,10 @@ You can make every field private and still lose all your protection with one car
 ### Code: three safe ways to give out data
 
 ```cpp
-##include <mutex>
-##include <string>
-##include <utility>
-##include <vector>
+#include <mutex>
+#include <string>
+#include <utility>
+#include <vector>
 
 class Roster {
     mutable std::mutex       m_;
@@ -751,8 +751,8 @@ Think of the header as a restaurant menu and the `.cpp` as the kitchen. Customer
 ```cpp
 // ============ widget.h : what clients see (no private data, no heavy includes) ============
 ##pragma once
-##include <memory>
-##include <string>
+#include <memory>
+#include <string>
 
 class Widget {
 public:
@@ -770,9 +770,9 @@ private:
 };
 
 // ============ widget.cpp : free to change without recompiling clients ============
-##include "widget.h"
-##include <iostream>
-##include <vector>                                   // heavy / third-party deps stay HERE
+#include "widget.h"
+#include <iostream>
+#include <vector>                                   // heavy / third-party deps stay HERE
 
 struct Widget::Impl {
     std::string      name;
@@ -830,7 +830,7 @@ public:
     Widget();
 };
 // main.cpp
-##include "widget.h"
+#include "widget.h"
 int main() { Widget w; }            // error: invalid application of 'sizeof' to incomplete type 'Widget::Impl'
 ```
 
