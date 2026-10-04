@@ -643,21 +643,17 @@ It sounds simple, and that is the trap. The interview questions are all about do
 Each version below fixes a weakness of the one before it.
 
 ```java
-// ─────────────────────────────────────────────────────────────
 // V1: EAGER initialization. Simplest, inherently thread-safe.
 // The JVM guarantees class initialization runs once, under a class-init lock.
 // Downside: instance created even if never used (matters if construction is expensive).
-// ─────────────────────────────────────────────────────────────
 final class EagerSingleton {
     private static final EagerSingleton INSTANCE = new EagerSingleton();
     private EagerSingleton() { }
     static EagerSingleton getInstance() { return INSTANCE; }
 }
 
-// ─────────────────────────────────────────────────────────────
 // V2: Lazy + synchronized method. Correct but SLOW:
 // every call (not just the first) acquires the monitor.
-// ─────────────────────────────────────────────────────────────
 final class SyncSingleton {
     private static SyncSingleton instance;
     private SyncSingleton() { }
@@ -667,10 +663,8 @@ final class SyncSingleton {
     }
 }
 
-// ─────────────────────────────────────────────────────────────
 // V3: Double-Checked Locking (DCL). Lazy, fast path is lock-free.
 // `volatile` is MANDATORY, see explanation below.
-// ─────────────────────────────────────────────────────────────
 final class ConfigManager {
     private static volatile ConfigManager instance;
     private final java.util.Map<String, String> props;
@@ -698,23 +692,19 @@ final class ConfigManager {
     private static java.util.Map<String, String> loadFromDisk() { return java.util.Map.of("env", "prod"); }
 }
 
-// ─────────────────────────────────────────────────────────────
 // V4: Initialization-on-demand holder (Bill Pugh).
 // Lazy + thread-safe + NO explicit synchronization.
 // Holder class loads (and INSTANCE is built) only when getInstance() first runs;
 // the JVM class-initialization lock provides the safety.
-// ─────────────────────────────────────────────────────────────
 final class HolderSingleton {
     private HolderSingleton() { }
     private static final class Holder { static final HolderSingleton INSTANCE = new HolderSingleton(); }
     static HolderSingleton getInstance() { return Holder.INSTANCE; }
 }
 
-// ─────────────────────────────────────────────────────────────
 // V5: Enum Singleton (Effective Java, Item 3).
 // Immune to reflection attacks and serialization duplication; JVM-guaranteed single instance.
 // Limit: cannot extend another class, and eager (loads with the enum class).
-// ─────────────────────────────────────────────────────────────
 enum MetricsRegistry {
     INSTANCE;
     private final java.util.concurrent.atomic.LongAdder requests = new java.util.concurrent.atomic.LongAdder();
@@ -950,17 +940,17 @@ Mixing an S3 storage with a Pub/Sub queue would be an inconsistent configuration
 import java.util.EnumMap;
 import java.util.Map;
 
-// ── Product families (abstract) ─────────────────────────────
+// Product families (abstract)
 interface BlobStorage  { void put(String key, byte[] data); }
 interface MessageQueue { void publish(String topic, String message); }
 
-// ── ABSTRACT FACTORY ────────────────────────────────────────
+// ABSTRACT FACTORY
 interface CloudFactory {
     BlobStorage createStorage();
     MessageQueue createQueue();
 }
 
-// ── Family 1: AWS ───────────────────────────────────────────
+// Family 1: AWS
 final class S3Storage implements BlobStorage {
     @Override public void put(String key, byte[] data) { System.out.println("S3 PUT " + key); }
 }
@@ -972,7 +962,7 @@ final class AwsFactory implements CloudFactory {
     @Override public MessageQueue createQueue()  { return new SqsQueue(); }
 }
 
-// ── Family 2: GCP ───────────────────────────────────────────
+// Family 2: GCP
 final class GcsStorage implements BlobStorage {
     @Override public void put(String key, byte[] data) { System.out.println("GCS PUT " + key); }
 }
@@ -984,7 +974,7 @@ final class GcpFactory implements CloudFactory {
     @Override public MessageQueue createQueue()  { return new PubSubQueue(); }
 }
 
-// ── Provider selection: built once, immutable, thread-safe ──
+// Provider selection: built once, immutable, thread-safe
 enum CloudProvider { AWS, GCP }
 
 final class CloudFactories {
@@ -1000,7 +990,7 @@ final class CloudFactories {
     static CloudFactory of(CloudProvider p) { return FACTORIES.get(p); }
 }
 
-// ── Client: knows ONLY abstractions ─────────────────────────
+// Client: knows ONLY abstractions
 final class DataPipeline {
     private final BlobStorage storage;
     private final MessageQueue queue;

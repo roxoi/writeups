@@ -372,9 +372,9 @@ turn = j;
 while (flag[j] && turn == j) {
     // busy wait
 }
-// --- critical section ---
+// critical section
 flag[i] = false;
-// --- remainder section ---
+// remainder section
 ```
 
 **Why It Matters:** It's a foundational theoretical construct showing mutual exclusion is achievable with just shared memory (no special hardware instructions) - but it only works for 2 processes and relies on assumptions (like atomic reads/writes and instruction reordering not happening) that **modern compilers/CPUs with out-of-order execution can violate**, so it's rarely used in real production systems (hardware-based locks are preferred).

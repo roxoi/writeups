@@ -31,7 +31,7 @@ That is all "encapsulation" means. You put data and the rules for changing it in
 | **ABI**                        | The binary-level agreement (sizes, layouts, call rules) that lets separately compiled code work together. |
 | **Snapshot**                   | A frozen copy of data at one moment in time.                                                              |
 
-## Topic 2.1: Access Modifiers (public / protected / private)
+## 2.1: Access Modifiers (public / protected / private)
 
 ### The idea in plain words
 
@@ -64,7 +64,7 @@ Here is the most important thing to understand, and many beginners get it wrong:
 #include <iostream>
 #include <type_traits>
 
-// ---- 1. Access is per-CLASS, not per-OBJECT ----
+// 1. Access is per-CLASS, not per-OBJECT
 class Account {
     long long cents_;                                   // private
 public:
@@ -74,7 +74,7 @@ public:
     }
 };
 
-// ---- 2. Overload resolution happens BEFORE the access check ----
+// 2. Overload resolution happens BEFORE the access check
 class Overloaded {
     void f(int) {}                                      // private: exact match for an int arg
 public:
@@ -84,7 +84,7 @@ public:
 // o.f(1.0);                // OK
 // (Same mechanism makes `= delete`d overloads useful for blocking implicit conversions.)
 
-// ---- 3. Non-Virtual Interface: public non-virtual API, private virtual hook ----
+// 3. Non-Virtual Interface: public non-virtual API, private virtual hook
 class Exporter {
 public:
     virtual ~Exporter() = default;
@@ -100,7 +100,7 @@ class CsvExporter final : public Exporter {
     void doExport(std::ostream& os) override { os << "a,b,c\n"; }  // override is legal despite
 };                                                                  // being private
 
-// ---- 4. protected: access only through the derived type ----
+// 4. protected: access only through the derived type
 class Base { protected: int p_ = 0; };
 class Derived : public Base {
 public:
@@ -108,7 +108,7 @@ public:
     // void bad(Base& b) { b.p_ = 1; }                  // ERROR: could poke a sibling's state
 };
 
-// ---- 5. Layout is untouched by access specifiers; standard-layout-ness is not ----
+// 5. Layout is untouched by access specifiers; standard-layout-ness is not
 struct A { int x; int y; };
 class  B { public: int x; private: int y; };
 static_assert(sizeof(A) == sizeof(B), "same bytes in practice");
@@ -198,7 +198,7 @@ What actually gives you a boundary:
 
 Interview framing: _encapsulation protects invariants from well-meaning callers (bugs), not from adversaries._
 
-## Topic 2.2: Class Invariants & Mutators
+## 2.2: Class Invariants & Mutators
 
 ### The idea in plain words
 
@@ -394,7 +394,7 @@ public:
 
 If several threads call `remove`, add a `std::mutex` held across the check and the decrement. Check-then-act is **not** atomic on its own.
 
-## Topic 2.3: True Immutability
+## 2.3: True Immutability
 
 ### The idea in plain words
 
@@ -425,7 +425,7 @@ The biggest beginner trap: **`const` does not mean immutable.** `const` is shall
 #include <utility>
 #include <vector>
 
-// ---- Deeply immutable value with O(1) copies and "wither" updates ----
+// Deeply immutable value with O(1) copies and "wither" updates
 class Config {
     struct Data {                                  // all state lives behind a pointer-to-CONST
         std::string              name;
@@ -463,7 +463,7 @@ public:
     // Compiler-generated copy/move: copies a shared_ptr (one atomic refcount op). Safe & cheap.
 };
 
-// ---- Lock-free-for-readers snapshot holder (hot-reloadable config, feature flags, routing tables) ----
+// Lock-free-for-readers snapshot holder (hot-reloadable config, feature flags, routing tables)
 template <class T>
 class Snapshot {
     std::shared_ptr<const T> cur_;
@@ -478,7 +478,7 @@ public:
 // Reader thread:  auto cfg = holder.load();  use cfg->timeoutMs() as long as you like: no locks, no tearing.
 // Writer thread:  holder.store(std::make_shared<const Config>(old->withTimeout(500)));
 
-// ---- const OBJECT vs const REFERENCE ----
+// const OBJECT vs const REFERENCE
 const int kLimit = 10;                             // defined const: may be folded, may live in .rodata
 // void evil() { *const_cast<int*>(&kLimit) = 20; }  // UB: typically SIGSEGV; reads may still see 10
 ```
@@ -587,7 +587,7 @@ public:
 
 Interview takeaway: **"immutable" objects with `mutable` caches must pay for their own synchronization.**
 
-## Topic 2.4 (Added): Leaky Encapsulation — Returned References, Views & Defensive Copies
+## 2.4 Leaky Encapsulation — Returned References, Views & Defensive Copies
 
 ### The idea in plain words
 
@@ -726,7 +726,7 @@ template <class Fn> void forEach(Fn&& fn) const {
 
 Choose by the read/write ratio: a visitor for rare reads, a snapshot for small data, copy-on-write snapshots for read-heavy hot paths. The general rule: **never return a reference to guarded state.**
 
-## Topic 2.5 (Added): PIMPL, ABI Stability & the Compilation Firewall
+## 2.5 PIMPL, ABI Stability & the Compilation Firewall
 
 ### The idea in plain words
 
@@ -749,8 +749,8 @@ Think of the header as a restaurant menu and the `.cpp` as the kitchen. Customer
 ### Code: a PIMPL class split across header and source
 
 ```cpp
-// ============ widget.h : what clients see (no private data, no heavy includes) ============
-##pragma once
+// widget.h : what clients see (no private data, no heavy includes)
+#pragma once
 #include <memory>
 #include <string>
 
@@ -769,7 +769,7 @@ private:
     std::unique_ptr<Impl> impl_;                    // 8 bytes, ABI-stable forever
 };
 
-// ============ widget.cpp : free to change without recompiling clients ============
+// widget.cpp : free to change without recompiling clients
 #include "widget.h"
 #include <iostream>
 #include <vector>                                   // heavy / third-party deps stay HERE

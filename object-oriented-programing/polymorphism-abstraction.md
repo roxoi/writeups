@@ -38,7 +38,7 @@ This module covers both, explains exactly how each one works inside the machine,
 | **ABI**                        | The binary-level agreement (sizes, layouts, call rules) that lets separately compiled code work together.        |
 | **Type erasure**               | Hiding a concrete type behind a uniform interface (`function` is the famous example).                       |
 
-## Topic 4.1: Compile-Time Polymorphism (Overload Resolution & Name Mangling)
+## 4.1: Compile-Time Polymorphism (Overload Resolution & Name Mangling)
 
 ### The idea in plain words
 
@@ -190,14 +190,14 @@ Fix: give the C-visible API **C linkage** in a header shared by both languages, 
 
 ```cpp
 // lib.h  (valid C and C++)
-##ifdef __cplusplus
+#ifdef __cplusplus
 extern "C" {
-##endif
+#endif
 int    compute_i(int x);          // symbol: compute_i
 double compute_d(double x);       // symbol: compute_d  (two C names, no overloading in C)
-##ifdef __cplusplus
+#ifdef __cplusplus
 }
-##endif
+#endif
 
 // lib.cpp
 #include "lib.h"
@@ -237,7 +237,7 @@ f(true);       // (g)
 
 Lesson: a catch-all `template<class T> void f(T)` **outbids every overload that needs a promotion or conversion**. Constrain it (SFINAE with `enable_if`, or C++20 concepts) or give it a distinct name. Interviewers use this to test whether you know the _rank order_, not just "closest type."
 
-## Topic 4.2: Runtime Polymorphism & Dynamic Binding
+## 4.2: Runtime Polymorphism & Dynamic Binding
 
 ### The idea in plain words
 
@@ -437,7 +437,7 @@ struct AreaVisitor : Visitor {
 
 Trade-offs: adding a **new operation** is easy (write a new `Visitor`), but adding a **new shape** forces changes to every visitor (this is the _expression problem_). For a closed set of types, `variant` plus `visit` (4.6) does the same without a hierarchy. In Java, sealed interfaces with pattern-matching `switch` give exhaustive checking and remove most Visitor boilerplate.
 
-## Topic 4.3: Under the Hood: VTABLE and VPTR
+## 4.3: Under the Hood: VTABLE and VPTR
 
 ### The idea in plain words
 
@@ -525,7 +525,7 @@ The object header holds a **klass pointer** (not a vptr into a per-function tabl
 #include <cstring>
 #include <typeinfo>
 
-// ===== Part 1: the compiler's job, done by hand in plain C-style code =====
+// Part 1: the compiler's job, done by hand in plain C-style code
 struct ShapeVT {                                   // "vtable": one per class, constant
     double (*area)(const void* self);              // slot 0
     void   (*destroy)(void* self);                 // slot 1 (deleting destructor)
@@ -544,7 +544,7 @@ CircleObj* make_circle(double r) { return new CircleObj{{&kCircleVT}, r}; }  // 
 double area(const ShapeObj* s) { return s->vt->area(s); }   // THE virtual call: load vt, load fn, call
 void   destroy(ShapeObj* s)    { s->vt->destroy(s); }       // virtual destruction
 
-// ===== Part 2: peek at the real thing (Itanium ABI only; diagnostic, NEVER ship this) =====
+// Part 2: peek at the real thing (Itanium ABI only; diagnostic, NEVER ship this)
 struct Shape  { virtual ~Shape() = default; virtual double area() const = 0; };
 struct Circle : Shape { double r = 1; double area() const override { return r; } };
 struct Square : Shape { double s = 2; double area() const override { return s; } };
@@ -646,7 +646,7 @@ struct C : A, B { void g() override { /* uses this->a and this->b */ } double c;
 
 So the adjustment happens in two places: **at the upcast site** (+16, caller side) and **inside the thunk** (−16, callee side). `reinterpret_cast` and `void*` round-trips skip the first, which is why Topic 3.1's Q2 crashes.
 
-## Topic 4.4: Abstract Classes vs. Interfaces
+## 4.4: Abstract Classes vs. Interfaces
 
 ### The idea in plain words
 
@@ -705,7 +705,7 @@ Templates are "duck-typed" interfaces (and C++20 concepts name and check them). 
 #include <unordered_map>
 #include <utility>
 
-// ===== INTERFACE: contract only. No data, no logic, deleted copy (anti-slicing). =====
+// INTERFACE: contract only. No data, no logic, deleted copy (anti-slicing).
 class IStorage {
 public:
     IStorage() = default;
@@ -717,7 +717,7 @@ public:
 };
 static_assert(is_abstract_v<IStorage>, "cannot be instantiated");
 
-// ===== ABSTRACT CLASS: skeletal implementation = shared state + invariant logic + hooks =====
+// ABSTRACT CLASS: skeletal implementation shared state + invariant logic + hooks =====
 class StorageBase : public IStorage {
     size_t maxKey_;                                              // state: not allowed in a Java interface
     size_t puts_ = 0;
@@ -733,7 +733,7 @@ public:
     size_t putCount() const noexcept { return puts_; }
 };
 
-// ===== CONCRETE =====
+// CONCRETE
 class MemStorage final : public StorageBase {
     unordered_map<string, string> m_;
     void doPut(const string& k, string v) override { m_[k] = move(v); }
@@ -745,7 +745,7 @@ public:
     }
 };
 
-// ===== A pure virtual function CAN have a body: a default the subclass must opt into explicitly =====
+// A pure virtual function CAN have a body: a default the subclass must opt into explicitly
 struct Walker { virtual ~Walker() = default; virtual void walk() = 0; };
 void Walker::walk() { /* shared default behavior */ }
 struct Dog : Walker { void walk() override { Walker::walk(); /* then dog-specific */ } };
@@ -820,7 +820,7 @@ Caveat: `dynamic_cast` across **shared-library boundaries** compares `typeinfo`,
 
 **Java:** add a `default` method to the interface (`default boolean remove(String k) { return false; }`). Old implementers keep working, because the JVM resolves interface method bodies at link time by name and descriptor, with no baked-in slot numbers. The remaining risks are _behavioral_ (the default may be wrong for them) and the diamond conflicts of Topic 3.2.
 
-## Topic 4.5: Virtual Destructors
+## 4.5: Virtual Destructors
 
 ### The idea in plain words
 
@@ -1014,7 +1014,7 @@ template <class T, class... A> shared_ptr<IService> make(A&&... a) {
 
 Add `final` on leaf classes, `-Wnon-virtual-dtor` and `-Wdelete-non-virtual-dtor`, ASan plus LSan in CI, and a code-review rule: _"any class with a virtual function gets a virtual destructor or a protected one."_
 
-## Topic 4.6 (Added): Static Polymorphism — Templates, CRTP, `variant` & Type Erasure
+## 4.6 Static Polymorphism — Templates, CRTP, `variant` & Type Erasure
 
 ### The idea in plain words
 

@@ -351,7 +351,7 @@ Now we combine what you have learned. This is a classic LLD interview problem.
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-// ── Message (immutable) ─────────────────────────────────────
+// Message (immutable)
 record Notification(String userId, String subject, String body, Priority priority) {
     enum Priority { NORMAL, HIGH }
     Notification {
@@ -360,7 +360,7 @@ record Notification(String userId, String subject, String body, Priority priorit
     }
 }
 
-// ── Channel abstraction (Strategy for "how to deliver") ─────
+// Channel abstraction (Strategy for "how to deliver")
 interface NotificationChannel {
     String name();
     void send(Notification n) throws DeliveryException;     // DeliveryException from 5.2
@@ -379,7 +379,7 @@ final class PushNotificationChannel implements NotificationChannel {
     @Override public void send(Notification n) { System.out.println("PUSH to " + n.userId() + ": " + n.subject()); }
 }
 
-// ── Decorator: retry with exponential backoff ───────────────
+// Decorator: retry with exponential backoff
 final class RetryingChannel implements NotificationChannel {
     private final NotificationChannel inner;
     private final int maxAttempts;
@@ -411,7 +411,7 @@ final class RetryingChannel implements NotificationChannel {
     }
 }
 
-// ── Decorator: logging ──────────────────────────────────────
+// Decorator: logging
 final class LoggingChannel implements NotificationChannel {
     private final NotificationChannel inner;
     LoggingChannel(NotificationChannel inner) { this.inner = inner; }
@@ -429,7 +429,7 @@ final class LoggingChannel implements NotificationChannel {
     }
 }
 
-// ── Strategy: which channels for this message? ──────────────
+// Strategy: which channels for this message?
 interface ChannelSelectionStrategy {
     Set<String> select(Notification n, Set<String> userPreferences, Set<String> available);
 }
@@ -453,14 +453,14 @@ final class PriorityAwareSelection implements ChannelSelectionStrategy {
     }
 }
 
-// ── Ports ───────────────────────────────────────────────────
+// Ports
 interface PreferenceStore { Set<String> channelsFor(String userId); }
 
-// ── Observer: who wants to know about results? ──────────────
+// Observer: who wants to know about results?
 record DeliveryResult(Notification notification, String channel, boolean success) { }
 interface DeliveryListener { void onResult(DeliveryResult result); }
 
-// ── The service: orchestrates, holds no business rules ──────
+// The service: orchestrates, holds no business rules
 final class NotificationService {
     private final Map<String, NotificationChannel> channels;     // already decorated
     private final PreferenceStore preferences;

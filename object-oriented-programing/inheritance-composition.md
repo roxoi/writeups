@@ -32,7 +32,7 @@ Module 2 taught you how to protect one object's rules. Module 3 asks what happen
 | **ABI**                   | The binary-level agreement (sizes, layouts, call rules) that lets separately compiled code work together.                       |
 | **Static / dynamic type** | Static = the type written in the code. Dynamic = the real type of the object at run time.                                       |
 
-## Topic 3.1: The "Is-A" Relationship & Memory Layouts
+## 3.1: The "Is-A" Relationship & Memory Layouts
 
 ### The idea in plain words
 
@@ -76,25 +76,25 @@ The object has **one header** (mark word plus klass pointer, 12–16 bytes). The
 ```cpp
 #include <cstdio>
 
-// --- Tail-padding reuse: same fields, different sizeof depending on "POD-ness" of the base ---
+// Tail-padding reuse: same fields, different sizeof depending on "POD-ness" of the base
 struct Animal { int age; char kind; Animal() : age(0), kind('a') {} };  // non-POD: age@0, kind@4, pad 5..7
 struct Dog : Animal { char tricks; };      // Itanium: tricks@5 (inside Animal's padding) => sizeof 8
                                            // MSVC: tricks@8 => sizeof 12
 struct PodA   { int age; char kind; };     // POD base: tail padding is NOT reused (Itanium)
 struct PodDog : PodA { char tricks; };     // tricks@8 => sizeof 12
 
-// --- Polymorphic single inheritance: one vptr, base fields first ---
+// Polymorphic single inheritance: one vptr, base fields first
 struct Shape  { virtual ~Shape() = default; double x = 0; };   // vptr@0, x@8      => 16
 struct Circle : Shape { double r = 1; };                        // r@16 (same vptr) => 24
 static_assert(sizeof(Shape) == 16 && sizeof(Circle) == 24, "LP64 Itanium/MSVC x64");
 
-// --- Multiple inheritance: two subobjects, two vptrs, pointer ADJUSTMENT on upcast ---
+// Multiple inheritance: two subobjects, two vptrs, pointer ADJUSTMENT on upcast
 struct A { virtual ~A() = default; double a = 1; };            // 16
 struct B { virtual ~B() = default; double b = 2; };            // 16
 struct C : A, B { double c = 3; };                              // A@0, B@16, c@32 => 40
 static_assert(sizeof(C) == 40, "A(16) + B(16) + double(8)");
 
-// --- EBO: an empty base is free, an empty member is not ---
+// EBO: an empty base is free, an empty member is not
 struct Empty {};
 struct WithBase   : Empty { int x; };      // sizeof 4
 struct WithMember { Empty e; int x; };     // sizeof 8 (1 byte + 3 pad + 4)
@@ -178,7 +178,7 @@ void  use(void* v) {
 // Better: avoid void* (use std::any/std::function/templates), or store a B* if B is what you need.
 ```
 
-## Topic 3.2: The Diamond Problem & Multiple Inheritance
+## 3.2: The Diamond Problem & Multiple Inheritance
 
 ### The idea in plain words
 
@@ -235,7 +235,7 @@ Java classes have **single inheritance**, so there is no state diamond. But inte
 ```cpp
 #include <cstdio>
 
-// ---- BROKEN: non-virtual diamond ----
+// BROKEN: non-virtual diamond
 struct A0 { int v = 0; };
 struct B0 : A0 {};
 struct C0 : A0 {};
@@ -245,7 +245,7 @@ static_assert(sizeof(D0) == 8, "TWO copies of A0::v (4 + 4)");
 // A0* p = static_cast<A0*>(&d);  // ERROR: ambiguous base
 // d.B0::v = 1; d.C0::v = 2;     // compiles; two divergent copies of "the same" state
 
-// ---- FIXED: virtual inheritance, one shared Device ----
+// FIXED: virtual inheritance, one shared Device
 struct Device {
     int id;
     explicit Device(int i) : id(i) { std::puts("Device()"); }      // no default ctor
@@ -370,7 +370,7 @@ class E implements B, C2 {                         // ERROR: unrelated defaults
 
 Java's rules (class beats interface, more-specific interface beats less-specific, otherwise explicit `X.super.f()`) mirror C++'s dominance and final-overrider rules. But Java never has duplicate _state_, which is the expensive half of the C++ problem.
 
-## Topic 3.3: Object Initialization Chains
+## 3.3: Object Initialization Chains
 
 ### The idea in plain words
 
@@ -556,7 +556,7 @@ struct D : Base {
 
 Also valid but less common: a **function-try-block** (`D() try : ... {} catch (...) { /* log; rethrown automatically */ }`) lets you _observe_ the exception, but it cannot suppress it or access members.
 
-## Topic 3.4: Composition vs. Inheritance & the Liskov Substitution Principle
+## 3.4: Composition vs. Inheritance & the Liskov Substitution Principle
 
 ### The idea in plain words
 
@@ -610,7 +610,7 @@ Effective Java Item 18 says "favor composition over inheritance," and Item 19 sa
 #include <memory>
 #include <set>
 
-// ---- 1. LSP VIOLATION: a Square is-a Rectangle mathematically, but NOT behaviorally (mutable) ----
+// 1. LSP VIOLATION: a Square is-a Rectangle mathematically, but NOT behaviorally (mutable)
 class Rectangle {
 protected:
     int w_, h_;
@@ -633,7 +633,7 @@ void stretch(Rectangle& r) {                        // client code written again
     assert(r.area() == 10);                         // FAILS for Square: 2*2 = 4
 }
 
-// ---- 2. FIX A: don't inherit; share a read-only abstraction, make the value types immutable ----
+// 2. FIX A: don't inherit; share a read-only abstraction, make the value types immutable
 class Shape {
 public:
     virtual ~Shape() = default;
@@ -655,7 +655,7 @@ public:
     long long area() const override { return 1LL * s_ * s_; }
 };
 
-// ---- 3. FIX B: composition with a narrow, purpose-built surface ----
+// 3. FIX B: composition with a narrow, purpose-built surface
 template <class T>
 class CountingSet {
     std::set<T>  inner_;                            // HAS-A: black-box reuse
@@ -763,7 +763,7 @@ public:
 
 Java's `HashSet` / `InstrumentedHashSet` (Effective Java Item 18) is the same bug, and the same fix (a forwarding wrapper). Interview sound bite: _"Inheritance breaks encapsulation: the subclass depends on the superclass's implementation, not just its interface."_
 
-## Topic 3.5 (Added): Overriding vs. Hiding, `override`/`final`, Default Arguments & Covariant Returns
+## 3.5 Overriding vs. Hiding, `override`/`final`, Default Arguments & Covariant Returns
 
 ### The idea in plain words
 
@@ -804,13 +804,13 @@ struct Derived : Base {
     // Defenses: write `override` on g (compile error), and `using Base::g; using Base::h;` to un-hide.
 };
 
-// ---- final enables devirtualization ----
+// final enables devirtualization
 struct Fast final : Base {
     void f(int x = 3) const override { std::printf("Fast::f(%d)\n", x); }
 };
 void callFast(const Fast& x) { x.f(); }   // dynamic type known => direct, inlinable call, no vtable load
 
-// ---- Covariant clone: raw covariant virtual (private) + smart-pointer wrapper (public) ----
+// Covariant clone: raw covariant virtual (private) + smart-pointer wrapper (public)
 class Shape {
 public:
     virtual ~Shape() = default;
@@ -927,5 +927,3 @@ Measure: on predictable branches the vtable call costs only a few cycles. The bi
 | Covariance                  | Raw pointers and references only. For smart pointers use the NVI `doClone()` idiom.                                                                                                            |
 | `final`                     | Blocks overriding and derivation, and enables devirtualization. Java's JIT achieves similar speedups through class-hierarchy analysis.                                                         |
 | Java contrast               | Single class inheritance + interface defaults (`X.super.f()`), virtual by default, a virtual call in a constructor reaches the subclass, fields and statics are hidden, `final` fields freeze. |
-
-### Where this leads next

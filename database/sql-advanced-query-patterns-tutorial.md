@@ -40,9 +40,9 @@ FLUSH PRIVILEGES;
 exit
 docker exec -it maria-db mariadb -u rajeusr -p
 ```
+
 1. `docker exec -it maria-db` this part tell running command inside container
 2. `mariadb -u root -p`: command thats run in container
-
 
 ```bash
 docker start maria-db # start docker container (maria-db)
@@ -55,38 +55,44 @@ docker exec -it maria-db bash
 mariadb -u rajeusr -p
 
 ```
+
 ## Execution order
+
 SQL Query Execution Order
+
 ### 💡 "FWG-HSD-OL" (याद रखने की धांसू लाइन)
+
 इसको एक मजेदार इंग्लिश सेंटेंस से याद रखें:
 FwG HsD OL ❌ (याद रखने में मुश्किल)
 👉 **Fred Wants George Harry’s Smart Dog On Leash.**
-*"फ्रेड (Fred) चाहता है कि जॉर्ज हैरी का समझदार कुत्ता पट्टे (Leash) पर रहे।"*
+_"फ्रेड (Fred) चाहता है कि जॉर्ज हैरी का समझदार कुत्ता पट्टे (Leash) पर रहे।"_
 
-| Letter | SQL Clause | मतलब (शॉर्ट में) |
-|---|---|---|
-| 🐕 Fred | FROM / JOIN | सबसे पहले टेबल ढूंढो और जोड़ो। |
-| 🐕 Wants | WHERE | कच्चा (raw) डेटा फ़िल्टर करो। |
-| 🐕 George | GROUP BY | डेटा की बाल्टियां (groups) बनाओ। |
-| 🐕 Harry's | HAVING | बनी हुई बाल्टियों को फ़िल्टर करो। |
-| 🐕 Smart | SELECT | अब कॉलम चुनो (और Alias बनाओ)। |
-| 🐕 Dog | DISTINCT | डुप्लिकेट्स को बाहर फेंको। |
-| 🐕 On | ORDER BY | डेटा को सीधा/उल्टा सॉर्ट करो। |
-| 🐕 Leash | LIMIT / OFFSET | जितने रो (rows) चाहिए, उतने काटो। |
+| Letter     | SQL Clause     | मतलब (शॉर्ट में)                  |
+| ---------- | -------------- | --------------------------------- |
+| 🐕 Fred    | FROM / JOIN    | सबसे पहले टेबल ढूंढो और जोड़ो।     |
+| 🐕 Wants   | WHERE          | कच्चा (raw) डेटा फ़िल्टर करो।      |
+| 🐕 George  | GROUP BY       | डेटा की बाल्टियां (groups) बनाओ।  |
+| 🐕 Harry's | HAVING         | बनी हुई बाल्टियों को फ़िल्टर करो।  |
+| 🐕 Smart   | SELECT         | अब कॉलम चुनो (और Alias बनाओ)।     |
+| 🐕 Dog     | DISTINCT       | डुप्लिकेट्स को बाहर फेंको।        |
+| 🐕 On      | ORDER BY       | डेटा को सीधा/उल्टा सॉर्ट करो।     |
+| 🐕 Leash   | LIMIT / OFFSET | जितने रो (rows) चाहिए, उतने काटो। |
 
 ### 🧠 (Story Method)
-अगर रटना नहीं है, तो सोचो कि डेटाबेस एक शेफ (Chef) है जो खाना बना रहा है:
-   1. FROM: सबसे पहले शेफ किचन (Table) में जाता है सामान लेने।
-   2. WHERE: खराब सब्जियां पहले ही बाहर फेंक देता है।
-   3. GROUP BY: बची सब्जियों को काटकर अलग-अलग कटोरी में रखता है (प्याज अलग, टमाटर अलग)।
-   4. HAVING: जिस कटोरी में कम सब्जी है, उस पूरी कटोरी को हटा देता है।
-   5. SELECT: अब वह डिश को प्लेट में सजाता है (कॉलम चुनता है)।
-   6. DISTINCT: अगर गलती से एक ही जैसी दो प्लेट बन गईं, तो एक हटा देता है।
-   7. ORDER BY: प्लेट्स को टेबल पर लाइन से (सजाकर) रखता है।
-   8. LIMIT: मेहमान को सिर्फ शुरुआत की 2 प्लेट सर्व करता है।
 
+अगर रटना नहीं है, तो सोचो कि डेटाबेस एक शेफ (Chef) है जो खाना बना रहा है:
+
+1.  FROM: सबसे पहले शेफ किचन (Table) में जाता है सामान लेने।
+2.  WHERE: खराब सब्जियां पहले ही बाहर फेंक देता है।
+3.  GROUP BY: बची सब्जियों को काटकर अलग-अलग कटोरी में रखता है (प्याज अलग, टमाटर अलग)।
+4.  HAVING: जिस कटोरी में कम सब्जी है, उस पूरी कटोरी को हटा देता है।
+5.  SELECT: अब वह डिश को प्लेट में सजाता है (कॉलम चुनता है)।
+6.  DISTINCT: अगर गलती से एक ही जैसी दो प्लेट बन गईं, तो एक हटा देता है।
+7.  ORDER BY: प्लेट्स को टेबल पर लाइन से (सजाकर) रखता है।
+8.  LIMIT: मेहमान को सिर्फ शुरुआत की 2 प्लेट सर्व करता है।
 
 ## Core Query Building Blocks (Theory)
+
 These are the absolute foundations. In competitive programming / company coding rounds you must write them correctly and fast under pressure.
 
 ### 1. SELECT + Filtering (`WHERE`) + Sorting (`ORDER BY`) + Limiting
@@ -105,6 +111,7 @@ FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT/OFFSET
   - Oracle: `FETCH FIRST n ROWS ONLY`
 
 **Common patterns**:
+
 ```sql
 SELECT column1, column2
 FROM table_name
@@ -114,6 +121,7 @@ LIMIT 10;
 ```
 
 **Key points**:
+
 - `WHERE` cannot use column aliases created in the same `SELECT`.
 - `ORDER BY` **can** use aliases.
 - Multiple columns in `ORDER BY` → primary sort, then secondary sort, etc.
@@ -129,12 +137,14 @@ FROM table_name;
 ```
 
 **Important theory**:
+
 - `DISTINCT` applies to the **entire row** (combination of all selected columns).
 - `SELECT DISTINCT col1` is different from `SELECT DISTINCT col1, col2`.
 - Performance: `DISTINCT` usually forces a sort or hash aggregate → can be expensive on large data.
 - Prefer `GROUP BY` when you also need aggregations.
 
 **Common interview trick**:
+
 ```sql
 -- This removes duplicate (department, salary) pairs
 SELECT DISTINCT department, salary FROM employees;
@@ -147,6 +157,7 @@ SELECT DISTINCT department, salary FROM employees;
 **Two forms**:
 
 **Simple CASE**:
+
 ```sql
 CASE expression
     WHEN value1 THEN result1
@@ -156,6 +167,7 @@ END
 ```
 
 **Searched CASE** (more powerful and commonly used):
+
 ```sql
 CASE
     WHEN condition1 THEN result1
@@ -178,6 +190,7 @@ GROUP BY department;
 ```
 
 **Key points**:
+
 - `CASE` returns `NULL` if no condition matches and there is no `ELSE`.
 - You can use `CASE` almost anywhere: `SELECT`, `WHERE`, `ORDER BY`, `GROUP BY`, aggregate functions.
 - Conditional aggregation with `SUM(CASE ...)` or `COUNT(CASE ...)` is one of the highest-frequency patterns in medium/hard problems.
@@ -186,20 +199,22 @@ GROUP BY department;
 
 `NULL` is **not** a value — it means “unknown”. Almost every advanced problem involves proper NULL handling.
 
-| Function          | Description                                      | Example |
-|-------------------|--------------------------------------------------|--------|
-| `COALESCE(a, b, c, ...)` | Returns the **first non-NULL** value            | `COALESCE(salary, 0)` |
-| `NULLIF(a, b)`    | Returns `NULL` if `a = b`, otherwise returns `a` | `NULLIF(salary, 0)` |
-| `IFNULL(a, b)`    | MySQL only. Same as `COALESCE(a, b)`             | `IFNULL(salary, 0)` |
-| `IS NULL` / `IS NOT NULL` | The **only** correct way to check for NULL     | `WHERE manager_id IS NULL` |
+| Function                  | Description                                      | Example                    |
+| ------------------------- | ------------------------------------------------ | -------------------------- |
+| `COALESCE(a, b, c, ...)`  | Returns the **first non-NULL** value             | `COALESCE(salary, 0)`      |
+| `NULLIF(a, b)`            | Returns `NULL` if `a = b`, otherwise returns `a` | `NULLIF(salary, 0)`        |
+| `IFNULL(a, b)`            | MySQL only. Same as `COALESCE(a, b)`             | `IFNULL(salary, 0)`        |
+| `IS NULL` / `IS NOT NULL` | The **only** correct way to check for NULL       | `WHERE manager_id IS NULL` |
 
 **Critical rules**:
+
 - Any arithmetic operation with `NULL` → result is `NULL` (`5 + NULL = NULL`).
 - `NULL = NULL` is **unknown** (not true). Always use `IS NULL`.
 - `NOT IN (..., NULL, ...)` almost always returns empty result (dangerous).
 - Prefer `COALESCE` over `IFNULL` for portability.
 
 **Common patterns**:
+
 ```sql
 -- Replace NULL with 0
 SELECT COALESCE(bonus, 0) AS bonus FROM employees;
@@ -213,28 +228,31 @@ SELECT revenue / NULLIF(quantity, 0) AS avg_price;
 You don’t need every function — only the ones that appear frequently in coding rounds.
 
 #### String Functions
-| Function              | Purpose                          | Example |
-|-----------------------|----------------------------------|--------|
-| `CONCAT(a, b, ...)` / `\|\|` | Concatenate strings             | `CONCAT(first_name, ' ', last_name)` |
-| `LENGTH()` / `CHAR_LENGTH()` | Length of string                | |
-| `UPPER()` / `LOWER()` | Case conversion                 | |
-| `SUBSTRING()` / `SUBSTR()` | Extract part of string          | `SUBSTRING(email, 1, 5)` |
-| `TRIM()`, `LTRIM()`, `RTRIM()` | Remove spaces                   | |
-| `REPLACE(str, from, to)` | Replace substring               | |
-| `LEFT()` / `RIGHT()`  | First/last n characters         | |
-| `POSITION()` / `INSTR()` | Find position of substring      | |
+
+| Function                       | Purpose                    | Example                              |
+| ------------------------------ | -------------------------- | ------------------------------------ |
+| `CONCAT(a, b, ...)` / `\|\|`   | Concatenate strings        | `CONCAT(first_name, ' ', last_name)` |
+| `LENGTH()` / `CHAR_LENGTH()`   | Length of string           |                                      |
+| `UPPER()` / `LOWER()`          | Case conversion            |                                      |
+| `SUBSTRING()` / `SUBSTR()`     | Extract part of string     | `SUBSTRING(email, 1, 5)`             |
+| `TRIM()`, `LTRIM()`, `RTRIM()` | Remove spaces              |                                      |
+| `REPLACE(str, from, to)`       | Replace substring          |                                      |
+| `LEFT()` / `RIGHT()`           | First/last n characters    |                                      |
+| `POSITION()` / `INSTR()`       | Find position of substring |                                      |
 
 #### Date / Time Functions
-| Function                  | Purpose                              | Example |
-|---------------------------|--------------------------------------|--------|
-| `CURRENT_DATE` / `NOW()`  | Current date/time                    | |
-| `EXTRACT(YEAR FROM date)` | Extract part of date                 | `EXTRACT(YEAR FROM order_date)` |
-| `DATE_TRUNC()` (Postgres) | Truncate to year/month/day           | |
-| `DATE_ADD()` / `DATE_SUB()` / `+ INTERVAL` | Add/subtract time                | |
-| `DATEDIFF()` / `AGE()`    | Difference between dates             | |
-| `TO_CHAR()` / `DATE_FORMAT()` | Format date as string             | |
+
+| Function                                   | Purpose                    | Example                         |
+| ------------------------------------------ | -------------------------- | ------------------------------- |
+| `CURRENT_DATE` / `NOW()`                   | Current date/time          |                                 |
+| `EXTRACT(YEAR FROM date)`                  | Extract part of date       | `EXTRACT(YEAR FROM order_date)` |
+| `DATE_TRUNC()` (Postgres)                  | Truncate to year/month/day |                                 |
+| `DATE_ADD()` / `DATE_SUB()` / `+ INTERVAL` | Add/subtract time          |                                 |
+| `DATEDIFF()` / `AGE()`                     | Difference between dates   |                                 |
+| `TO_CHAR()` / `DATE_FORMAT()`              | Format date as string      |                                 |
 
 **Very common interview patterns**:
+
 ```sql
 -- Year and Month
 SELECT EXTRACT(YEAR FROM order_date) AS year,
@@ -257,99 +275,106 @@ SELECT DATE_TRUNC('month', order_date) AS month_start;
 5. You are comfortable with basic string and date manipulations.
 
 ## REGEX
+
 Here is a complete setup with a Dummy Table (RawData) and live examples to master advanced wildcards and string functions just like they are tested in corporate interviews.
+
 ### 🏛️ The Dummy Data Setup
+
 Imagine an interviewer gives you this messy RawData table containing user logs:
 
-| user_id | profile_name | corporate_email | file_path |
-|---|---|---|---|
-| 1 | aman Kumar | aman.k@oracle.com | /usr/bin/docs/resume.pdf |
-| 2 | ROHIT sharma | rohit123@nitp.ac.in | /downloads/image.PNG |
-| 3 | priya_roy | priya@gmail.com | /home/user/project.tar.gz |
-| 4 | 99rahul | rahul_99@oracle.co.in | /var/log/sys.txt |
-| 5 | Amit | amit_kumar@nitp.ac.in | /root/notes |
+| user_id | profile_name | corporate_email       | file_path                 |
+| ------- | ------------ | --------------------- | ------------------------- |
+| 1       | aman Kumar   | aman.k@oracle.com     | /usr/bin/docs/resume.pdf  |
+| 2       | ROHIT sharma | rohit123@nitp.ac.in   | /downloads/image.PNG      |
+| 3       | priya_roy    | priya@gmail.com       | /home/user/project.tar.gz |
+| 4       | 99rahul      | rahul_99@oracle.co.in | /var/log/sys.txt          |
+| 5       | Amit         | amit_kumar@nitp.ac.in | /root/notes               |
 
-### 🚀 1. Advanced Wildcard (REGEXP) Examples## Scenario A: Find valid corporate emails only
+### 1. Advanced Wildcard (REGEXP) Examples
+
+#### Scenario A: Find valid corporate emails only
+
 Goal: Filter rows where the email ends with strictly @oracle.com or @nitp.ac.in, and the username before @ starts with a letter.
 
 ```sql (mysql/mariadb)
-SELECT user_id, profile_name, corporate_email 
-FROM users 
+SELECT user_id, profile_name, corporate_email
+FROM users
 WHERE corporate_email REGEXP '^[a-zA-Z].*@(nitp\.ac\.in|oracle\.com)$';
 ```
 
 ```sql (psql)
-SELECT user_id, profile_name, corporate_email 
+SELECT user_id, profile_name, corporate_email
 FROM users
 WHERE corporate_email ~ '^[a-zA-Z].*@(nitp\.ac\.in|oracle\.com)$';
 ```
 
-* Output Result:
+- Output Result:
 
-| profile_name | corporate_email |
-|---|---|
-| aman Kumar | aman.k@oracle.com |
-| rohit123@nitp.ac.in | |
-| Amit | amit_kumar@nitp.ac.in |
+| profile_name        | corporate_email       |
+| ------------------- | --------------------- |
+| aman Kumar          | aman.k@oracle.com     |
+| rohit123@nitp.ac.in |                       |
+| Amit                | amit_kumar@nitp.ac.in |
 
-* Why row 4 (rahul_99@oracle.co.in) failed: It ends in .co.in, not .com.
-* Why row 3 failed: It is a personal gmail.com address.
+- Why row 4 (rahul_99@oracle.co.in) failed: It ends in .co.in, not .com.
+- Why row 3 failed: It is a personal gmail.com address.
 
-### Scenario B: Catch invalid usernames
+#### Scenario B: Catch invalid usernames
+
 Goal: Find profiles that start with a number or contain special characters like underscores (violating normal system naming rules).
 
 SELECT user_id, profile_name FROM RawData WHERE profile_name REGEXP '^[0-9]' OR profile_name LIKE '%\_%';
 
-
-* Output Result:
+- Output Result:
 
 | user_id | profile_name |
-|---|---|
-| 3 | priya_roy |
-| 4 | 99rahul |
+| ------- | ------------ |
+| 3       | priya_roy    |
+| 4       | 99rahul      |
 
+### 2. Advanced String Functions Examples
 
-### ✂️ 2. Advanced String Functions Examples## Scenario C: Clean and Standardize Names (Capitalization)
+#### Scenario C: Clean and Standardize Names (Capitalization)
+
 Goal: Format names nicely by forcing the first letter to be uppercase and the remaining letters lowercase.
 (Let's take the first word of profile_name before any space using SUBSTRING_INDEX or basic positioning).
 
+```sql
 SELECT profile_name,
        CONCAT(
-           UPPER(LEFT(SUBSTRING_INDEX(profile_name, ' ', 1), 1)), 
+           UPPER(LEFT(SUBSTRING_INDEX(profile_name, ' ', 1), 1)),
            LOWER(SUBSTRING(SUBSTRING_INDEX(profile_name, ' ', 1), 2))
        ) AS cleaned_first_nameFROM RawData;
+```
 
-
-* Output Result:
+- Output Result:
 
 | profile_name | cleaned_first_name |
-|---|---|
-| aman Kumar | Aman |
-| ROHIT sharma | Rohit |
-| priya_roy | Priya_roy |
+| ------------ | ------------------ |
+| aman Kumar   | Aman               |
+| ROHIT sharma | Rohit              |
+| priya_roy    | Priya_roy          |
 
+#### Scenario D: Dynamic Extension Extraction
 
-### Scenario D: Dynamic Extension Extraction
 Goal: Extract only the file extension (everything after the very last dot .) from the file_path. If there is no file extension, show 'No Extension'.
 
-SELECT file_path, 
-       CASE 
+```sql
+SELECT file_path,
+       CASE
            WHEN file_path LIKE '%.%' THEN LOWER(SUBSTRING_INDEX(file_path, '.', -1))
            ELSE 'No Extension'
        END AS file_extensionFROM RawData;
+```
 
+- Output Result:
 
-* Output Result:
-
-| file_path | file_extension |
-|---|---|
-| /usr/bin/docs/resume.pdf | pdf |
-| /downloads/image.PNG | png (Notice the auto lowercase) |
-| /home/user/project.tar.gz | gz |
-| /root/notes | No Extension |
-
----
-
+| file_path                 | file_extension                  |
+| ------------------------- | ------------------------------- |
+| /usr/bin/docs/resume.pdf  | pdf                             |
+| /downloads/image.PNG      | png (Notice the auto lowercase) |
+| /home/user/project.tar.gz | gz                              |
+| /root/notes               | No Extension                    |
 
 ## Joins
 
@@ -358,21 +383,21 @@ Joins are one of the highest-frequency topics in coding rounds. You must underst
 ### Example Tables (We will use these throughout)
 
 **employees**
-| emp_id | name     | dept_id | salary | manager_id |
+| emp_id | name | dept_id | salary | manager_id |
 |--------|----------|---------|--------|------------|
-| 1      | Alice    | 10      | 70000  | NULL       |
-| 2      | Bob      | 20      | 60000  | 1          |
-| 3      | Charlie  | 10      | 55000  | 1          |
-| 4      | Diana    | 30      | 80000  | 2          |
-| 5      | Eve      | NULL    | 45000  | 2          |
+| 1 | Alice | 10 | 70000 | NULL |
+| 2 | Bob | 20 | 60000 | 1 |
+| 3 | Charlie | 10 | 55000 | 1 |
+| 4 | Diana | 30 | 80000 | 2 |
+| 5 | Eve | NULL | 45000 | 2 |
 
 **departments**
-| dept_id | dept_name   |
+| dept_id | dept_name |
 |---------|-------------|
-| 10      | Engineering |
-| 20      | Sales       |
-| 30      | HR          |
-| 40      | Marketing   |
+| 10 | Engineering |
+| 20 | Sales |
+| 30 | HR |
+| 40 | Marketing |
 
 ### 1. INNER JOIN
 
@@ -385,14 +410,15 @@ INNER JOIN departments d ON e.dept_id = d.dept_id;
 ```
 
 **Result**:
-| name    | dept_name   |
+| name | dept_name |
 |---------|-------------|
-| Alice   | Engineering |
-| Bob     | Sales       |
+| Alice | Engineering |
+| Bob | Sales |
 | Charlie | Engineering |
-| Diana   | HR          |
+| Diana | HR |
 
 **Key Points**:
+
 - Rows without a match are discarded.
 - Most common join type.
 - You can write just `JOIN` instead of `INNER JOIN`.
@@ -409,13 +435,13 @@ LEFT JOIN departments d ON e.dept_id = d.dept_id;
 ```
 
 **Result**:
-| name    | dept_name   |
+| name | dept_name |
 |---------|-------------|
-| Alice   | Engineering |
-| Bob     | Sales       |
+| Alice | Engineering |
+| Bob | Sales |
 | Charlie | Engineering |
-| Diana   | HR          |
-| Eve     | NULL        |
+| Diana | HR |
+| Eve | NULL |
 
 **RIGHT JOIN** is the opposite (keeps all rows from the right table).
 
@@ -434,7 +460,7 @@ FULL OUTER JOIN departments d ON e.dept_id = d.dept_id;
 Joining a table to **itself**. Very common for hierarchical data (manager-employee).
 
 ```sql
-SELECT 
+SELECT
     e.name AS employee,
     m.name AS manager
 FROM employees e
@@ -444,13 +470,14 @@ LEFT JOIN employees m ON e.manager_id = m.emp_id;
 **Result**:
 | employee | manager |
 |----------|---------|
-| Alice    | NULL    |
-| Bob      | Alice   |
-| Charlie  | Alice   |
-| Diana    | Bob     |
-| Eve      | Bob     |
+| Alice | NULL |
+| Bob | Alice |
+| Charlie | Alice |
+| Diana | Bob |
+| Eve | Bob |
 
 **Key Points**:
+
 - You must use different aliases (`e` and `m`).
 - Usually combined with `LEFT JOIN` because the top person has no manager.
 
@@ -489,8 +516,8 @@ Result → `Eve`
 SELECT e.name
 FROM employees e
 WHERE NOT EXISTS (
-    SELECT 1 
-    FROM departments d 
+    SELECT 1
+    FROM departments d
     WHERE d.dept_id = e.dept_id
 );
 ```
@@ -512,7 +539,7 @@ Just chain the joins. Keep the logic clear.
 **Example**: Get employee name, department name, and manager name.
 
 ```sql
-SELECT 
+SELECT
     e.name AS employee,
     d.dept_name,
     m.name AS manager
@@ -522,6 +549,7 @@ LEFT JOIN employees m ON e.manager_id = m.emp_id;
 ```
 
 **Tips for multi-table joins**:
+
 - Always use clear aliases.
 - Decide carefully between `INNER` and `LEFT` based on business requirement.
 - Write one join at a time and test intermediate results.
@@ -529,36 +557,36 @@ LEFT JOIN employees m ON e.manager_id = m.emp_id;
 
 ### Quick Comparison Table
 
-| Join Type       | Keeps unmatched rows from | When to use |
-|-----------------|---------------------------|-----------|
-| INNER JOIN      | Neither                   | Only matching records |
-| LEFT JOIN       | Left table                | All records from left + matches |
-| RIGHT JOIN      | Right table               | All records from right + matches |
-| FULL OUTER JOIN | Both                      | All records from both |
-| CROSS JOIN      | Both (Cartesian)          | Rarely (combinations) |
+| Join Type       | Keeps unmatched rows from | When to use                              |
+| --------------- | ------------------------- | ---------------------------------------- |
+| INNER JOIN      | Neither                   | Only matching records                    |
+| LEFT JOIN       | Left table                | All records from left + matches          |
+| RIGHT JOIN      | Right table               | All records from right + matches         |
+| FULL OUTER JOIN | Both                      | All records from both                    |
+| CROSS JOIN      | Both (Cartesian)          | Rarely (combinations)                    |
 | Self Join       | Depends                   | Hierarchy / comparison within same table |
-| Anti-Join       | Left (no match)           | "Does not exist" problems |
+| Anti-Join       | Left (no match)           | "Does not exist" problems                |
 
 ## Aggregation & Grouping
 
 #### Example Tables (continuing from before)
 
 **employees**
-| emp_id | name    | dept_id | salary | gender |
+| emp_id | name | dept_id | salary | gender |
 |--------|---------|---------|--------|--------|
-| 1      | Alice   | 10      | 70000  | F      |
-| 2      | Bob     | 20      | 60000  | M      |
-| 3      | Charlie | 10      | 55000  | M      |
-| 4      | Diana   | 30      | 80000  | F      |
-| 5      | Eve     | 10      | 45000  | F      |
-| 6      | Frank   | 20      | 65000  | M      |
+| 1 | Alice | 10 | 70000 | F |
+| 2 | Bob | 20 | 60000 | M |
+| 3 | Charlie | 10 | 55000 | M |
+| 4 | Diana | 30 | 80000 | F |
+| 5 | Eve | 10 | 45000 | F |
+| 6 | Frank | 20 | 65000 | M |
 
 ### GROUP BY + HAVING
 
 `GROUP BY` divides rows into groups. Aggregate functions then calculate one value **per group**.
 
 ```sql
-SELECT 
+SELECT
     dept_id,
     COUNT(*) AS emp_count,
     AVG(salary) AS avg_salary
@@ -569,22 +597,23 @@ GROUP BY dept_id;
 **Result**:
 | dept_id | emp_count | avg_salary |
 |---------|-----------|------------|
-| 10      | 3         | 56666.67   |
-| 20      | 2         | 62500      |
-| 30      | 1         | 80000      |
+| 10 | 3 | 56666.67 |
+| 20 | 2 | 62500 |
+| 30 | 1 | 80000 |
 
 ### Aggregate Functions
 
-| Function            | Description                              | Notes |
-|---------------------|------------------------------------------|-------|
-| `COUNT(*)`          | Counts all rows                          | Includes NULLs |
-| `COUNT(column)`     | Counts non-NULL values                   | Ignores NULLs |
-| `COUNT(DISTINCT col)` | Counts unique non-NULL values          | Very common |
-| `SUM(column)`       | Total of values                          | Ignores NULLs |
-| `AVG(column)`       | Average                                  | Ignores NULLs |
-| `MIN(column)` / `MAX(column)` | Minimum / Maximum                 | |
+| Function                      | Description                   | Notes          |
+| ----------------------------- | ----------------------------- | -------------- |
+| `COUNT(*)`                    | Counts all rows               | Includes NULLs |
+| `COUNT(column)`               | Counts non-NULL values        | Ignores NULLs  |
+| `COUNT(DISTINCT col)`         | Counts unique non-NULL values | Very common    |
+| `SUM(column)`                 | Total of values               | Ignores NULLs  |
+| `AVG(column)`                 | Average                       | Ignores NULLs  |
+| `MIN(column)` / `MAX(column)` | Minimum / Maximum             |                |
 
 **Important**:
+
 ```sql
 COUNT(*)          -- counts every row
 COUNT(salary)     -- ignores rows where salary is NULL
@@ -596,7 +625,7 @@ COUNT(DISTINCT dept_id)
 This is one of the most tested patterns in coding rounds.
 
 ```sql
-SELECT 
+SELECT
     dept_id,
     COUNT(*) AS total_employees,
     SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) AS male_count,
@@ -607,6 +636,7 @@ GROUP BY dept_id;
 ```
 
 **Alternative styles**:
+
 ```sql
 COUNT(CASE WHEN gender = 'M' THEN 1 END)          -- also works
 SUM(CASE WHEN gender = 'M' THEN salary ELSE 0 END)
@@ -614,12 +644,13 @@ SUM(CASE WHEN gender = 'M' THEN salary ELSE 0 END)
 
 ### WHERE vs HAVING (Very Commonly Tested)
 
-| Clause   | Filters                  | When it runs          | Can use Aggregate? |
-|----------|--------------------------|-----------------------|--------------------|
-| `WHERE`  | Individual **rows**      | Before grouping       | No                 |
-| `HAVING` | **Groups**               | After grouping        | Yes                |
+| Clause   | Filters             | When it runs    | Can use Aggregate? |
+| -------- | ------------------- | --------------- | ------------------ |
+| `WHERE`  | Individual **rows** | Before grouping | No                 |
+| `HAVING` | **Groups**          | After grouping  | Yes                |
 
 **Example**:
+
 ```sql
 -- Wrong: Cannot use aggregate in WHERE
 SELECT dept_id, AVG(salary)
@@ -636,6 +667,7 @@ HAVING AVG(salary) > 60000;        -- filters groups
 ```
 
 **Interview Rule**:
+
 - Use `WHERE` for row-level conditions.
 - Use `HAVING` when the condition involves an aggregate function.
 
@@ -673,16 +705,17 @@ WHERE e1.salary > (
 
 ### Subqueries in Different Places
 
-| Location     | Example Use Case                          |
-|--------------|-------------------------------------------|
-| `WHERE`      | Filtering (most common)                   |
-| `SELECT`     | Calculating a value per row               |
-| `FROM`       | Using a subquery as a temporary table     |
-| `HAVING`     | Filtering groups                          |
+| Location | Example Use Case                      |
+| -------- | ------------------------------------- |
+| `WHERE`  | Filtering (most common)               |
+| `SELECT` | Calculating a value per row           |
+| `FROM`   | Using a subquery as a temporary table |
+| `HAVING` | Filtering groups                      |
 
 **Subquery in SELECT**:
+
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     (SELECT AVG(salary) FROM employees) AS company_avg
@@ -690,6 +723,7 @@ FROM employees;
 ```
 
 **Subquery in FROM** (Derived Table):
+
 ```sql
 SELECT dept_id, avg_sal
 FROM (
@@ -721,20 +755,21 @@ WHERE dept_id IN (SELECT dept_id FROM departments WHERE dept_name = 'Engineering
 SELECT e.name
 FROM employees e
 WHERE EXISTS (
-    SELECT 1 FROM departments d 
+    SELECT 1 FROM departments d
     WHERE d.dept_id = e.dept_id
 );
 ```
 
 ### NULL Pitfalls (Very Important)
 
-| Expression                      | Result when subquery has NULL | Recommendation |
-|---------------------------------|-------------------------------|----------------|
-| `value IN (subquery)`           | Works reasonably              | OK             |
-| `value NOT IN (subquery)`       | **Becomes unknown** if NULL exists → returns no rows | **Avoid** |
-| `EXISTS` / `NOT EXISTS`         | Safe with NULLs               | **Preferred**  |
+| Expression                | Result when subquery has NULL                        | Recommendation |
+| ------------------------- | ---------------------------------------------------- | -------------- |
+| `value IN (subquery)`     | Works reasonably                                     | OK             |
+| `value NOT IN (subquery)` | **Becomes unknown** if NULL exists → returns no rows | **Avoid**      |
+| `EXISTS` / `NOT EXISTS`   | Safe with NULLs                                      | **Preferred**  |
 
 **Dangerous example**:
+
 ```sql
 -- If any dept_id is NULL in the subquery, this returns empty result
 SELECT name FROM employees
@@ -742,6 +777,7 @@ WHERE dept_id NOT IN (SELECT dept_id FROM departments);
 ```
 
 **Safe alternatives**:
+
 ```sql
 -- Preferred
 WHERE NOT EXISTS (SELECT 1 FROM departments d WHERE d.dept_id = e.dept_id)
@@ -753,17 +789,17 @@ LEFT JOIN ... WHERE d.dept_id IS NULL
 ### Summary – Interview Key Points
 
 **Aggregation**
+
 - `WHERE` → rows | `HAVING` → groups
 - Master conditional aggregation (`SUM(CASE WHEN...)`)
 - Know difference between `COUNT(*)`, `COUNT(col)`, `COUNT(DISTINCT col)`
 
 **Subqueries**
+
 - Non-correlated → runs once
 - Correlated → runs per row (can be slow)
 - Prefer `EXISTS` / `NOT EXISTS` over `IN` / `NOT IN` when checking existence
 - Never use `NOT IN` if the subquery can contain NULL
-
-
 
 ### Practice: Conditional Aggregation Problems
 
@@ -772,6 +808,7 @@ Here are carefully designed problems from easy → medium (exactly the style ask
 #### Sample Tables (Use these for all problems)
 
 **employees**
+
 ```sql
 emp_id | name     | dept_id | salary | gender | join_year
 -------|----------|---------|--------|--------|----------
@@ -786,6 +823,7 @@ emp_id | name     | dept_id | salary | gender | join_year
 ```
 
 **departments**
+
 ```sql
 dept_id | dept_name
 --------|-------------
@@ -797,11 +835,13 @@ dept_id | dept_name
 #### Problem 1: Basic Conditional Count (Easy)
 
 Write a query to show for each department:
+
 - Total employees
 - Number of Male employees
 - Number of Female employees
 
 **Expected Output:**
+
 ```
 dept_id | total_emp | male_count | female_count
 --------|-----------|------------|-------------
@@ -813,6 +853,7 @@ dept_id | total_emp | male_count | female_count
 #### Problem 2: Conditional Sum & Average (Easy-Medium)
 
 For each department, calculate:
+
 - Total salary of all employees
 - Total salary of Male employees
 - Total salary of Female employees
@@ -821,6 +862,7 @@ For each department, calculate:
 #### Problem 3: Multiple Conditions (Medium)
 
 For each department, find:
+
 - Number of employees who joined in 2020 or earlier
 - Number of employees who joined after 2020
 - Number of High Earners (salary ≥ 70000)
@@ -829,6 +871,7 @@ For each department, find:
 #### Problem 4: Percentage using Conditional Aggregation (Medium)
 
 For each department, calculate:
+
 - Total employees
 - Male percentage
 - Female percentage
@@ -852,18 +895,19 @@ Write a single query that returns one row with the following columns:
 For each department show:
 
 | dept_id | total_emp | male_avg_salary | female_avg_salary | max_male_salary | employees_above_dept_avg |
-|---------|-----------|-----------------|-------------------|-----------------|--------------------------|
+| ------- | --------- | --------------- | ----------------- | --------------- | ------------------------ |
 
-- `male_avg_salary` → average salary of males only  
-- `female_avg_salary` → average salary of females only  
-- `max_male_salary` → highest salary among males  
+- `male_avg_salary` → average salary of males only
+- `female_avg_salary` → average salary of females only
+- `max_male_salary` → highest salary among males
 - `employees_above_dept_avg` → count of employees whose salary > department average salary
 
 #### Solutions
 
 **Solution 1:**
+
 ```sql
-SELECT 
+SELECT
     dept_id,
     COUNT(*) AS total_emp,
     SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) AS male_count,
@@ -874,8 +918,9 @@ ORDER BY dept_id;
 ```
 
 **Solution 2:**
+
 ```sql
-SELECT 
+SELECT
     dept_id,
     SUM(salary) AS total_salary,
     SUM(CASE WHEN gender = 'M' THEN salary ELSE 0 END) AS male_salary,
@@ -886,8 +931,9 @@ GROUP BY dept_id;
 ```
 
 **Solution 3:**
+
 ```sql
-SELECT 
+SELECT
     dept_id,
     SUM(CASE WHEN join_year <= 2020 THEN 1 ELSE 0 END) AS joined_2020_or_earlier,
     SUM(CASE WHEN join_year > 2020 THEN 1 ELSE 0 END) AS joined_after_2020,
@@ -898,8 +944,9 @@ GROUP BY dept_id;
 ```
 
 **Solution 4:**
+
 ```sql
-SELECT 
+SELECT
     dept_id,
     COUNT(*) AS total_emp,
     ROUND(100.0 * SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) / COUNT(*), 2) AS male_pct,
@@ -909,8 +956,9 @@ GROUP BY dept_id;
 ```
 
 **Solution 5:**
+
 ```sql
-SELECT 
+SELECT
     COUNT(*) AS total_employees,
     SUM(CASE WHEN dept_id = 10 THEN 1 ELSE 0 END) AS engineering_employees,
     SUM(CASE WHEN dept_id = 20 THEN 1 ELSE 0 END) AS sales_employees,
@@ -922,8 +970,9 @@ FROM employees;
 ```
 
 **Solution 6:**
+
 ```sql
-SELECT 
+SELECT
     e.dept_id,
     COUNT(*) AS total_emp,
     AVG(CASE WHEN gender = 'M' THEN salary END) AS male_avg_salary,
@@ -946,7 +995,6 @@ GROUP BY e.dept_id;
 3. `AVG(CASE WHEN ... THEN salary END)` → conditional average (NULL is ignored automatically)
 4. You can combine multiple conditions with `AND` / `OR` inside `CASE`
 
-
 ### Harder Conditional Aggregation Problems (Multiple Tables)
 
 Here are 4 medium-to-hard level problems that combine **multiple tables + conditional aggregation**. These are very close to real company coding round questions.
@@ -954,6 +1002,7 @@ Here are 4 medium-to-hard level problems that combine **multiple tables + condit
 #### Tables
 
 **employees**
+
 ```sql
 emp_id | name     | dept_id | salary | gender | manager_id
 -------|----------|---------|--------|--------|-----------
@@ -969,6 +1018,7 @@ emp_id | name     | dept_id | salary | gender | manager_id
 ```
 
 **departments**
+
 ```sql
 dept_id | dept_name
 --------|-------------
@@ -978,6 +1028,7 @@ dept_id | dept_name
 ```
 
 **projects**
+
 ```sql
 project_id | emp_id | project_name     | status      | budget
 -----------|--------|------------------|-------------|--------
@@ -1035,6 +1086,7 @@ For each department, show:
 | dept_name | total_emp | high_earners | completed_projects | male_completed_projects | female_completed_projects | avg_budget_completed |
 
 Where:
+
 - `high_earners` = employees with salary ≥ 75000
 - `completed_projects` = number of completed projects in that department
 - `male_completed_projects` / `female_completed_projects` = completed projects by gender
@@ -1043,8 +1095,9 @@ Where:
 #### Solutions
 
 **Solution 1:**
+
 ```sql
-SELECT 
+SELECT
     d.dept_name,
     COUNT(e.emp_id) AS total_employees,
     SUM(CASE WHEN e.gender = 'M' THEN 1 ELSE 0 END) AS male_employees,
@@ -1054,15 +1107,16 @@ SELECT
     COUNT(DISTINCT m.manager_id) AS managers_count
 FROM departments d
 LEFT JOIN employees e ON d.dept_id = e.dept_id
-LEFT JOIN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL) m 
+LEFT JOIN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL) m
        ON e.emp_id = m.manager_id
 GROUP BY d.dept_name
 ORDER BY d.dept_name;
 ```
 
 **Solution 2:**
+
 ```sql
-SELECT 
+SELECT
     d.dept_name,
     COUNT(p.project_id) AS total_projects,
     SUM(CASE WHEN p.status = 'Completed' THEN 1 ELSE 0 END) AS completed_projects,
@@ -1076,35 +1130,37 @@ LEFT JOIN projects p ON e.emp_id = p.emp_id
 GROUP BY d.dept_name
 ORDER BY d.dept_name;
 ```
+
 Write a query that returns one row with these metrics:
 
-
 **Solution 3:**
+
 ```sql
-SELECT 
+SELECT
     COUNT(*) AS total_employees, -- Total employees
     COUNT(DISTINCT manager_id) AS managers, -- Number of Managers
     COUNT(*) - COUNT(DISTINCT manager_id) AS individual_contributors, -- Number of Individual Contributors (not managers)
-    
+
     SUM(CASE WHEN emp_id IN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL) -- Total salary of Managers
              THEN salary ELSE 0 END) AS managers_total_salary,
-             
+
     SUM(CASE WHEN emp_id NOT IN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL) -- Total salary of Individual Contributors
              THEN salary ELSE 0 END) AS ic_total_salary,
-             
+
     AVG(CASE WHEN gender = 'F' AND emp_id IN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL) -- Average salary of Female Managers
              THEN salary END) AS female_manager_avg_salary,
-             
-    SUM(CASE WHEN gender = 'M' 
+
+    SUM(CASE WHEN gender = 'M'
               AND emp_id NOT IN (SELECT DISTINCT manager_id FROM employees WHERE manager_id IS NOT NULL) -- Number of Male Individual Contributors who earn more than 70000
               AND salary > 70000 THEN 1 ELSE 0 END) AS male_ic_high_earners
 FROM employees;
 ```
 
 **Solution 4:**
+
 ```sql
-SELECT 
-    d.dept_name as dept_name, 
+SELECT
+    d.dept_name as dept_name,
     COUNT(DISTINCT e.emp_id) AS total_emp,
     COUNT(DISTINCT CASE WHEN e.salary >= 75000 THEN e.emp_id END) AS high_ern,
     COUNT(CASE WHEN p.status = 'Completed' THEN 1 END) AS completed_projects,
@@ -1112,12 +1168,12 @@ SELECT
     COUNT(CASE WHEN e.gender='F' AND  p.status = 'Completed' THEN 1 END) AS female_completed_projects,
     AVG(CASE WHEN p.status = 'Completed' THEN p.budget END) AS avg_budget_completed
 FROM departments d
-LEFT JOIN employees e ON d.dept_id = e.dept_id 
+LEFT JOIN employees e ON d.dept_id = e.dept_id
 LEFT JOIN projects p ON e.emp_id = p.emp_id
 GROUP BY d.dept_name
 ORDER BY d.dept_name;
 
-SELECT 
+SELECT
     d.dept_name,
     COUNT(DISTINCT e.emp_id) AS total_emp,
     COUNT(DISTINCT CASE WHEN e.salary >= 75000 THEN e.emp_id END) AS high_earners,
@@ -1131,7 +1187,7 @@ LEFT JOIN projects p ON e.emp_id = p.emp_id
 GROUP BY d.dept_name
 ORDER BY d.dept_name;
 
-SELECT 
+SELECT
     d.dept_name,
     COUNT(DISTINCT e.emp_id) AS total_emp,
     COUNT(DISTINCT CASE WHEN e.salary >= 75000 THEN e.emp_id END) AS high_earners,
@@ -1150,14 +1206,14 @@ ORDER BY d.dept_name;
 ```
 
 **Key Patterns Used:**
+
 - Multiple `CASE WHEN` inside `SUM` / `AVG` / `COUNT`
 - Combining `JOIN` + conditional aggregation
 - Using subqueries inside `CASE` for manager logic
 - Handling `LEFT JOIN` carefully so departments with no projects still appear
 
----
-
 ## Window Functions
+
 (Most Important Advanced Topic for Tier-1 / Tier-2 Coding Rounds)
 
 Window functions are the biggest differentiator between average and strong candidates.  
@@ -1165,7 +1221,7 @@ They allow you to perform calculations across a set of rows **related to the cur
 
 ### Basic Syntax
 
-[FUNCTION_NAME()]    +    [OVER]    +    [(WINDOW PARAMETERS)]
+[FUNCTION_NAME()] + [OVER] + [(WINDOW PARAMETERS)]
 
 ```sql
 function_name() OVER (
@@ -1174,64 +1230,72 @@ function_name() OVER (
     [frame_clause]
 )
 ```
+
 - `OVER` → it is the mandatory keyword that activates a Window Function. It explicitly tells the database engine to create a custom window (subset of rows) for the function to operate on, rather than collapsing the rows using a standard GROUP BY.
 - `PARTITION BY` → divides data into groups (similar to `GROUP BY`, but rows are **not** collapsed)
 - `ORDER BY` → orders rows **inside** each partition
 - Frame clause → defines which rows in the partition are used for the calculation
 
 #### Rows are NOT collapsed
+
 Jab aap standard GROUP BY use karte hain, toh database pure groups ko sametkar (collapse karke) sirf ek summary row bana deta hai. Har individual row ka wajood khatam ho jata hai.
 Lekin jab aap PARTITION BY use karte hain, toh database piche background me groups toh banata hai, lekin woh har ek row ko as-is screen par barkarar rakhta hai. Woh har employee ki row ke aage uske pure department ki summary calculate karke chipka deta hai.
 
 Real Example Se Samjhein (Standard Table Data):
 Maan lijiye aapke paas Engineering department me 3 log hain:
 
-* Alice (Salary: 90,000)
-* Bob (Salary: 75,000)
-* Charlie (Salary: 62,000)
+- Alice (Salary: 90,000)
+- Bob (Salary: 75,000)
+- Charlie (Salary: 62,000)
 
 ##### Case A: GROUP BY dept_id (Rows get Collapsed)
+
 Agar aap pure department ki total salary nikalenge standard GROUP BY se:
+
 ```sql
 SELECT dept_id, SUM(salary) FROM employees GROUP BY dept_id;
 ```
 
-* Output: Sirf 1 single row aayegi:
-Engineering | 227,000
-* Nuksan: Alice, Bob, aur Charlie ke naam aur unki individual salaries output se gayab (collapse) ho gayin.
+- Output: Sirf 1 single row aayegi:
+  Engineering | 227,000
+- Nuksan: Alice, Bob, aur Charlie ke naam aur unki individual salaries output se gayab (collapse) ho gayin.
 
 ##### Case B: PARTITION BY dept_id (Rows are NOT Collapsed)
+
 Agar aap wahi total nikalenge Window Function (OVER PARTITION BY) use karke:
+
 ```sql
 SELECT name, salary, SUM(salary) OVER(PARTITION BY dept_id) AS dept_total FROM employees;
 ```
 
-* Output: Pure 3 rows aayengi! Ek bhi row collapse nahi hogi:
+- Output: Pure 3 rows aayengi! Ek bhi row collapse nahi hogi:
+
 1. Alice | 90,000 | 227,000
 2. Bob | 75,000 | 227,000
 3. Charlie | 62,000 | 227,000
-* Fayda: Aap har employee ki details bhi dekh pa rahe hain, aur uske side me uske pure department ka total bhi chal raha hai. (Isse aap easily compare kar sakte hain ki kiski salary total se kitni kam ya zyada hai).
+
+- Fayda: Aap har employee ki details bhi dekh pa rahe hain, aur uske side me uske pure department ka total bhi chal raha hai. (Isse aap easily compare kar sakte hain ki kiski salary total se kitni kam ya zyada hai).
 
 #### OVER
+
 SQL me OVER ek keyword hai jo database ko batata hai: "Suno! Agla function koi ordinary aggregation function nahi hai, balki ek Window Function hai."
 
-* Ordinary Function: Agar aap sirf `SUM(salary)` likhenge, toh SQL use normal aggregate samjhega aur aapse `GROUP BY` mangega.
-* Window Function: Jab aap `SUM(salary) OVER (...)` likhte hain, toh `OVER` keyword database ke liye ek khidki (window) kholta hai. Yeh khidki database ko batati hai ki is calculation ko karne ke liye tumhe table ke kis hisse (partition) par nazar rakhni hai.
-
+- Ordinary Function: Agar aap sirf `SUM(salary)` likhenge, toh SQL use normal aggregate samjhega aur aapse `GROUP BY` mangega.
+- Window Function: Jab aap `SUM(salary) OVER (...)` likhte hain, toh `OVER` keyword database ke liye ek khidki (window) kholta hai. Yeh khidki database ko batati hai ki is calculation ko karne ke liye tumhe table ke kis hisse (partition) par nazar rakhni hai.
 
 ### 1. Ranking Functions
 
-| Function       | Behavior                                                                 | Gaps in ranking? |
-|----------------|--------------------------------------------------------------------------|------------------|
-| `ROW_NUMBER()` | Unique sequential number (1, 2, 3, 4...) even if values are equal        | No               |
-| `RANK()`       | Same rank for ties, then **skips** the next ranks                       | Yes              |
-| `DENSE_RANK()` | Same rank for ties, **does not skip** ranks                             | No               |
-| `NTILE(n)`     | Divides rows into `n` roughly equal buckets                             | -                |
+| Function       | Behavior                                                          | Gaps in ranking? |
+| -------------- | ----------------------------------------------------------------- | ---------------- |
+| `ROW_NUMBER()` | Unique sequential number (1, 2, 3, 4...) even if values are equal | No               |
+| `RANK()`       | Same rank for ties, then **skips** the next ranks                 | Yes              |
+| `DENSE_RANK()` | Same rank for ties, **does not skip** ranks                       | No               |
+| `NTILE(n)`     | Divides rows into `n` roughly equal buckets                       | -                |
 
 **Example:**
 
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     ROW_NUMBER() OVER (ORDER BY salary DESC) AS row_num,
@@ -1242,15 +1306,15 @@ FROM employees;
 
 ### 2. Value Functions
 
-| Function            | Description                                      |
-|---------------------|--------------------------------------------------|
-| `LAG(column, n)`    | Value from **n rows before** the current row     |
-| `LEAD(column, n)`   | Value from **n rows after** the current row      |
-| `FIRST_VALUE(col)`  | First value in the window frame                  |
-| `LAST_VALUE(col)`   | Last value in the window frame                   |
+| Function           | Description                                  |
+| ------------------ | -------------------------------------------- |
+| `LAG(column, n)`   | Value from **n rows before** the current row |
+| `LEAD(column, n)`  | Value from **n rows after** the current row  |
+| `FIRST_VALUE(col)` | First value in the window frame              |
+| `LAST_VALUE(col)`  | Last value in the window frame               |
 
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     LAG(salary, 1) OVER (ORDER BY salary) AS prev_salary,
@@ -1260,6 +1324,7 @@ FROM employees;
 ```
 
 **Common use cases**:
+
 - Difference from previous day/month
 - Compare with previous record
 - Finding gaps
@@ -1279,7 +1344,7 @@ MAX() OVER()
 **Example – Running Total:**
 
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     SUM(salary) OVER (ORDER BY salary) AS running_total,
@@ -1292,7 +1357,7 @@ FROM employees;
 
 ```sql
 -- Rank employees by salary within each department
-SELECT 
+SELECT
     name,
     dept_id,
     salary,
@@ -1302,11 +1367,15 @@ FROM employees;
 ```
 
 **Key Difference from GROUP BY**:
+
 - `GROUP BY` → collapses rows
+
 ```sql
 SELECT dept_id, SUM(salary) FROM employees GROUP BY dept_id;
 ```
+
 **Output:**
+
 ```
 +---------+-------------+
 | dept_id | SUM(salary) |
@@ -1319,10 +1388,13 @@ SELECT dept_id, SUM(salary) FROM employees GROUP BY dept_id;
 ```
 
 - `PARTITION BY` → keeps all rows and adds extra calculated columns
+
 ```sql
 SELECT name, salary, SUM(salary) OVER(PARTITION BY dept_id) AS dept_total FROM employees;
 ```
+
 **Output:**
+
 ```
 +---------+----------+------------+
 | name    | salary   | dept_total |
@@ -1355,7 +1427,7 @@ ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
 **Example – 3-month moving average style:**
 
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     AVG(salary) OVER (
@@ -1368,10 +1440,11 @@ FROM employees;
 ### 6. Most Important Patterns (Must Master)
 
 #### Pattern 1: Top-N per Group
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         *,
         ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rn
     FROM employees
@@ -1380,10 +1453,11 @@ WHERE rn <= 2;          -- Top 2 earners per department
 ```
 
 #### Pattern 2: Latest / Most Recent Record per Group
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         *,
         ROW_NUMBER() OVER (PARTITION BY emp_id ORDER BY join_date DESC) AS rn
     FROM employee_history
@@ -1392,8 +1466,9 @@ WHERE rn = 1;
 ```
 
 #### Pattern 3: Running Total / Cumulative Sum
+
 ```sql
-SELECT 
+SELECT
     order_date,
     amount,
     SUM(amount) OVER (ORDER BY order_date) AS running_total
@@ -1401,11 +1476,12 @@ FROM orders;
 ```
 
 #### Pattern 4: Rank + Filter in Outer Query
+
 ```sql
 -- Get only the highest paid employee in each department
 SELECT name, dept_id, salary
 FROM (
-    SELECT 
+    SELECT
         name, dept_id, salary,
         RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk
     FROM employees
@@ -1416,7 +1492,7 @@ WHERE rnk = 1;
 #### Quick Comparison: RANK vs DENSE_RANK vs ROW_NUMBER
 
 | Salary | ROW_NUMBER | RANK | DENSE_RANK |
-|--------|------------|------|------------|
+| ------ | ---------- | ---- | ---------- |
 | 90000  | 1          | 1    | 1          |
 | 85000  | 2          | 2    | 2          |
 | 85000  | 3          | 2    | 2          |
@@ -1433,7 +1509,6 @@ WHERE rnk = 1;
 3. When filtering on a window function → must use subquery / CTE (you cannot use window function directly in `WHERE`).
 4. Frame clause is rarely asked in depth, but knowing `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` is useful.
 5. Window functions are usually faster and cleaner than correlated subqueries.
-
 
 ### Window Functions – Practice Problems
 
@@ -1463,6 +1538,7 @@ Show each employee’s name, salary, and their overall rank based on salary (hig
 
 **Problem 2: Ranking within Department**  
 For each employee, show:
+
 - name
 - dept_id
 - salary
@@ -1481,6 +1557,7 @@ Assuming we want the employee who joined most recently in each department, write
 
 **Problem 6: LAG & LEAD**  
 For each employee (ordered by salary), show:
+
 - Current salary
 - Previous employee’s salary (`LAG`)
 - Next employee’s salary (`LEAD`)
@@ -1488,6 +1565,7 @@ For each employee (ordered by salary), show:
 
 **Problem 7: First & Last Value**  
 For each department, show every employee along with:
+
 - The highest salary in their department (`FIRST_VALUE`)
 - The lowest salary in their department (`LAST_VALUE`)
 
@@ -1506,6 +1584,7 @@ For each department, show:
 | dept_id | name | salary | dept_rank | salary_diff_from_top | running_total_in_dept |
 
 Where:
+
 - `dept_rank` → rank by salary within department
 - `salary_diff_from_top` → difference from the highest salary in that department
 - `running_total_in_dept` → running total of salary within department (ordered by salary)
@@ -1513,8 +1592,9 @@ Where:
 #### Solutions
 
 **Solution 1:**
+
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     RANK() OVER (ORDER BY salary DESC) AS rank_num,
@@ -1523,8 +1603,9 @@ FROM employees;
 ```
 
 **Solution 2:**
+
 ```sql
-SELECT 
+SELECT
     name,
     dept_id,
     salary,
@@ -1533,8 +1614,9 @@ FROM employees;
 ```
 
 **Solution 3:**
+
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     SUM(salary) OVER (ORDER BY salary) AS running_total
@@ -1542,10 +1624,11 @@ FROM employees;
 ```
 
 **Solution 4: Top 2 per Department**
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         name, dept_id, salary,
         ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rn
     FROM employees
@@ -1554,10 +1637,11 @@ WHERE rn <= 2;
 ```
 
 **Solution 5: Most Recently Joined per Department**
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         *,
         ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY join_date DESC) AS rn
     FROM employees
@@ -1566,8 +1650,9 @@ WHERE rn = 1;
 ```
 
 **Solution 6: LAG & LEAD**
+
 ```sql
-SELECT 
+SELECT
     name,
     salary,
     LAG(salary) OVER (ORDER BY salary) AS prev_salary,
@@ -1577,14 +1662,15 @@ FROM employees;
 ```
 
 **Solution 7: First & Last Value**
+
 ```sql
-SELECT 
+SELECT
     name,
     dept_id,
     salary,
     FIRST_VALUE(salary) OVER (PARTITION BY dept_id ORDER BY salary DESC) AS highest_in_dept,
     LAST_VALUE(salary) OVER (
-        PARTITION BY dept_id 
+        PARTITION BY dept_id
         ORDER BY salary DESC
         ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
     ) AS lowest_in_dept
@@ -1594,8 +1680,9 @@ FROM employees;
 ```
 
 **Solution 8: Salary vs Department Average**
+
 ```sql
-SELECT 
+SELECT
     name,
     dept_id,
     salary,
@@ -1605,10 +1692,11 @@ FROM employees;
 ```
 
 **Solution 9: 2nd Highest Salary per Department**
+
 ```sql
 SELECT name, dept_id, salary
 FROM (
-    SELECT 
+    SELECT
         name, dept_id, salary,
         DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS drk
     FROM employees
@@ -1617,8 +1705,9 @@ WHERE drk = 2;
 ```
 
 **Solution 10: Complex Combination**
+
 ```sql
-SELECT 
+SELECT
     dept_id,
     name,
     salary,
@@ -1638,8 +1727,6 @@ ORDER BY dept_id, salary DESC;
 5. `AVG() OVER(PARTITION BY ...)` → Compare with group average
 6. Always wrap window functions in a subquery/CTE when you need to filter on them
 
----
-
 ## CTEs (Common Table Expressions)
 
 CTEs make complex queries **readable, modular, and easier to debug**.  
@@ -1650,6 +1737,7 @@ In interviews, using CTEs instead of deeply nested subqueries is considered a si
 A CTE is a temporary named result set that exists only for the duration of the query.
 
 **Syntax:**
+
 ```sql
 WITH cte_name AS (
     -- your query here
@@ -1659,6 +1747,7 @@ FROM cte_name;
 ```
 
 **Example:**
+
 ```sql
 WITH high_salary_employees AS (
     SELECT *
@@ -1671,6 +1760,7 @@ ORDER BY salary DESC;
 ```
 
 **Key Points:**
+
 - CTE improves readability.
 - You can refer to the CTE multiple times in the main query.
 - CTE is **not** stored permanently (unlike a temporary table).
@@ -1680,9 +1770,9 @@ ORDER BY salary DESC;
 You can define several CTEs by separating them with commas.
 
 ```sql
-WITH 
+WITH
 dept_avg AS (
-    SELECT 
+    SELECT
         dept_id,
         AVG(salary) AS avg_salary
     FROM employees
@@ -1693,7 +1783,7 @@ high_earners AS (
     FROM employees
     WHERE salary > 75000
 )
-SELECT 
+SELECT
     h.name,
     h.salary,
     d.avg_salary,
@@ -1703,6 +1793,7 @@ JOIN dept_avg d ON h.dept_id = d.dept_id;
 ```
 
 **When to use multiple CTEs:**
+
 - Breaking a complex problem into logical steps
 - Reusing intermediate results
 - Making window function + filtering cleaner
@@ -1713,7 +1804,7 @@ This is one of the cleanest ways to write Top-N or ranking problems.
 
 ```sql
 WITH ranked_employees AS (
-    SELECT 
+    SELECT
         name,
         dept_id,
         salary,
@@ -1726,6 +1817,7 @@ WHERE rn <= 2;
 ```
 
 **Why this is preferred:**
+
 - Much more readable than nested subqueries
 - Easy to modify (change `rn <= 2` to `rn <= 3`)
 
@@ -1734,6 +1826,7 @@ WHERE rn <= 2;
 Used for **hierarchical / tree-structured data** (manager → employee, category → subcategory, graph traversal, etc.).
 
 **Basic Structure:**
+
 ```sql
 WITH RECURSIVE cte_name AS (
     -- Anchor member (starting point)
@@ -1756,7 +1849,7 @@ SELECT * FROM cte_name;
 ```sql
 WITH RECURSIVE employee_hierarchy AS (
     -- Anchor: Start with top-level managers (no manager)
-    SELECT 
+    SELECT
         emp_id,
         name,
         manager_id,
@@ -1768,7 +1861,7 @@ WITH RECURSIVE employee_hierarchy AS (
     UNION ALL
 
     -- Recursive part: Find employees reporting to current level
-    SELECT 
+    SELECT
         e.emp_id,
         e.name,
         e.manager_id,
@@ -1783,6 +1876,7 @@ ORDER BY path;
 ```
 
 **What this does:**
+
 - Starts from employees who have no manager
 - Recursively finds all people below them
 - Builds the full reporting path and level
@@ -1802,13 +1896,13 @@ SELECT * FROM numbers;
 
 ### Important Differences: CTE vs Subquery vs Temporary Table
 
-| Feature              | CTE                  | Subquery             | Temp Table          |
-|----------------------|----------------------|----------------------|---------------------|
-| Readability          | Excellent            | Poor (when nested)   | Good                |
-| Reusability          | Can be referenced multiple times | Limited         | Yes                 |
-| Performance          | Usually same         | Usually same         | Can be better for very large data |
-| Scope                | Only current query   | Only current query   | Session-level       |
-| Recursive support    | Yes                  | No                   | No                  |
+| Feature           | CTE                              | Subquery           | Temp Table                        |
+| ----------------- | -------------------------------- | ------------------ | --------------------------------- |
+| Readability       | Excellent                        | Poor (when nested) | Good                              |
+| Reusability       | Can be referenced multiple times | Limited            | Yes                               |
+| Performance       | Usually same                     | Usually same       | Can be better for very large data |
+| Scope             | Only current query               | Only current query | Session-level                     |
+| Recursive support | Yes                              | No                 | No                                |
 
 ### Interview Tips for CTEs
 
@@ -1829,8 +1923,6 @@ SELECT * FROM numbers;
 - Multiple CTEs for step-by-step logic
 - Recursive CTE for hierarchy
 
----
-
 ## Set Operations
 
 Set operations combine the results of two or more queries into a single result set.  
@@ -1838,12 +1930,13 @@ They are less frequent than joins or window functions, but still appear in codin
 
 ### 1. UNION vs UNION ALL
 
-| Operator     | Description                              | Removes Duplicates? | Performance |
-|--------------|------------------------------------------|---------------------|-------------|
-| `UNION`      | Combines results and **removes duplicates** | Yes                | Slower (needs sort/distinct) |
-| `UNION ALL`  | Combines results and **keeps duplicates**  | No                 | Faster      |
+| Operator    | Description                                 | Removes Duplicates? | Performance                  |
+| ----------- | ------------------------------------------- | ------------------- | ---------------------------- |
+| `UNION`     | Combines results and **removes duplicates** | Yes                 | Slower (needs sort/distinct) |
+| `UNION ALL` | Combines results and **keeps duplicates**   | No                  | Faster                       |
 
 **Syntax:**
+
 ```sql
 SELECT column1, column2 FROM table1
 UNION          -- or UNION ALL
@@ -1851,12 +1944,14 @@ SELECT column1, column2 FROM table2;
 ```
 
 **Rules:**
+
 - Both queries must have the **same number of columns**.
 - Corresponding columns must have **compatible data types**.
 - Column names come from the **first** query.
 - `ORDER BY` can only be used at the very end.
 
 **Example:**
+
 ```sql
 -- Employees from Engineering + Sales
 SELECT name, dept_id FROM employees WHERE dept_id = 10
@@ -1865,6 +1960,7 @@ SELECT name, dept_id FROM employees WHERE dept_id = 20;
 ```
 
 **When to use which?**
+
 - Use `UNION ALL` by default (faster) unless you specifically need unique rows.
 - `UNION` is useful when you want distinct combined results.
 
@@ -1879,6 +1975,7 @@ SELECT name FROM employees WHERE salary > 70000;
 ```
 
 **Behavior:**
+
 - Removes duplicates automatically (like `UNION`).
 - Useful for finding common records between two sets.
 
@@ -1888,10 +1985,10 @@ SELECT name FROM employees WHERE salary > 70000;
 
 Returns rows that are in the **first** query but **not** in the second query.
 
-| Database       | Keyword   |
-|----------------|-----------|
+| Database                       | Keyword  |
+| ------------------------------ | -------- |
 | PostgreSQL, SQL Server, SQLite | `EXCEPT` |
-| Oracle         | `MINUS`   |
+| Oracle                         | `MINUS`  |
 
 ```sql
 -- Employees in Engineering but not high earners
@@ -1901,6 +1998,7 @@ SELECT name FROM employees WHERE salary > 80000;
 ```
 
 **Key Points:**
+
 - Order matters: `A EXCEPT B` is different from `B EXCEPT A`.
 - Duplicates are removed.
 - Equivalent to an anti-join in many cases.
@@ -1916,6 +2014,7 @@ SELECT name FROM employees WHERE salary > 80000;
 ### Practical Examples
 
 **Example 1: Combine two departments**
+
 ```sql
 SELECT name, 'Engineering' AS dept
 FROM employees WHERE dept_id = 10
@@ -1925,6 +2024,7 @@ FROM employees WHERE dept_id = 20;
 ```
 
 **Example 2: Find common high performers**
+
 ```sql
 SELECT emp_id FROM employees WHERE salary > 80000
 INTERSECT
@@ -1932,6 +2032,7 @@ SELECT emp_id FROM projects WHERE status = 'Completed';
 ```
 
 **Example 3: Find employees who never worked on any project**
+
 ```sql
 SELECT emp_id FROM employees
 EXCEPT
@@ -1940,13 +2041,13 @@ SELECT emp_id FROM projects;
 
 ### Set Operations vs Joins
 
-| Use Case                        | Prefer Set Operation      | Prefer Join                  |
-|---------------------------------|---------------------------|------------------------------|
-| Combine similar result sets     | `UNION` / `UNION ALL`     | -                            |
-| Find common rows                | `INTERSECT`               | `INNER JOIN`                 |
-| Find rows in A but not in B     | `EXCEPT`                  | `LEFT JOIN + IS NULL` or `NOT EXISTS` |
-| Need columns from both tables   | -                         | Joins                        |
-| Performance on large data       | Joins usually better      | -                            |
+| Use Case                      | Prefer Set Operation  | Prefer Join                           |
+| ----------------------------- | --------------------- | ------------------------------------- |
+| Combine similar result sets   | `UNION` / `UNION ALL` | -                                     |
+| Find common rows              | `INTERSECT`           | `INNER JOIN`                          |
+| Find rows in A but not in B   | `EXCEPT`              | `LEFT JOIN + IS NULL` or `NOT EXISTS` |
+| Need columns from both tables | -                     | Joins                                 |
+| Performance on large data     | Joins usually better  | -                                     |
 
 **Interview Tip:**  
 Many problems that can be solved with `EXCEPT` can also be solved with `NOT EXISTS` or `LEFT JOIN ... IS NULL`. Interviewers sometimes prefer the join/anti-join version for performance reasons.
@@ -1960,18 +2061,19 @@ Many problems that can be solved with `EXCEPT` can also be solved with `NOT EXIS
 
 ### Summary – Quick Reference
 
-| Operator       | Keeps Duplicates? | Meaning                          | Common Alternative          |
-|----------------|-------------------|----------------------------------|-----------------------------|
-| `UNION`        | No                | A ∪ B (unique)                   | -                           |
-| `UNION ALL`    | Yes               | A ∪ B (with duplicates)          | Preferred for performance   |
-| `INTERSECT`    | No                | A ∩ B                            | `INNER JOIN`                |
-| `EXCEPT`/`MINUS` | No              | A − B                            | `NOT EXISTS` / Anti-join    |
+| Operator         | Keeps Duplicates? | Meaning                 | Common Alternative        |
+| ---------------- | ----------------- | ----------------------- | ------------------------- |
+| `UNION`          | No                | A ∪ B (unique)          | -                         |
+| `UNION ALL`      | Yes               | A ∪ B (with duplicates) | Preferred for performance |
+| `INTERSECT`      | No                | A ∩ B                   | `INNER JOIN`              |
+| `EXCEPT`/`MINUS` | No                | A − B                   | `NOT EXISTS` / Anti-join  |
 
 **Set Operations – Practice Problems** (Short & Focused)
 
 ### Sample Data
 
 **employees**
+
 ```sql
 emp_id | name    | dept_id | salary
 -------|---------|---------|--------
@@ -1983,6 +2085,7 @@ emp_id | name    | dept_id | salary
 ```
 
 **projects**
+
 ```sql
 emp_id | project_name
 -------|---------------
@@ -2037,15 +2140,16 @@ SELECT emp_id FROM projects;
 **Classic Example** – Find consecutive salary ranks or consecutive dates.
 
 **Common Technique**:
+
 ```sql
 WITH numbered AS (
-    SELECT 
+    SELECT
         *,
         ROW_NUMBER() OVER (ORDER BY some_column) AS rn,
         some_column - ROW_NUMBER() OVER (ORDER BY some_column) AS group_id
     FROM table
 )
-SELECT 
+SELECT
     MIN(some_column) AS start_value,
     MAX(some_column) AS end_value,
     COUNT(*) AS island_length
@@ -2058,7 +2162,7 @@ GROUP BY group_id;
 Turning row values into columns using conditional aggregation.
 
 ```sql
-SELECT 
+SELECT
     dept_id,
     SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) AS male_count,
     SUM(CASE WHEN gender = 'F' THEN 1 ELSE 0 END) AS female_count
@@ -2075,7 +2179,7 @@ Less common, but sometimes asked. Usually done with `UNION ALL` or lateral joins
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         *,
         ROW_NUMBER() OVER (PARTITION BY emp_id ORDER BY updated_at DESC) AS rn
     FROM employee_history
@@ -2108,17 +2212,15 @@ SELECT * FROM date_spine;
 
 #### Most Important Advanced Patterns to Master
 
-| Pattern                      | Frequency | Main Technique                  |
-|-----------------------------|-----------|---------------------------------|
-| Top-N per group             | Very High | `ROW_NUMBER()` + filter         |
-| Latest record per group     | Very High | `ROW_NUMBER()` + filter         |
-| Gaps & Islands              | Medium    | `ROW_NUMBER()` difference trick |
-| Pivot                       | Medium    | Conditional Aggregation         |
-| Running Total / Cumulative  | High      | Window `SUM()`                  |
-| Hierarchy                   | Medium    | Recursive CTE                   |
-| Deduplication               | High      | `ROW_NUMBER()`                  |
-
----
+| Pattern                    | Frequency | Main Technique                  |
+| -------------------------- | --------- | ------------------------------- |
+| Top-N per group            | Very High | `ROW_NUMBER()` + filter         |
+| Latest record per group    | Very High | `ROW_NUMBER()` + filter         |
+| Gaps & Islands             | Medium    | `ROW_NUMBER()` difference trick |
+| Pivot                      | Medium    | Conditional Aggregation         |
+| Running Total / Cumulative | High      | Window `SUM()`                  |
+| Hierarchy                  | Medium    | Recursive CTE                   |
+| Deduplication              | High      | `ROW_NUMBER()`                  |
 
 ## Advanced / Pattern-Based Topics (High ROI)
 
@@ -2131,7 +2233,7 @@ These are the patterns that appear most often in medium and hard SQL coding roun
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         *,
         ROW_NUMBER() OVER (PARTITION BY emp_id ORDER BY updated_at DESC) AS rn
     FROM employee_history
@@ -2140,16 +2242,18 @@ WHERE rn = 1;
 ```
 
 **Variations**:
+
 - Use `RANK()` or `DENSE_RANK()` if you want to keep ties.
 - Prefer `ROW_NUMBER()` when you need exactly one row.
 
 ### 2. Top-N / Nth Highest Problems
 
 **Top-N per group** (most common):
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         name, dept_id, salary,
         ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rn
     FROM employees
@@ -2158,6 +2262,7 @@ WHERE rn <= 3;          -- Top 3 per department
 ```
 
 **Nth Highest (Overall)**:
+
 ```sql
 SELECT DISTINCT salary
 FROM employees e1
@@ -2169,10 +2274,11 @@ WHERE 2 = (
 ```
 
 **Better modern way** (using window function):
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         *,
         DENSE_RANK() OVER (ORDER BY salary DESC) AS drk
     FROM employees
@@ -2185,15 +2291,16 @@ WHERE drk = 2;
 **Goal**: Find consecutive sequences (consecutive dates, consecutive numbers, consecutive logins, etc.).
 
 **Classic Technique**:
+
 ```sql
 WITH cte AS (
-    SELECT 
+    SELECT
         *,
         ROW_NUMBER() OVER (ORDER BY some_date) AS rn,
         some_date - INTERVAL '1 day' * ROW_NUMBER() OVER (ORDER BY some_date) AS island_id
     FROM events
 )
-SELECT 
+SELECT
     MIN(some_date) AS start_date,
     MAX(some_date) AS end_date,
     COUNT(*) AS consecutive_days
@@ -2210,7 +2317,7 @@ ORDER BY start_date;
 **Pivot (Rows → Columns)** using Conditional Aggregation:
 
 ```sql
-SELECT 
+SELECT
     dept_id,
     SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) AS male_count,
     SUM(CASE WHEN gender = 'F' THEN 1 ELSE 0 END) AS female_count,
@@ -2233,21 +2340,23 @@ SELECT emp_id, 'Q3', q3_sales FROM sales;
 ### 5. Date/Time Calculations & Consecutive Days/Events
 
 Common requirements:
+
 - Consecutive login days
 - Users active for N consecutive days
 - Gaps between events
 - Month-over-month / Year-over-year
 
 **Example – Consecutive Days**:
+
 ```sql
 WITH ordered AS (
-    SELECT 
+    SELECT
         user_id,
         login_date,
         login_date - ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date)::INT AS grp
     FROM user_logins
 )
-SELECT 
+SELECT
     user_id,
     MIN(login_date) AS start_date,
     MAX(login_date) AS end_date,
@@ -2260,7 +2369,7 @@ HAVING COUNT(*) >= 3;      -- at least 3 consecutive days
 ### 6. Percentage / Ratio Calculations
 
 ```sql
-SELECT 
+SELECT
     dept_id,
     COUNT(*) AS dept_count,
     ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) AS percentage_of_total
@@ -2269,8 +2378,9 @@ GROUP BY dept_id;
 ```
 
 **Within group percentage**:
+
 ```sql
-SELECT 
+SELECT
     name,
     dept_id,
     salary,
@@ -2281,6 +2391,7 @@ FROM employees;
 ### 7. Finding Duplicates
 
 **Find duplicate emails / values**:
+
 ```sql
 SELECT email, COUNT(*)
 FROM users
@@ -2289,6 +2400,7 @@ HAVING COUNT(*) > 1;
 ```
 
 **Show all rows that have duplicates**:
+
 ```sql
 SELECT *
 FROM users
@@ -2301,10 +2413,11 @@ WHERE email IN (
 ```
 
 **Using Window Function**:
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         *,
         COUNT(*) OVER (PARTITION BY email) AS cnt
     FROM users
@@ -2315,7 +2428,7 @@ WHERE cnt > 1;
 ### 8. Employees Earning More Than Their Manager (Self-Join Classic)
 
 ```sql
-SELECT 
+SELECT
     e.name AS employee,
     e.salary AS emp_salary,
     m.name AS manager,
@@ -2326,10 +2439,11 @@ WHERE e.salary > m.salary;
 ```
 
 **Using Window Function alternative** (less common but possible):
+
 ```sql
 SELECT *
 FROM (
-    SELECT 
+    SELECT
         name,
         salary,
         manager_id,
@@ -2341,14 +2455,14 @@ WHERE salary > (SELECT salary FROM employees WHERE emp_id = t.manager_id);
 
 ### Priority Order for Practice
 
-| Priority | Pattern                        | Why |
-|---------|--------------------------------|-----|
-| Highest | Top-N per group + Deduplication | Extremely common |
-| High    | Self-join (Employee > Manager) | Classic interview question |
-| High    | Percentage / Ratio             | Very frequent in analytics rounds |
-| Medium  | Gaps & Islands                 | Differentiator in harder rounds |
-| Medium  | Pivot using CASE               | Useful for reporting style questions |
-| Medium  | Consecutive days/events        | Common in product analytics |
+| Priority | Pattern                         | Why                                  |
+| -------- | ------------------------------- | ------------------------------------ |
+| Highest  | Top-N per group + Deduplication | Extremely common                     |
+| High     | Self-join (Employee > Manager)  | Classic interview question           |
+| High     | Percentage / Ratio              | Very frequent in analytics rounds    |
+| Medium   | Gaps & Islands                  | Differentiator in harder rounds      |
+| Medium   | Pivot using CASE                | Useful for reporting style questions |
+| Medium   | Consecutive days/events         | Common in product analytics          |
 
 ### Gaps & Islands – Practice Problems
 
@@ -2387,6 +2501,7 @@ For every island, show:
 - `streak_length` (number of consecutive days)
 
 **Expected Output (example):**
+
 ```
 user_id | start_date | end_date   | streak_length
 --------|------------|------------|---------------
@@ -2404,6 +2519,7 @@ user_id | start_date | end_date   | streak_length
 For each user, find their **longest consecutive login streak**.
 
 Output:
+
 - `user_id`
 - `longest_streak`
 
@@ -2417,6 +2533,7 @@ Return only the `user_id`s.
 For each user, find the gaps (missing days) between their logins.
 
 Output columns:
+
 - `user_id`
 - `gap_start` (day after previous login)
 - `gap_end` (day before next login)
@@ -2433,15 +2550,16 @@ Find streaks of consecutive days, but only count the island if the average of so
 #### Solutions
 
 **Solution 1: Basic Islands**
+
 ```sql
 WITH numbered AS (
-    SELECT 
+    SELECT
         user_id,
         login_date,
         login_date - INTERVAL '1 day' * (ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date) - 1) AS island_id
     FROM login_events
 )
-SELECT 
+SELECT
     user_id,
     MIN(login_date) AS start_date,
     MAX(login_date) AS end_date,
@@ -2452,16 +2570,17 @@ ORDER BY user_id, start_date;
 ```
 
 **Alternative (cleaner for dates):**
+
 ```sql
 WITH cte AS (
-    SELECT 
+    SELECT
         user_id,
         login_date,
         ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date) AS rn,
         login_date - ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date) * INTERVAL '1 day' AS grp
     FROM login_events
 )
-SELECT 
+SELECT
     user_id,
     MIN(login_date) AS start_date,
     MAX(login_date) AS end_date,
@@ -2472,16 +2591,17 @@ ORDER BY user_id, start_date;
 ```
 
 **Solution 2: Longest Streak per User**
+
 ```sql
 WITH islands AS (
-    SELECT 
+    SELECT
         user_id,
         login_date - ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date) * INTERVAL '1 day' AS grp,
         COUNT(*) AS streak_length
     FROM login_events
     GROUP BY user_id, login_date - ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date) * INTERVAL '1 day'
 )
-SELECT 
+SELECT
     user_id,
     MAX(streak_length) AS longest_streak
 FROM islands
@@ -2489,13 +2609,14 @@ GROUP BY user_id;
 ```
 
 **Solution 3: Users with Streak ≥ 3**
+
 ```sql
 WITH islands AS (
-    SELECT 
+    SELECT
         user_id,
         COUNT(*) AS streak_length
     FROM (
-        SELECT 
+        SELECT
             user_id,
             login_date - ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date) * INTERVAL '1 day' AS grp
         FROM login_events
@@ -2508,15 +2629,16 @@ WHERE streak_length >= 3;
 ```
 
 **Solution 4: Gaps Between Logins**
+
 ```sql
 WITH ordered AS (
-    SELECT 
+    SELECT
         user_id,
         login_date,
         LEAD(login_date) OVER (PARTITION BY user_id ORDER BY login_date) AS next_login
     FROM login_events
 )
-SELECT 
+SELECT
     user_id,
     login_date + INTERVAL '1 day' AS gap_start,
     next_login - INTERVAL '1 day' AS gap_end,
@@ -2534,9 +2656,8 @@ date_column - ROW_NUMBER() OVER (PARTITION BY ... ORDER BY date_column) * INTERV
 
 This expression stays **constant** within a consecutive island and changes when a gap appears.
 
----
-
 ## Query Writing Best Practices (Interviewers notice these)
+
 - Writing clean, readable multi-step queries (prefer CTEs over deeply nested subqueries)
 - Correct handling of NULLs
 - Understanding logical query execution order
@@ -2544,11 +2665,11 @@ This expression stays **constant** within a consecutive island and changes when 
 
 ## Priority Order for Preparation
 
-| Priority | Topics                                      | Why |
-|---------|---------------------------------------------|-----|
-| Highest | Joins + Aggregation + Window Functions     | Appear in 70-80% of problems |
-| High    | CTEs + Subqueries + Conditional Aggregation| Needed for medium/hard problems |
-| Medium  | Ranking patterns, Top-N, Dedup             | Very common in company rounds |
-| Lower   | Recursive CTEs, Set operations, Optimization| Asked less frequently |
+| Priority | Topics                                       | Why                             |
+| -------- | -------------------------------------------- | ------------------------------- |
+| Highest  | Joins + Aggregation + Window Functions       | Appear in 70-80% of problems    |
+| High     | CTEs + Subqueries + Conditional Aggregation  | Needed for medium/hard problems |
+| Medium   | Ranking patterns, Top-N, Dedup               | Very common in company rounds   |
+| Lower    | Recursive CTEs, Set operations, Optimization | Asked less frequently           |
 
 ---

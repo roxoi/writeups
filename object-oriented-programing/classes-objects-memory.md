@@ -28,7 +28,7 @@ Each topic starts with a plain-language idea, then goes step by step deeper into
 | **Cache**                   | A small, very fast memory inside the CPU. Data that is close together loads faster.                             |
 | **RAII**                    | "The object that owns a resource also cleans it up." Topic 1.4.                                                 |
 
-## Topic 1.1: Classes vs. Objects
+## 1.1: Classes vs. Objects
 
 ### The idea in plain words
 
@@ -205,7 +205,7 @@ struct Base {
 };
 ```
 
-## Topic 1.2: Stack vs. Heap Allocation
+## 1.2: Stack vs. Heap Allocation
 
 ### The idea in plain words
 
@@ -356,7 +356,7 @@ void no_leak() {
 
 **What to do:** prefer value semantics and contiguous storage. If you need polymorphism, store `std::variant<A,B,C>` in a vector, or group objects by type (structure-of-arrays). **Measure before changing**, and mention performance counters such as `perf stat -e cache-misses`.
 
-## Topic 1.3: Constructors Deep-Dive
+## 1.3: Constructors Deep-Dive
 
 ### The idea in plain words
 
@@ -506,7 +506,7 @@ int main() { Tracer x = make1(); Tracer y = make2(); Tracer z = make3(true); }
 - `make3`: two possible locals, and the result is a conditional expression (not a plain variable name), so NRVO is impossible and the implicit move does not apply. The compiler must **copy**. Expect `ctor ctor copy dtor dtor`, with the copied object destroyed later in `main`.
 - Interview takeaway: **do not write `return std::move(local);`**. It blocks NRVO and triggers a "pessimizing move" warning.
 
-## Topic 1.4: Destructors & Garbage Collection
+## 1.4: Destructors & Garbage Collection
 
 ### The idea in plain words
 
@@ -661,7 +661,7 @@ struct Node {
 
 In Java, the same graph is collected, because neither node is reachable from a GC root once the locals die. The trade-off: Java accepts non-determinism and GC pauses. C++ gives deterministic cost but you must watch for cycles yourself.
 
-## Topic 1.5: The `this` Pointer / Reference
+## 1.5: The `this` Pointer / Reference
 
 ### The idea in plain words
 
@@ -799,7 +799,7 @@ class Session : public std::enable_shared_from_this<Session> {
 // Requires: auto s = std::make_shared<Session>("abc");
 ```
 
-## Topic 1.6 (Added): Rule of 0/3/5 and Move Semantics
+## 1.6 Rule of 0/3/5 and Move Semantics
 
 ### The idea in plain words
 
