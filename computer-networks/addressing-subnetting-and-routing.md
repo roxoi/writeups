@@ -11,7 +11,7 @@ keywords: ["IP addressing and subnetting tutorial", "CIDR notation explained", "
 
 ![Networking Module 2](/images/networking-module-2.png)
 
-**Previous:** [Module 1: Basics & the Layered Models](networking-module-1-basics-and-layered-models)
+**Previous:** [Module 1: Basics & the Layered Models](computer-networks/networking-module-1-basics-and-layered-models)
 
 ### How this module connects to Module 1
 

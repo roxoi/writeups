@@ -11,7 +11,7 @@ keywords: ["What happens when you type a URL", "Networking for system design int
 
 ![Networking Module 6](/images/networking-module-6.png)
 
-**Previous:** [Module 5: Firewalls, NAT, VPNs & Load Balancing](networking-module-5-nat-firewalls-vpn-load-balancing.md)
+**Previous:** [Module 5: Firewalls, NAT, VPNs & Load Balancing](computer-networks/networking-module-5-nat-firewalls-vpn-load-balancing.md)
 
 **Format:** plain English, with Mermaid diagrams, worked estimates, and commands for Linux or macOS.
 
