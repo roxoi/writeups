@@ -15,8 +15,6 @@ This page is the hub for the DevOps tutorials in this repo - bookmark it and wor
 
 ![Introduction to DevOps](/images/intro-devops.png)
 
-> Looking for the section overview instead? Go back to **[DevOps](../devops.md)**.
-
 ## 1. Containers - Docker
 
 Docker packages an application and all its dependencies into a single, portable container image - the foundational skill for everything else in DevOps.

@@ -13,7 +13,7 @@ keywords: ["Strategy Observer Decorator pattern Java", "State and Chain of Respo
 
 **Language:** Java 17+ (records, `var`, lambdas, `sealed`). Same rules as Part 1: money is stored as `long` cents or `BigDecimal`, never `double`.
 
-**This is Part 2 of 2.** Part 1 ([SOLID & Creational Patterns](./solid-principles.md)) covered SOLID, Singleton, Factory Method, Abstract Factory and Builder. This part covers:
+**This is Part 2 of 2.** Part 1 ([SOLID & Creational Patterns](solid-principles.md)) covered SOLID, Singleton, Factory Method, Abstract Factory and Builder. This part covers:
 
 - **5.3** Strategy, Observer, Decorator, and a complete **Notification System** that combines them
 - **5.4** State, Chain of Responsibility, and a **pattern cheat sheet**
@@ -1088,4 +1088,4 @@ For each, rehearse: requirements (5 min), entities and patterns (10 min), core c
 
 You have now covered the full path: how an object lives in memory (Module 1), how to protect it (Module 2), how classes relate (Module 3), how one call runs different code (Module 4), and how to arrange it all so it stays easy to change (Module 5). The next step is practice: take the design prompts in 5.7, set a 45-minute timer, and talk through each one out loud.
 
-Back to the [OOP Mastery hub](./index.md) · Previous: [Module 5, Part 1: SOLID & Creational Patterns](./solid-principles.md)
+Back to the [OOP Mastery hub](index) · Previous: [Module 5, Part 1: SOLID & Creational Patterns](solid-principles.md)

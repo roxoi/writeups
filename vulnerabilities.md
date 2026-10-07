@@ -17,9 +17,9 @@ This section serves as the central index for vulnerability research and exploita
 
 These vulnerabilities target browser behavior and user interaction.
 
-* [Clickjacking](./vulnerabilities/clickjacking)
-* [Cross-Site Request Forgery (CSRF)](./vulnerabilities/csrf)
-* [Prototype Pollution](./vulnerabilities/prototype-pollution)
+* [Clickjacking](vulnerabilities/clickjacking)
+* [Cross-Site Request Forgery (CSRF)](vulnerabilities/csrf)
+* [Prototype Pollution](vulnerabilities/prototype-pollution)
 
 Future additions:
 
@@ -34,8 +34,8 @@ Future additions:
 
 These vulnerabilities abuse HTTP parsing differences.
 
-* [Host Header Injection](./vulnerabilities/host-header)
-* [HTTP Request Smuggling](./vulnerabilities/http-request-smuggling)
+* [Host Header Injection](vulnerabilities/host-header)
+* [HTTP Request Smuggling](vulnerabilities/http-request-smuggling)
 
 Future additions:
 
@@ -50,7 +50,7 @@ Future additions:
 
 Security weaknesses in authentication mechanisms.
 
-* [JWT Vulnerabilities](./vulnerabilities/jwt)
+* [JWT Vulnerabilities](vulnerabilities/jwt)
 
 Future additions:
 
@@ -66,8 +66,8 @@ Future additions:
 
 Exploiting caching layers and CDN behavior.
 
-* [Web Cache Deception](./vulnerabilities/web-cache-deception)
-* [Web Cache Poisoning](./vulnerabilities/Web-cache-poisoning)
+* [Web Cache Deception](vulnerabilities/web-cache-deception)
+* [Web Cache Poisoning](vulnerabilities/Web-cache-poisoning)
 
 Future additions:
 
@@ -81,7 +81,7 @@ Future additions:
 
 Modern attack surfaces involving AI systems.
 
-* [LLM Security Issues](./vulnerabilities/LLM)
+* [LLM Security Issues](vulnerabilities/LLM)
 
 Future additions:
 
@@ -97,7 +97,7 @@ Future additions:
 
 Hands-on vulnerable environments.
 
-* [PortSwigger Labs with Solutions](./vulnerabilities/portswigger-labs-with-solutions)
+* [PortSwigger Labs with Solutions](vulnerabilities/portswigger-labs-with-solutions)
 
 Future additions:
 
