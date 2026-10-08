@@ -1,7 +1,7 @@
 ---
 title: "Operating Systems Interview Handbook: From Fundamentals to Whiteboard-Ready Answers"
 description: "A ground-up, interview-focused guide to Operating Systems for SDE roles — covering processes, scheduling, synchronization, deadlocks, memory management, and file systems with worked examples."
-author: [{"name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"}]
+author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/os-interview-handbook.png"
 tags: [Operating-Systems, SDE-Interview, Computer-Science, System-Design, CS-Fundamentals]
 keywords: ["Operating systems interview questions", "Process vs thread interview", "CPU scheduling algorithms", "Deadlock Banker's algorithm", "Paging vs segmentation", "Page replacement LRU FIFO", "OS interview cheat sheet SDE"]
