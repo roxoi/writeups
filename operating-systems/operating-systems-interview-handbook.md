@@ -13,15 +13,6 @@ keywords: ["Operating systems interview questions", "Process vs thread interview
 
 _A ground-up, interview-focused guide to Operating Systems for SDE roles at product-based companies (Google, Microsoft, Amazon, TCS Digital, etc.)_
 
-## How to Use This Guide
-
-Each concept follows a 4-part format:
-
-- **Definition** - the crisp, interview-ready answer
-- **Analogy** - a real-world picture so it sticks
-- **Why It Matters / How It Works** - the mechanics
-- **Interview Angle** - the exact questions/scenarios you'll be asked
-
 ## 1: Introduction & Basics
 
 ### 1.1 What is an Operating System?
