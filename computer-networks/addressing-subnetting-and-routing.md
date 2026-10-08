@@ -1,5 +1,5 @@
 ---
-title: "Networking Module 2: IP Addressing, Subnetting & Routing"
+title: "Module 2: IP Addressing, Subnetting & Routing"
 description: "Learn how IPv4 and IPv6 addresses work, how subnet masks and CIDR divide networks, how DHCP and ARP connect hosts, and how routers choose a path - with worked subnetting examples and interview questions."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/networking-module-2.png"
@@ -7,7 +7,7 @@ tags: [Networking, IP-Addressing, Subnetting, Routing, Interview-Prep]
 keywords: ["IP addressing and subnetting tutorial", "CIDR notation explained", "How routing tables work", "IPv4 vs IPv6"]
 ---
 
-# Networking Module 2: IP Addressing, Subnetting & Routing
+# Module 2: IP Addressing, Subnetting & Routing
 
 ![Networking Module 2](/images/networking-module-2.png)
 

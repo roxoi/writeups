@@ -13,7 +13,7 @@ keywords: ["Operating systems interview questions", "Process vs thread interview
 
 *A ground-up, interview-focused guide to Operating Systems for SDE roles at product-based companies (Google, Microsoft, Amazon, TCS Digital, etc.)*
 
-### How to Use This Guide
+## How to Use This Guide
 
 Each concept follows a 4-part format:
 - **Definition** - the crisp, interview-ready answer
@@ -21,7 +21,7 @@ Each concept follows a 4-part format:
 - **Why It Matters / How It Works** - the mechanics
 - **Interview Angle** - the exact questions/scenarios you'll be asked
 
-## MODULE 1: Introduction & Basics
+## 1: Introduction & Basics
 
 ### 1.1 What is an Operating System?
 
@@ -82,7 +82,7 @@ Each concept follows a 4-part format:
 - Q: "What happens internally during a system call?" → Trap instruction → CPU switches to kernel mode → OS uses syscall number to index into a table of function pointers → executes the requested kernel function → returns result → switches back to user mode.
 - Q: "Is a system call the same as a function call?" → No - a function call stays in the same privilege level and address space; a system call causes a **mode switch** with extra overhead (saving registers, context, mode transition).
 
-## MODULE 2: Process & Thread Management
+## 2: Process & Thread Management
 
 ### 2.1 Process vs. Program vs. Thread
 
@@ -189,7 +189,7 @@ Each concept follows a 4-part format:
 - Q: "Why is context switching between threads faster than between processes?" → Threads of the same process share the address space, so there's no need to switch page tables or flush the TLB - a very expensive part of process context switches.
 - Q: "Is context switching triggered only by the timer interrupt?" → No - also by I/O interrupts, system calls that block, or higher-priority process arrivals in preemptive systems.
 
-## MODULE 3: CPU Scheduling
+## 3: CPU Scheduling
 
 ### 3.1 Preemptive vs. Non-Preemptive Scheduling
 
@@ -329,7 +329,7 @@ Gantt: `P1(0-2) → P2(2-4) → P3(4-5) → P1(5-7) → P2(7-8) → P1(8-9)`
 | Priority | Optional | Critical task urgency | Starvation (fix: aging) |
 | MLFQ | Yes | General-purpose real OS | Complex to tune |
 
-## MODULE 4: Process Synchronization
+## 4: Process Synchronization
 
 ### 4.1 Race Conditions
 
@@ -491,7 +491,7 @@ signal(empty);
 - Q: "What does the Dining Philosophers problem model, and why is it famous?" → It models **deadlock and starvation in concurrent resource allocation** - a classic scenario used to test understanding of how naive locking can lead to circular waits.
 - Q: "How does 'pick up lower-numbered fork first' prevent deadlock?" → It breaks the **circular wait** condition (Module 5) - since forks are always acquired in a globally consistent order, you cannot form a cycle of philosophers each waiting on the next.
 
-## MODULE 5: Deadlocks
+## 5: Deadlocks
 
 ### 5.1 What is a Deadlock?
 
@@ -571,7 +571,7 @@ signal(empty);
 **Interview Angle:**
 - Q: "Why don't real operating systems implement Banker's Algorithm system-wide?" → The overhead of tracking every process's maximum resource claims is impractical for a general-purpose OS with dynamic, unpredictable workloads - most OSes use the "ostrich algorithm" and let higher-level software (databases, etc.) handle their own deadlock detection where it truly matters.
 
-## MODULE 6: Memory Management
+## 6: Memory Management
 
 ### 6.1 Logical (Virtual) Address vs. Physical Address
 
@@ -673,7 +673,7 @@ Physical Address = [ Frame Number | Offset ]
 **Interview Angle:**
 - Q: "What's the main trade-off of an inverted page table?" → Saves memory (one entry per physical frame, not per virtual page per process), but lookup is slower since you now need to *search* the table (typically via hashing) rather than directly indexing it.
 
-## MODULE 7: Virtual Memory
+## 7: Virtual Memory
 
 ### 7.1 Demand Paging
 
@@ -758,7 +758,7 @@ Physical Address = [ Frame Number | Offset ]
 - Q: "Explain thrashing and how the OS can detect and resolve it." → (Use the causal chain + working set/PFF fixes above.)
 - Q: "What's the 'working set' of a process?" → The set of pages a process has referenced in the most recent Δ time units - a practical approximation of "the pages it needs right now" to avoid faulting.
 
-## MODULE 8: Storage & File Systems
+## 8: Storage & File Systems
 
 ### 8.1 Disk Scheduling Algorithms
 

@@ -1,5 +1,5 @@
 ---
-title: "Networking Module 4: DNS, HTTP & TLS - the Application Layer"
+title: "Module 4: DNS, HTTP & TLS - the Application Layer"
 description: "Learn how DNS turns names into addresses, how HTTP requests, caching and cookies work, how HTTP/1.1, HTTP/2 and HTTP/3 differ, and how TLS and certificates secure the web - with Mermaid diagrams, labs and interview questions."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/networking-module-4.png"
@@ -7,7 +7,7 @@ tags: [Networking, DNS, HTTP, TLS, Interview-Prep]
 keywords: ["How DNS works step by step", "HTTP/1.1 vs HTTP/2 vs HTTP/3", "TLS handshake explained", "HTTPS and SSL certificates explained"]
 ---
 
-# Networking Module 4: DNS, HTTP & TLS - the Application Layer
+# Module 4: DNS, HTTP & TLS - the Application Layer
 
 ![Networking Module 4](/images/networking-module-4.png)
 
@@ -37,11 +37,9 @@ Modules 1–3 built the road: links, IP routing, and TCP (or QUIC) for reliable 
 | **Forward secrecy** | Old traffic stays safe even if the server's key is stolen later. |
 | **SNI / ALPN** | TLS extensions that name the site you want / the protocol you want to speak. |
 
----
+## 4.1: DNS, the Internet's Phone Book
 
-# Topic 4.1: DNS, the Internet's Phone Book
-
-## The idea in plain words
+### The idea in plain words
 
 Computers talk to IP addresses, but people remember names. **DNS** (Domain Name System) is a worldwide, distributed database that answers one question: **"what is the IP address of this name?"** (and a few related questions).
 
@@ -59,7 +57,7 @@ No single server knows everything. DNS is a **hierarchy**, like a phone system w
    www.example.com.   ←  read right to left: root → com → example → www
 ```
 
-## The players
+### The players
 
 | Player | Job |
 |---|---|
@@ -69,7 +67,7 @@ No single server knows everything. DNS is a **hierarchy**, like a phone system w
 | **TLD servers** | Know the authoritative servers for each domain under `.com`, `.org`, `.in` and so on. |
 | **Authoritative servers** | Hold the **real records** for a domain such as `example.com`. |
 
-## How a lookup works
+### How a lookup works
 
 ```mermaid
 sequenceDiagram
@@ -95,7 +93,7 @@ Two kinds of query appear here:
 - **Recursive:** "find the answer and give it to me." (Stub resolver to recursive resolver.)
 - **Iterative:** "tell me who to ask next." (Recursive resolver to root, TLD and authoritative servers. Each replies with a **referral**.)
 
-## Caching and TTL
+### Caching and TTL
 
 Every answer carries a **TTL** in seconds. Resolvers (and your OS and browser) **cache** answers until the TTL expires, so most lookups never leave your network. A cached answer to `google.com` usually returns in under a millisecond.
 
@@ -105,7 +103,7 @@ Every answer carries a **TTL** in seconds. Resolvers (and your OS and browser) *
 
 **"DNS propagation" is a myth in the sense that nothing is pushed.** When you change a record, nobody is told. Old answers simply remain in caches until their TTL runs out.
 
-## Record types
+### Record types
 
 | Type | Meaning | Example |
 |---|---|---|
@@ -122,21 +120,21 @@ Every answer carries a **TTL** in seconds. Resolvers (and your OS and browser) *
 
 A **CNAME** must be the **only** record at its name, so it **cannot be placed at the zone apex** (`example.com` itself), where `SOA` and `NS` records already live. Providers offer `ALIAS` / `ANAME` / "CNAME flattening" to work around this.
 
-## DNS on the wire and security
+### DNS on the wire and security
 
 - DNS uses **UDP port 53** for most queries, and **TCP port 53** for large answers (the server sets a "truncated" flag), zone transfers, and other big responses. The original UDP limit was 512 bytes. **EDNS0** allows larger UDP messages.
 - Plain DNS is **not encrypted and not authenticated**. Attackers can spy on it, or forge answers (**DNS spoofing or cache poisoning**).
 - **DNSSEC** adds digital signatures to records, so a resolver can verify an answer is genuine. It proves authenticity. It does **not** encrypt.
 - **DNS over TLS (DoT, port 853)** and **DNS over HTTPS (DoH, port 443)** encrypt the queries between the client and the resolver.
 
-## Using DNS for traffic steering
+### Using DNS for traffic steering
 
 - **Round-robin DNS:** several `A` records for one name. Clients get them in rotating order. Simple, but has no health checks.
 - **GeoDNS or latency-based DNS:** the answer depends on where the user is.
 - **Health-checked records:** a managed DNS service removes unhealthy servers from answers.
 - **Limits:** caches ignore your health checks until TTLs expire, and some clients cache longer than the TTL. DNS steering is coarse. Real load balancing (Module 5) works at the connection or request level.
 
-## Look at DNS yourself
+### Look at DNS yourself
 
 ```
 $ dig example.com A +noall +answer
@@ -147,12 +145,12 @@ example.com.    300    IN    A    93.184.216.34
             │     └ TTL in seconds (counts down while cached)
             └ name
 
-$ dig +trace example.com        # follow the hierarchy: root, then TLD, then authoritative
-$ dig @8.8.8.8 example.com      # ask a specific resolver
-$ dig example.com MX +short     # mail servers
+#$ dig +trace example.com        # follow the hierarchy: root, then TLD, then authoritative
+#$ dig @8.8.8.8 example.com      # ask a specific resolver
+#$ dig example.com MX +short     # mail servers
 ```
 
-## Interview traps
+### Interview traps
 
 - "DNS is just one lookup." It is a **chain of lookups** (cached in most cases). A cold lookup can take several round trips.
 - "I changed the record, so the whole world sees it." Not until caches expire. Lower the TTL **before** a planned migration, not after.
@@ -160,29 +158,27 @@ $ dig example.com MX +short     # mail servers
 - CNAME at the apex is not allowed. Also, a CNAME chain adds extra lookups.
 - Browsers, operating systems and some applications (for example Java) each keep **their own DNS cache**, so "flush the DNS cache" may need doing in several places.
 
-## Tricky questions and answers
+### Tricky questions and answers
 
-### Q1 [SDE-1/2]: What happens when you look up `www.example.com` with an empty cache?
+#### Q1 [SDE-1/2]: What happens when you look up `www.example.com` with an empty cache?
 
 **Answer:** The OS asks its configured recursive resolver. The resolver, finding nothing cached, asks a **root server**, which refers it to the `.com` **TLD servers**. A TLD server refers it to the **authoritative servers** for `example.com`. The authoritative server returns the `A` record with a TTL. The resolver caches the answer (and the referrals, so next time it can skip steps), and returns the address to the client, which caches it as well. The first lookup takes several round trips. Later lookups are served from cache until the TTL expires.
 
-### Q2 [SDE-2]: You changed a server's IP and updated the `A` record, but some users still reach the old server for hours. Why, and how do you plan better?
+#### Q2 [SDE-2]: You changed a server's IP and updated the `A` record, but some users still reach the old server for hours. Why, and how do you plan better?
 
 **Answer:** Resolvers, operating systems and browsers cache the old answer until its **TTL** expires. If the TTL was 24 hours, some users will keep the old IP for up to a day, and some clients cache longer than asked. Better plan: **lower the TTL** (for example to 60 seconds) at least one full old-TTL period **before** the change, make the change, verify, then raise the TTL again. Keep the **old server running** and forwarding traffic until the old TTL has certainly expired.
 
-### Q3 [SDE-2]: Why can't you put a CNAME on `example.com` itself?
+#### Q3 [SDE-2]: Why can't you put a CNAME on `example.com` itself?
 
 **Answer:** A CNAME means "everything about this name is the same as that other name," so it must be the **only** record at the name. The apex of a zone must also have **SOA** and **NS** records, which would conflict. Solutions: use an `A`/`AAAA` record at the apex, or a DNS provider's **ALIAS / ANAME / CNAME flattening** feature, which resolves the target on the provider's side and returns plain `A` records.
 
-### Q4 [SDE-3]: How would you use DNS for failover between two data centers, and what are the limits?
+#### Q4 [SDE-3]: How would you use DNS for failover between two data centers, and what are the limits?
 
 **Answer:** Use a **health-checked** DNS service with a **short TTL** (30–60 seconds): it answers with the primary data center's IP while it is healthy, and switches to the secondary when checks fail. Limits: switchover takes at least **one TTL plus detection time**, some resolvers and clients **ignore small TTLs**, long-lived connections already established do not move, and caching hides the change from many users for a while. For faster failover, combine DNS with **anycast** or a **global load balancer** in front, so the IP stays the same while traffic is redirected behind it.
 
----
+## 4.2: HTTP: the Language of the Web
 
-# Topic 4.2: HTTP: the Language of the Web
-
-## The idea in plain words
+### The idea in plain words
 
 **HTTP** (HyperText Transfer Protocol) is a **request and response** protocol. A client (usually a browser or an app) sends a request. A server sends back one response. That is the whole idea.
 
@@ -198,18 +194,18 @@ sequenceDiagram
     S->>C: 304 Not Modified, cached copy is still valid
 ```
 
-## The anatomy of a URL
+### The anatomy of a URL
 
 ```
-https://user@www.example.com:8443/path/page?name=ana&id=7#section2
+#https://user@www.example.com:8443/path/page?name=ana&id=7#section2
 └─┬──┘   └─┬─┘ └────┬──────┘ └─┬─┘└───┬────┘└─────┬─────┘└───┬───┘
 scheme  userinfo    host     port   path       query     fragment
 ```
 
-- The **fragment** (`#section2`) is used by the browser only. It is **never sent to the server**.
+#- The **fragment** (`#section2`) is used by the browser only. It is **never sent to the server**.
 - The default port is 80 for `http` and 443 for `https`.
 
-## A request and a response
+### A request and a response
 
 ```
 GET /search?q=network HTTP/1.1          ← request line: method, path, version
@@ -229,7 +225,7 @@ Set-Cookie: session=abc123; Secure; HttpOnly; SameSite=Lax
 <html>...</html>                        ← body
 ```
 
-## Methods
+### Methods
 
 | Method | Purpose | Safe* | Idempotent** |
 |---|---|---|---|
@@ -243,7 +239,7 @@ Set-Cookie: session=abc123; Secure; HttpOnly; SameSite=Lax
 
 \*Safe = does not change server state. \*\*Idempotent = repeating it has the same effect as doing it once.
 
-## Status codes
+### Status codes
 
 | Class | Meaning | Codes to know |
 |---|---|---|
@@ -255,7 +251,7 @@ Set-Cookie: session=abc123; Secure; HttpOnly; SameSite=Lax
 
 Remember: `307` and `308` keep the **same method** (a POST stays a POST), while `301` and `302` are often turned into a GET by clients.
 
-## Important headers
+### Important headers
 
 | Header | Purpose |
 |---|---|
@@ -268,7 +264,7 @@ Remember: `307` and `308` keep the **same method** (a POST stays a POST), while 
 | `Location` | Where to go, in redirect responses. |
 | `User-Agent` | Which client is making the request. |
 
-## Caching
+### Caching
 
 Caching is why the web feels fast. The server controls it with headers.
 
@@ -293,7 +289,7 @@ flowchart TD
 
 `no-cache` does **not** mean "do not cache." It means "always check first." `no-store` is the one that forbids storing.
 
-## State: cookies, sessions and tokens
+### State: cookies, sessions and tokens
 
 Since HTTP is stateless, a login is remembered like this: the server sends `Set-Cookie: session=abc123`, the browser sends `Cookie: session=abc123` on every later request, and the server looks up the session. Important cookie attributes:
 
@@ -305,7 +301,7 @@ Since HTTP is stateless, a login is remembered like this: the server sends `Set-
 
 Alternatives: **tokens** such as **JWTs** sent in the `Authorization` header, which let servers stay stateless but are harder to revoke.
 
-## Try it
+### Try it
 
 ```
 $ curl -v https://example.com 2>&1 | head -20
@@ -321,7 +317,7 @@ $ curl -v https://example.com 2>&1 | head -20
 
 `>` lines are what you sent. `<` lines are what you received.
 
-## Interview traps
+### Interview traps
 
 - "POST is for writing and GET is for reading, so there is no difference beyond that." The real differences are **safety and idempotency**, caching (GET responses can be cached), and that GET parameters appear in URLs and logs.
 - `401` vs `403`: **401** = "I do not know who you are" (authenticate). **403** = "I know who you are, and you may not do this."
@@ -330,33 +326,31 @@ $ curl -v https://example.com 2>&1 | head -20
 - Sending secrets in the URL (query string) leaks them into logs, browser history and the `Referer` header.
 - The browser's **same-origin policy** and **CORS** (Cross-Origin Resource Sharing) are enforced by the **browser**. The server only sends `Access-Control-Allow-*` headers. A "CORS error" does not stop `curl` from working.
 
-## Tricky questions and answers
+### Tricky questions and answers
 
-### Q1 [SDE-1/2]: What is the difference between PUT, POST and PATCH?
+#### Q1 [SDE-1/2]: What is the difference between PUT, POST and PATCH?
 
 **Answer:** **POST** creates a new resource where the server chooses the ID, or triggers an action. It is **not idempotent**, so repeating it can create duplicates. **PUT** replaces the resource at a known URL with the complete body you send, and is **idempotent** (sending it twice gives the same result). **PATCH** changes only part of a resource, and is not guaranteed to be idempotent (for example "increase by 1").
 
-### Q2 [SDE-2]: How does a login persist if HTTP is stateless?
+#### Q2 [SDE-2]: How does a login persist if HTTP is stateless?
 
 **Answer:** The client sends a credential once. The server creates a **session** (a record on the server) or a **signed token**, and sends back an identifier in a `Set-Cookie` header (or in the response body, for tokens). The browser attaches it to every later request. With **server-side sessions**, the server looks up the ID in a store (a database or Redis). With **JWTs**, the token itself carries signed claims and the server only verifies the signature. Cookies should be `Secure`, `HttpOnly` and `SameSite`, and expire after a sensible time.
 
-### Q3 [SDE-2/3]: A user's browser times out on a payment `POST` and they click "pay" again. How do you avoid charging twice?
+#### Q3 [SDE-2/3]: A user's browser times out on a payment `POST` and they click "pay" again. How do you avoid charging twice?
 
 **Answer:** Make the operation **idempotent** with an **idempotency key**. The client generates a unique key (a UUID) for each payment attempt and sends it in a header (`Idempotency-Key`). The server stores the key together with the result. If a request arrives with a key it has already processed, it returns the **saved result** instead of charging again. The key must be stored **atomically** with the operation (a unique constraint in the database), and expire after some days. This pattern is used by payment APIs.
 
-### Q4 [SDE-3]: Explain the full caching flow, and what you would do to make a static site both fast and instantly updatable.
+#### Q4 [SDE-3]: Explain the full caching flow, and what you would do to make a static site both fast and instantly updatable.
 
 **Answer:** The browser checks its cache: if the response is still **fresh** (`max-age` not expired), it uses it with **no network request**. If it is stale and the stored response had an **ETag**, the browser sends a **conditional request** (`If-None-Match`). The server answers **304 Not Modified** with no body if nothing changed, saving bandwidth. For a static site: give files **fingerprinted names** (`app.3f9a1c.js`) and a very long `max-age` plus `immutable`, because a new build gets a new name. Keep the HTML entry page on a **short max-age or `no-cache`**, so it always points at the latest fingerprinted files. Put a **CDN** in front to cache close to users.
 
----
+## 4.3: HTTP/1.1, HTTP/2 and HTTP/3
 
-# Topic 4.3: HTTP/1.1, HTTP/2 and HTTP/3
-
-## The idea in plain words
+### The idea in plain words
 
 The meaning of HTTP (methods, status codes, headers) stayed the same across versions. What changed is **how messages are carried on the wire**, to load pages faster. Each version fixes the main pain of the one before.
 
-## The evolution
+### The evolution
 
 | Version | Year | Key idea | Main problem it left |
 |---|---|---|---|
@@ -365,7 +359,7 @@ The meaning of HTTP (methods, status codes, headers) stayed the same across vers
 | **HTTP/2** | 2015 | **Binary framing**, **multiplexing** many streams on one TCP connection, **header compression** (HPACK) | **TCP-level head-of-line blocking**: one lost packet stalls all streams |
 | **HTTP/3** | 2022 | Runs on **QUIC (over UDP)**: independent streams, faster handshake, connection migration | Needs UDP to be allowed. More CPU use |
 
-## What each version does in practice
+### What each version does in practice
 
 **HTTP/1.1:**
 
@@ -390,28 +384,26 @@ The meaning of HTTP (methods, status codes, headers) stayed the same across vers
 
 **How the version is chosen:** during the TLS handshake, the **ALPN** extension lets the client and server agree: `h2` (HTTP/2), `http/1.1`, or (for QUIC) `h3`.
 
-## Interview traps
+### Interview traps
 
 - "HTTP/2 is always faster." Usually, but on **lossy networks** (mobile), one TCP loss stalls all streams, and it can be **slower** than several HTTP/1.1 connections. That is the case HTTP/3 fixes.
 - "HTTP/2 needs a code change in the application." No. The semantics are unchanged. Servers and proxies translate. But old **optimizations** (sharding, giant bundles) should be reconsidered.
 - HTTP/1.1 "keep-alive" is not the same as **pipelining**.
 - HTTP/2 multiplexing solves **HTTP-level** head-of-line blocking, not **TCP-level**.
 
-## Tricky questions and answers
+### Tricky questions and answers
 
-### Q1 [SDE-2]: Why did HTTP/1.1 browsers open about 6 connections to one host, and why is that no longer needed in HTTP/2?
+#### Q1 [SDE-2]: Why did HTTP/1.1 browsers open about 6 connections to one host, and why is that no longer needed in HTTP/2?
 
 **Answer:** In HTTP/1.1 one connection handles **one request at a time**, so a browser opens several connections to download many resources in parallel (browsers limit this to about 6 per host to protect servers). In HTTP/2, many requests are **multiplexed over one connection** as interleaved streams, so a single connection is enough, and it is **better**: it needs one handshake, one slow start, and shares one congestion window fairly.
 
-### Q2 [SDE-3]: HTTP/2 fixed head-of-line blocking, so why was HTTP/3 needed?
+#### Q2 [SDE-3]: HTTP/2 fixed head-of-line blocking, so why was HTTP/3 needed?
 
 **Answer:** HTTP/2 fixed it at the **HTTP level** (many streams on one connection), but all those streams share **one TCP byte stream**. If a single segment is lost, TCP holds back everything after it until the retransmission arrives, so **every stream stalls**, even those whose data had arrived. This is **TCP-level head-of-line blocking**, and it cannot be fixed without changing TCP, which is in OS kernels and handled by middleboxes. HTTP/3 uses **QUIC over UDP**, where streams are independent, so only the affected stream waits.
 
----
+## 4.4: TLS and HTTPS
 
-# Topic 4.4: TLS and HTTPS
-
-## The idea in plain words
+### The idea in plain words
 
 Plain HTTP is like sending a **postcard**: anyone along the way can read it or change it. **TLS** (Transport Layer Security, the successor to SSL) wraps the connection so that it provides three things:
 
@@ -421,7 +413,7 @@ Plain HTTP is like sending a **postcard**: anyone along the way can read it or c
 
 **HTTPS** is simply **HTTP carried inside TLS**, usually on port 443.
 
-## Two kinds of cryptography, used together
+### Two kinds of cryptography, used together
 
 | Kind | Idea | Speed | Used for |
 |---|---|---|---|
@@ -430,7 +422,7 @@ Plain HTTP is like sending a **postcard**: anyone along the way can read it or c
 
 TLS is a **hybrid**: it uses the slow asymmetric part briefly, to **agree on a secret session key** and to prove identity, and then switches to fast symmetric encryption for everything else.
 
-## Certificates and the chain of trust
+### Certificates and the chain of trust
 
 A **certificate** says "this public key belongs to `example.com`," and is **signed** by a **Certificate Authority (CA)**. It contains the domain names (the **SAN** list), the public key, the issuer, and the validity dates.
 
@@ -455,7 +447,7 @@ The browser also checks that:
 
 Free CAs such as **Let's Encrypt** use **ACME** to issue and renew certificates automatically. Certificate lifetimes keep getting shorter, so **automated renewal** is essential.
 
-## The TLS 1.3 handshake (1 round trip)
+### The TLS 1.3 handshake (1 round trip)
 
 ```mermaid
 sequenceDiagram
@@ -480,7 +472,7 @@ How it works:
 
 **Forward secrecy:** because the keys come from **ephemeral** (one-time) values, stealing the server's long-term private key later **cannot decrypt recorded old traffic**. TLS 1.3 makes this mandatory.
 
-## TLS versions and costs
+### TLS versions and costs
 
 | | TLS 1.2 | **TLS 1.3** |
 |---|---|---|
@@ -492,14 +484,14 @@ How it works:
 
 TLS 1.0 and 1.1 are **deprecated**. **0-RTT** lets a returning client send data in its very first message, but that data can be **replayed** by an attacker, so it must only be used for **idempotent** requests such as GET.
 
-## Useful extensions
+### Useful extensions
 
 - **SNI** (Server Name Indication): the client names the site it wants in the `ClientHello`, so a server hosting many domains on one IP can present the right certificate. (It is visible in the clear unless **Encrypted Client Hello** is used.)
 - **ALPN:** negotiates the application protocol: `h2`, `http/1.1`, `h3`.
 - **HSTS** (`Strict-Transport-Security` header): tells browsers "only ever use HTTPS for this site," blocking **downgrade** attacks.
 - **mTLS** (mutual TLS): the **client** also presents a certificate, so both sides are authenticated. Common for service-to-service traffic.
 
-## The cost of setting up a connection
+### The cost of setting up a connection
 
 Time before the first byte of an HTTPS request can be **sent**, with round-trip time `RTT`:
 
@@ -512,7 +504,7 @@ Time before the first byte of an HTTPS request can be **sent**, with round-trip 
 
 (Add one more RTT for DNS if the name is not cached, and the request itself needs one RTT to come back.)
 
-## Look at TLS yourself
+### Look at TLS yourself
 
 ```
 $ openssl s_client -connect example.com:443 -servername example.com </dev/null 2>/dev/null \
@@ -525,7 +517,7 @@ notAfter=Mar  1 23:59:59 2026 GMT
 
 (The values will differ. `-servername` sends SNI.) `curl -v https://example.com` also prints the handshake details, including the TLS version, the cipher and the certificate checks.
 
-## Interview traps
+### Interview traps
 
 - "HTTPS hides everything." The **content** is encrypted, but an observer still sees the **destination IP**, the **SNI** (unless ECH), packet sizes and timing.
 - "Asymmetric encryption protects the data." It only protects the **key agreement** and the signatures. The data itself uses **symmetric** encryption.
@@ -533,37 +525,35 @@ notAfter=Mar  1 23:59:59 2026 GMT
 - Common certificate errors: **expired**, **hostname mismatch**, **incomplete chain** (the server forgot to send the intermediate certificate), **self-signed**, and a **wrong system clock** on the client.
 - A padlock means the connection is encrypted and the certificate is valid. It does **not** mean the site is trustworthy (phishing sites can have valid certificates).
 
-## Tricky questions and answers
+### Tricky questions and answers
 
-### Q1 [SDE-2]: Explain what happens in a TLS handshake, and why TLS uses both asymmetric and symmetric cryptography.
+#### Q1 [SDE-2]: Explain what happens in a TLS handshake, and why TLS uses both asymmetric and symmetric cryptography.
 
 **Answer:** The client and server agree on a TLS version and cipher, perform a **key exchange** (ephemeral Diffie-Hellman) so both compute the same **session key** without sending it, and the server proves its identity with a **certificate** and a **signature** made with its private key. Then both switch to **symmetric encryption** with the session key. Asymmetric cryptography is **slow** but solves two problems that symmetric cannot: **agreeing on a secret over an open network**, and **authentication** with signatures. Symmetric cryptography is **fast**, so it carries the bulk of the data.
 
-### Q2 [SDE-2]: A client reports "unable to verify the first certificate," but the certificate is valid and the site works in a browser. What is the likely cause?
+#### Q2 [SDE-2]: A client reports "unable to verify the first certificate," but the certificate is valid and the site works in a browser. What is the likely cause?
 
 **Answer:** The server is probably sending **only the leaf certificate** and **not the intermediate certificate**. Browsers can often fetch missing intermediates themselves (or have them cached), but command-line tools, Java and many libraries cannot, so they cannot build the chain to a trusted root. Fix it by configuring the server to send the **full chain** (leaf plus intermediates, in order). Verify with `openssl s_client -connect host:443 -showcerts`.
 
-### Q3 [SDE-2/3]: What is forward secrecy and why does it matter?
+#### Q3 [SDE-2/3]: What is forward secrecy and why does it matter?
 
 **Answer:** With forward secrecy, each connection's session keys come from **ephemeral** key exchange values that are thrown away afterwards. So if an attacker records encrypted traffic today and steals the server's **private key** next year, they **still cannot decrypt** the recorded sessions. Without it (for example, old RSA key exchange), the same private key could unlock all past recordings. TLS 1.3 makes forward secrecy mandatory.
 
-### Q4 [SDE-3]: Should you terminate TLS at the load balancer or on each server? What are the trade-offs?
+#### Q4 [SDE-3]: Should you terminate TLS at the load balancer or on each server? What are the trade-offs?
 
 **Answer:** **At the load balancer or CDN:** central certificate management, less CPU on servers, and the balancer can **inspect and route on HTTP content** (Layer 7). But traffic behind it is unencrypted unless you **re-encrypt**, which is a risk in shared networks or for compliance. **End-to-end TLS to each server (or re-encryption):** traffic stays encrypted inside your network, and supports **mTLS** between services, but it needs certificates and more CPU on every server and makes inspection harder. Many designs terminate at the edge and then use **re-encryption or a service mesh with mTLS** inside.
 
-### Q5 [SDE-3]: What is TLS 0-RTT and what is the danger?
+#### Q5 [SDE-3]: What is TLS 0-RTT and what is the danger?
 
 **Answer:** When a client has connected before, it can use a stored **pre-shared key** to send **application data in its very first flight**, saving a round trip. The risk is **replay**: an attacker who captured that first flight can send it again, and the server may process it twice. It also lacks forward secrecy for that early data. So servers should accept 0-RTT only for **safe, idempotent** requests such as `GET`, or reject it, and applications must not treat early data as unique.
 
----
+## 4.5: Other Application Protocols and Real-Time Patterns
 
-# Topic 4.5: Other Application Protocols and Real-Time Patterns
+### The idea in plain words
 
-## The idea in plain words
+HTTP is not the only language on top of TCP. And plain request-and-response is not enough when a server needs to **push** data to a client, such as chat messages, live prices or notifications. This maps the common choices.
 
-HTTP is not the only language on top of TCP. And plain request-and-response is not enough when a server needs to **push** data to a client, such as chat messages, live prices or notifications. This topic maps the common choices.
-
-## Common application protocols
+### Common application protocols
 
 | Protocol | Port | Transport | Purpose |
 |---|---|---|---|
@@ -576,7 +566,7 @@ HTTP is not the only language on top of TCP. And plain request-and-response is n
 | **NTP** | 123 | UDP | Time synchronization |
 | **HTTP / HTTPS** | 80 / 443 | TCP (or QUIC) | The web and most APIs |
 
-## Getting data from server to client
+### Getting data from server to client
 
 | Technique | How it works | Direction | Notes |
 |---|---|---|---|
@@ -598,24 +588,22 @@ sequenceDiagram
     S->>C: message "price update"
 ```
 
-## Interview traps
+### Interview traps
 
 - "WebSocket is a different network." It starts as an **HTTP request** on port 80 or 443, and then upgrades the same TCP connection.
 - A WebSocket server keeps a **long-lived TCP connection per client**, so scaling means thinking about file descriptors, memory, **load balancer idle timeouts**, **heartbeats (ping/pong)**, and how to route a message to the server that holds the right connection.
 - SSE is often **enough** and simpler than WebSocket for one-way updates such as notifications or feeds.
 - Plain FTP and plain HTTP send passwords and data **unencrypted**. Use SFTP and HTTPS.
 
-## Tricky question and answer
+### Tricky question and answer
 
-### Q1 [SDE-2/3]: You must add live notifications to a web app with millions of users. Compare your options.
+#### Q1 [SDE-2/3]: You must add live notifications to a web app with millions of users. Compare your options.
 
 **Answer:** **Polling** is simplest but wastes requests and has delay. **Long polling** reduces delay but holds a request open per user. **SSE** gives a simple, one-way, automatically reconnecting stream over normal HTTP, ideal for notifications and feeds. **WebSocket** gives two-way, low-latency messaging, best for chat, collaboration and games, but is more complex to scale. For one-way notifications I would start with **SSE (or WebSocket if two-way is needed)**, and design for scale: terminate connections on a **dedicated tier**, use a **pub/sub system** (such as Redis or Kafka) so any server can deliver to the server holding the user's connection, send **heartbeats** to detect dead connections, set **load balancer timeouts** correctly, and make clients **reconnect with backoff and jitter** to avoid a thundering herd after an outage.
 
----
+## 4.6: Putting It Together: One Page Load, Step by Step
 
-# Topic 4.6: Putting It Together: One Page Load, Step by Step
-
-## The idea in plain words
+### The idea in plain words
 
 When you open `https://www.example.com` for the first time, everything in this module and the last three runs in a chain. This is a short version. Module 6 expands it for system design interviews.
 
@@ -635,7 +623,7 @@ sequenceDiagram
     Note over B: The browser then fetches CSS, JS and images, reusing the connection
 ```
 
-## The latency bill (example with RTT = 50 ms)
+### The latency bill (example with RTT = 50 ms)
 
 | Step | Round trips | Time |
 |---|---|---|
@@ -645,7 +633,7 @@ sequenceDiagram
 | HTTP request to first byte | 1 (plus the server's processing time) | 50 ms + server time |
 | **Total before the first byte arrives** | | **about 170–250 ms** |
 
-## How each layer helps you go faster
+### How each layer helps you go faster
 
 | Technique | What it removes |
 |---|---|
@@ -658,7 +646,7 @@ sequenceDiagram
 | **Caching headers** | Whole requests |
 | **Compression (gzip, Brotli)** | Bytes to send |
 
-## Measure it yourself
+### Measure it yourself
 
 ```
 $ curl -s -o /dev/null -w "dns: %{time_namelookup}\nconnect: %{time_connect}\ntls: %{time_appconnect}\nfirst byte: %{time_starttransfer}\ntotal: %{time_total}\n" https://example.com
@@ -671,20 +659,18 @@ total: 0.153
 
 Each value is the **cumulative time** since the start. `connect` minus `dns` is roughly the TCP handshake, `tls` minus `connect` is the TLS handshake, and `first byte` minus `tls` is the request round trip plus server processing. (Your numbers will differ.)
 
----
-
-# Hands-On Lab: DNS, HTTP and TLS
+## Hands-On Lab: DNS, HTTP and TLS
 
 ```
-1. dig example.com A +noall +answer          # note the TTL, then run it again and watch it count down
-2. dig +trace example.com                    # follow root, TLD and authoritative servers
-3. dig example.com MX +short                 # mail servers
-4. dig @8.8.8.8 example.com                  # ask a different resolver
-5. curl -I https://example.com               # headers only (a HEAD request)
-6. curl -v https://example.com 2>&1 | head -40   # see the TLS handshake and the HTTP exchange
-7. curl --http1.1 -sI https://example.com    # force HTTP/1.1 and compare with the default
+#1. dig example.com A +noall +answer          # note the TTL, then run it again and watch it count down
+#2. dig +trace example.com                    # follow root, TLD and authoritative servers
+#3. dig example.com MX +short                 # mail servers
+#4. dig @8.8.8.8 example.com                  # ask a different resolver
+#5. curl -I https://example.com               # headers only (a HEAD request)
+#6. curl -v https://example.com 2>&1 | head -40   # see the TLS handshake and the HTTP exchange
+#7. curl --http1.1 -sI https://example.com    # force HTTP/1.1 and compare with the default
 8. openssl s_client -connect example.com:443 -servername example.com </dev/null | openssl x509 -noout -dates -issuer
-9. The curl -w timing command from Topic 4.6  # find which step takes the longest for you
+#9. The curl -w timing command from 4.6  # find which step takes the longest for you
 ```
 
 Questions to answer for yourself:
@@ -694,9 +680,7 @@ Questions to answer for yourself:
 - Who issued the certificate, and when does it expire? What would happen on that date?
 - In your timing output, is DNS, TCP, TLS or the server the biggest part?
 
----
-
-# Module 4 Cheat Sheet
+## Module 4 Cheat Sheet
 
 | Concept | One-line interview answer |
 |---|---|

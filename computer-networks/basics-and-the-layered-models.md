@@ -1,5 +1,5 @@
 ---
-title: "Networking Module 1: Basics & the Layered Models"
+title: "Module 1: Basics & the Layered Models"
 description: "Learn what a network is, how packets travel, how bandwidth and latency differ, what the OSI and TCP/IP layers do, and how switches and routers forward data - from first idea to interview-level detail."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/networking-module-1.png"
@@ -7,7 +7,7 @@ tags: [Networking, OSI-Model, TCP-IP, Ethernet, Interview-Prep]
 keywords: ["OSI model explained", "TCP/IP model vs OSI model", "Bandwidth vs latency", "Switch vs router vs hub"]
 ---
 
-# Networking Module 1: Basics & the Layered Models
+# Module 1: Basics & the Layered Models
 
 ![Networking Module 1](/images/networking-module-1.png)
 

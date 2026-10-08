@@ -1,5 +1,5 @@
 ---
-title: "Networking Module 6: Networking for System Design Interviews"
+title: "Module 6: Networking for System Design Interviews"
 description: "Put all of networking together - the full story of what happens when you type a URL, latency and bandwidth numbers for estimation, a layer-by-layer troubleshooting method, resilient network design patterns, and a mock interview bank - with Mermaid diagrams."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/networking-module-6.png"
@@ -7,7 +7,7 @@ tags: [Networking, System-Design, Troubleshooting, Latency, Interview-Prep]
 keywords: ["What happens when you type a URL", "Networking for system design interviews", "Network troubleshooting methodology", "Latency numbers every engineer should know"]
 ---
 
-# Networking Module 6: Networking for System Design Interviews
+# Module 6: Networking for System Design Interviews
 
 ![Networking Module 6](/images/networking-module-6.png)
 
@@ -41,7 +41,7 @@ This module teaches you to answer those questions in an organized way.
 | **Backpressure**       | A busy service telling callers to slow down.                                       |
 | **Partition**          | A network failure that splits a system into groups that cannot talk to each other. |
 
-## Topic 6.1: What Happens When You Type a URL and Press Enter?
+## 6.1: What Happens When You Type a URL and Press Enter?
 
 ### The idea in plain words
 
@@ -130,7 +130,7 @@ Almost all of the difference comes from **RTT multiplied by the number of round 
 
 **Answer:** Most of the cost disappears. **DNS** is cached. The **TCP and TLS connection is reused** (HTTP keep-alive or HTTP/2), so there is no handshake and no slow start from scratch (the congestion window is already grown). The browser may serve resources from its **HTTP cache** with no request at all, or send a cheap **conditional request** and receive a **304**. So the request costs roughly **1 RTT plus server time**, or nothing.
 
-## Topic 6.2: Numbers Every Engineer Should Know
+## 6.2: Numbers Every Engineer Should Know
 
 ### The idea in plain words
 
@@ -236,7 +236,7 @@ Bandwidth-delay product = bandwidth × RTT                              (Module 
 
 **Answer:** **Bandwidth:** 50,000 × 20 KB = 1,000,000 KB/s = 1 GB/s = **8 Gbps** of response traffic (plus requests, usually much smaller). **Concurrency (Little's Law):** 50,000 × 0.08 = **4,000** requests in flight. If one server comfortably handles about 500 concurrent requests, I need about 8 servers for the load, and more for **headroom (say 2×, to survive a failure and spikes)**, so around **16**. The 8 Gbps also suggests **multiple 10 Gbps load-balancer links**, or terminating at a managed cloud load balancer, and compressing responses to cut bandwidth. I would state the assumptions and say I would confirm them by load testing.
 
-## Topic 6.3: Troubleshooting the Network, Layer by Layer
+## 6.3: Troubleshooting the Network, Layer by Layer
 
 ### The idea in plain words
 
@@ -344,7 +344,7 @@ Look at **who sent the first RST or FIN**, **how long the gaps are** (a 200 ms o
 
 **Answer:** Gather evidence before guessing. Ask for the **exact URL, time, and a HAR file or browser timing**. Reproduce from **that region** (a cloud VM or synthetic monitoring there) and run `curl -w` timing, `mtr` and `dig` to see **which phase is slow**: DNS, TCP connect, TLS, time to first byte, or download. A long connect time points to **distance or routing** (fix: CDN, regional deployment, better peering). A long TLS time points to too many round trips (TLS 1.3, resumption, edge termination). A long first-byte time with fast connect points to a **slow origin or cache miss**. A slow download with high loss points to **congestion control and loss** (BBR, HTTP/3). Then verify the fix with the same measurement from the same region.
 
-## Topic 6.4: Network Design Patterns for Resilient Systems
+## 6.4: Network Design Patterns for Resilient Systems
 
 ### The idea in plain words
 
@@ -463,7 +463,7 @@ A **partition** splits your system into groups that cannot talk. Partitions **wi
 
 **Answer:** **Protocol:** **WebSocket** over TLS for two-way messaging (with a fallback to long polling or SSE), and HTTP for the rest of the API. **Entry:** **GeoDNS or anycast** sends users to the nearest region. An **L4 load balancer** spreads connections across a fleet of **connection (gateway) servers**, using **least connections** since connections last for hours. **Capacity:** about 100,000 connections per server gives about 100 servers, so I would run about 150 with headroom, spread over several zones. **Message routing:** a connection server does not know where the recipient is, so it publishes to a **pub/sub layer** (Redis or Kafka) keyed by user or chat room, and the server holding the recipient's connection delivers it. **Reliability:** **heartbeats** to detect dead connections, **idle timeouts** configured to match the load balancer, **clients reconnecting with backoff and jitter** to avoid a thundering herd after an outage, message **IDs and acknowledgments** for at-least-once delivery with deduplication, and a database for history. **Security:** TLS, token authentication on the upgrade request, rate limits, and DDoS protection at the edge.
 
-## Topic 6.5: Mock Interview Bank
+## 6.5: Mock Interview Bank
 
 ### Rapid-fire questions (short answers, as in a real round)
 
