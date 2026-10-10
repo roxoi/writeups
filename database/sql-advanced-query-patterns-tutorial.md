@@ -232,24 +232,24 @@ You don’t need every function — only the ones that appear frequently in codi
 | Function                       | Purpose                    | Example                              |
 | ------------------------------ | -------------------------- | ------------------------------------ |
 | `CONCAT(a, b, ...)` / `\|\|`   | Concatenate strings        | `CONCAT(first_name, ' ', last_name)` |
-| `LENGTH()` / `CHAR_LENGTH()`   | Length of string           |                                      |
-| `UPPER()` / `LOWER()`          | Case conversion            |                                      |
+| `LENGTH()` / `CHAR_LENGTH()`   | Length of string           | `LENGTH(password)`                   |
+| `UPPER()` / `LOWER()`          | Case conversion            | `LOWER(email)`                       |
 | `SUBSTRING()` / `SUBSTR()`     | Extract part of string     | `SUBSTRING(email, 1, 5)`             |
-| `TRIM()`, `LTRIM()`, `RTRIM()` | Remove spaces              |                                      |
-| `REPLACE(str, from, to)`       | Replace substring          |                                      |
-| `LEFT()` / `RIGHT()`           | First/last n characters    |                                      |
-| `POSITION()` / `INSTR()`       | Find position of substring |                                      |
+| `TRIM()`, `LTRIM()`, `RTRIM()` | Remove spaces              | `TRIM(username)`                     |
+| `REPLACE(str, from, to)`       | Replace substring          | `REPLACE(phone, '-', '')`            |
+| `LEFT()` / `RIGHT()`           | First/last n characters    | `RIGHT(credit_card, 4)`              |
+| `POSITION()` / `INSTR()`       | Find position of substring | `POSITION('@' IN email)`             |
 
 #### Date / Time Functions
 
-| Function                                   | Purpose                    | Example                         |
-| ------------------------------------------ | -------------------------- | ------------------------------- |
-| `CURRENT_DATE` / `NOW()`                   | Current date/time          |                                 |
-| `EXTRACT(YEAR FROM date)`                  | Extract part of date       | `EXTRACT(YEAR FROM order_date)` |
-| `DATE_TRUNC()` (Postgres)                  | Truncate to year/month/day |                                 |
-| `DATE_ADD()` / `DATE_SUB()` / `+ INTERVAL` | Add/subtract time          |                                 |
-| `DATEDIFF()` / `AGE()`                     | Difference between dates   |                                 |
-| `TO_CHAR()` / `DATE_FORMAT()`              | Format date as string      |                                 |
+| Function                                   | Purpose                    | Example                                                                                    |
+| ------------------------------------------ | -------------------------- | ------------------------------------------------------------------------------------------ |
+| `CURRENT_DATE` / `NOW()`                   | Current date/time          | `NOW()` (or `CURRENT_DATE`)                                                                |
+| `EXTRACT(YEAR FROM date)`                  | Extract part of date       | `EXTRACT(YEAR FROM order_date)`                                                            |
+| `DATE_TRUNC()` (PSQL)                      | Truncate to year/month/day | `DATE_TRUNC('month', signup_date)`                                                         |
+| `DATE_ADD()` / `DATE_SUB()` / `+ INTERVAL` | Add/subtract time          | `order_date + INTERVAL '7 days'` (PSQL) / `DATE_ADD(order_date, INTERVAL 7 DAY)` (MySQL)   |
+| `DATEDIFF()` / `AGE()`                     | Difference between dates   | `AGE(birth_date)` (PSQL) / `DATEDIFF(end_date, start_date)` (MySQL)                        |
+| `TO_CHAR()` / `DATE_FORMAT()`              | Format date as string      | `TO_CHAR(created_at, 'YYYY-MM-DD')` (PSQL) / `DATE_FORMAT(created_at, '%Y-%m-%d')` (MySQL) |
 
 **Very common interview patterns**:
 
@@ -313,7 +313,7 @@ WHERE corporate_email ~ '^[a-zA-Z].*@(nitp\.ac\.in|oracle\.com)$';
 | profile_name        | corporate_email       |
 | ------------------- | --------------------- |
 | aman Kumar          | aman.k@oracle.com     |
-| rohit123@nitp.ac.in |                       |
+| rROHIT sharma       | rohit123@nitp.ac.in   |
 | Amit                | amit_kumar@nitp.ac.in |
 
 - Why row 4 (rahul_99@oracle.co.in) failed: It ends in .co.in, not .com.
