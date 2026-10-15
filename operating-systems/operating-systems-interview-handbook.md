@@ -13,7 +13,7 @@ keywords: ["Operating systems interview questions", "Process vs thread interview
 
 _A ground-up, interview-focused guide to Operating Systems for SDE roles at product-based companies (Google, Microsoft, Amazon, TCS Digital, etc.)_
 
-## 1: Introduction & Basics
+## 1. Introduction & Basics
 
 ### 1.1 What is an Operating System?
 
@@ -79,7 +79,7 @@ System calls are the _only_ legitimate gateway between user mode and kernel mode
 - Q: "What happens internally during a system call?" → Trap instruction → CPU switches to kernel mode → OS uses syscall number to index into a table of function pointers → executes the requested kernel function → returns result → switches back to user mode.
 - Q: "Is a system call the same as a function call?" → No - a function call stays in the same privilege level and address space; a system call causes a **mode switch** with extra overhead (saving registers, context, mode transition).
 
-## 2: Process & Thread Management
+## 2. Process & Thread Management
 
 ### 2.1 Process vs. Program vs. Thread
 
@@ -197,7 +197,7 @@ Context switching is what enables multitasking - but it's **pure overhead**; no 
 - Q: "Why is context switching between threads faster than between processes?" → Threads of the same process share the address space, so there's no need to switch page tables or flush the TLB - a very expensive part of process context switches.
 - Q: "Is context switching triggered only by the timer interrupt?" → No - also by I/O interrupts, system calls that block, or higher-priority process arrivals in preemptive systems.
 
-## 3: CPU Scheduling
+## 3. CPU Scheduling
 
 ![CPU Scheduling](/images/os-cpu-scheduling.png)
 
@@ -470,7 +470,7 @@ flowchart TD
     A -->|"General-purpose OS, behavior unknown"| M["MLFQ"]
 ```
 
-## 4: Process Synchronization
+## 4. Process Synchronization
 
 ### 4.1 Race Conditions
 
@@ -646,7 +646,7 @@ N philosophers sit at a round table, alternating between thinking and eating. Be
 - Q: "What does the Dining Philosophers problem model, and why is it famous?" → It models **deadlock and starvation in concurrent resource allocation** - a classic scenario used to test understanding of how naive locking can lead to circular waits.
 - Q: "How does 'pick up lower-numbered fork first' prevent deadlock?" → It breaks the **circular wait** condition (Module 5) - since forks are always acquired in a globally consistent order, you cannot form a cycle of philosophers each waiting on the next.
 
-## 5: Deadlocks
+## 5. Deadlocks
 
 ### 5.1 What is a Deadlock?
 
@@ -735,7 +735,7 @@ Simply ignore the problem - assume deadlocks are rare enough that the cost of pr
 
 - Q: "Why don't real operating systems implement Banker's Algorithm system-wide?" → The overhead of tracking every process's maximum resource claims is impractical for a general-purpose OS with dynamic, unpredictable workloads - most OSes use the "ostrich algorithm" and let higher-level software (databases, etc.) handle their own deadlock detection where it truly matters.
 
-## 6: Memory Management
+## 6. Memory Management
 
 ![Memory Management](/images/os-memory-mngt.png)
 
@@ -850,7 +850,7 @@ It saves massive memory (table size is proportional to _physical_ memory size, n
 
 - Q: "What's the main trade-off of an inverted page table?" → Saves memory (one entry per physical frame, not per virtual page per process), but lookup is slower since you now need to _search_ the table (typically via hashing) rather than directly indexing it.
 
-## 7: Virtual Memory
+## 7. Virtual Memory
 
 ![Virtual Memory](/images/os-virtual-memory.png)
 
@@ -950,7 +950,7 @@ A state where the system spends **more time paging (swapping pages in/out) than 
 - Q: "Explain thrashing and how the OS can detect and resolve it." → (Use the causal chain + working set/PFF fixes above.)
 - Q: "What's the 'working set' of a process?" → The set of pages a process has referenced in the most recent Δ time units - a practical approximation of "the pages it needs right now" to avoid faulting.
 
-## 8: Storage & File Systems
+## 8. Storage & File Systems
 
 ### 8.1 Disk Scheduling Algorithms
 
