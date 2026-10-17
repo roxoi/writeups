@@ -15,8 +15,6 @@ A URL shortener converts a long, unwieldy URL into a compact alias that redirect
 
 ![URL Shortener System Design](/images/url-shortner.png)
 
----
-
 ## What is a URL Shortener?
 
 A URL shortener creates a short alias for a long URL. When a user visits the short URL, they are redirected to the original long URL.
@@ -24,8 +22,6 @@ A URL shortener creates a short alias for a long URL. When a user visits the sho
 **Example:**
 - Long URL: `https://karanpratapsingh.com/courses/system-design/url-shortener`
 - Short URL: `https://bit.ly/3I71d3o`
-
----
 
 ## Requirements
 
@@ -45,8 +41,6 @@ A URL shortener creates a short alias for a long URL. When a user visits the sho
 - Analytics: track redirect counts, user geolocation, device type, referrer
 - Rate limiting via API keys to prevent abuse
 - URL expiration and cleanup
-
----
 
 ## Capacity Estimation
 
@@ -84,8 +78,6 @@ Reads:  10 billion / (30 × 24 × 3600s) ≈ 4,000 redirects/second
 | Storage (10 years) | ~6 TB |
 | Cache memory | ~35 GB/day |
 
----
-
 ## Data Model
 
 Two primary tables are needed:
@@ -111,8 +103,6 @@ Two primary tables are needed:
 ### Database Choice
 
 Since the data is not strongly relational and we need horizontal scalability, **NoSQL databases** like Amazon DynamoDB, Apache Cassandra, or MongoDB are preferable. If SQL is used, PostgreSQL or Amazon RDS with read replicas would work.
-
----
 
 ## API Design
 
@@ -148,8 +138,6 @@ DELETE /urls/{hash}
 Authorization: Bearer {api_key}
 Response 200: { "success": true }
 ```
-
----
 
 ## URL Encoding Strategies
 
@@ -220,8 +208,6 @@ Storage: 6 bytes × 56.8 billion = ~390 GB
 
 This is a one-time fixed database size — not growing like the main URL database.
 
----
-
 ## High-Level Design
 
 ![URL Shortener Basic Design](/images/url-shortener-basic-design.png)
@@ -243,8 +229,6 @@ This is a one-time fixed database size — not growing like the main URL databas
 4. **Cache hit:** Return HTTP 302 redirect to `original_url`.
 5. **Cache miss:** Query the database, populate cache, return HTTP 302 redirect.
 6. If hash not found anywhere: Return HTTP 404.
-
----
 
 ## Detailed Design
 
@@ -282,8 +266,6 @@ Store metadata alongside each URL:
 
 For real-time analytics, emit events to Kafka and process with Apache Spark or AWS Kinesis.
 
----
-
 ## Advanced Design — Resolving Bottlenecks
 
 ![URL Shortener Advanced Design](/images/url-shortener-advanced-design.png)
@@ -297,8 +279,6 @@ For real-time analytics, emit events to Kafka and process with Apache Spark or A
 | Database | Master-slave replication; multiple read replicas (read-heavy system); database sharding |
 | Cache | Redis cluster with replication; multiple cache nodes |
 | Redirect latency | CDN or GeoDNS to serve redirects from nearest regional deployment |
-
----
 
 ## Summary
 
