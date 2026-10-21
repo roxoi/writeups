@@ -4,7 +4,7 @@ description: "What a monolith is, when it is the right choice, how to build a mo
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/monolith.png"
+thumbnail: "/images/system-design-arch.png"
 tags: [monolith, modular-monolith, architecture, system-design, strangler-fig]
 keywords: ["Monolithic architecture", "Modular monolith", "Monolith vs microservices", "Strangler fig pattern", "When to use a monolith"]
 ---
@@ -12,8 +12,6 @@ keywords: ["Monolithic architecture", "Modular monolith", "Monolith vs microserv
 # Monolithic Architecture
 
 A monolith is a **single deployable unit** that contains all application functionality, including the presentation layer, business logic, and data access layer, in one codebase. It is the default way most software starts, and for many systems it remains the best choice.
-
-![Monolith Architecture](/images/monolith.png)
 
 ## What a Monolith Looks Like
 
@@ -74,9 +72,9 @@ A monolith can scale much further than people expect:
 1. **Run multiple copies** behind a [load balancer](system-design/load-balancing). This requires the app to be stateless (see [Scaling](system-design/scaling)).
 2. **Add a cache** to take read load off the database.
 3. **Add read replicas** for read-heavy workloads.
-4. **Move slow work to background workers** using a [message queue](system-design/message-queues).
+4. **Move slow work to background workers** using a [message queue](system-design/messaging-and-communication).
 5. **Serve static assets from a CDN.**
-6. **Scale the database vertically**, then consider [sharding](system-design/sharding) only when needed.
+6. **Scale the database vertically**, then consider [sharding](system-design/databases) only when needed.
 
 The limits you will eventually feel are usually **team and deployment limits** (too many people in one release process) rather than raw traffic limits.
 
@@ -149,6 +147,5 @@ Incrementally, with the strangler fig pattern: route traffic through a gateway, 
 ## Continue Learning
 
 - [Microservices Architecture](system-design/microservices) — splitting into independent services.
-- [Service-Oriented Architecture (SOA)](system-design/soa) — an earlier approach to service decomposition.
 - [Scaling](system-design/scaling) — scaling strategies in depth.
 - [API Gateway](system-design/api-gateway) — the routing layer used during migration.

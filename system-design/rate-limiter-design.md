@@ -4,7 +4,7 @@ description: "A complete system design for a distributed API rate limiter: requi
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-10-17"
 updated: "2026-10-17"
-thumbnail: "/images/rate-limiter-design.png"
+thumbnail: "/images/system-design-arch.png"
 tags: [system-design, rate-limiter, redis, token-bucket, api-gateway, case-study]
 keywords: ["Design a rate limiter", "Distributed rate limiter system design", "Rate limiter Redis cluster", "Token bucket Lua script", "Rate limiter interview question", "API gateway rate limiting"]
 ---
@@ -14,8 +14,6 @@ keywords: ["Design a rate limiter", "Distributed rate limiter system design", "R
 "Design a rate limiter" is one of the most common system design interview questions, and a component almost every production API needs. A rate limiter decides, for every incoming request, **allow or reject**, based on how many requests the client has already made.
 
 This case study focuses on the **system around the algorithm**: where the limiter lives, how counters are stored and scaled, how races and failures are handled, and how rules are rolled out safely. For the algorithms themselves (token bucket, sliding window, and so on) see [Rate Limiting](system-design/rate-limiting).
-
-![Rate Limiter](/images/rate-limiter-design.png)
 
 ## Requirements
 

@@ -4,7 +4,7 @@ description: "How systems handle growth: vertical and horizontal scaling, statel
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/scaling.png"
+thumbnail: "/images/load-balancing.png"
 tags: [scalability, scaling, horizontal-scaling, vertical-scaling, autoscaling, system-design]
 keywords: ["Vertical vs horizontal scaling", "Scalability in system design", "Stateless services", "Autoscaling", "Amdahl's law", "How to scale a system"]
 ---
@@ -68,9 +68,9 @@ To make an application tier stateless, move the state out:
 | State           | Where to put it                                                                    |
 | --------------- | ---------------------------------------------------------------------------------- |
 | User sessions   | A shared store such as Redis, or a signed token (such as a JWT) held by the client |
-| Uploaded files  | [Object storage](system-design/object-storage), not the local disk                 |
-| Cached data     | A shared [cache](system-design/caching)                                            |
-| Background work | A [message queue](system-design/message-queues)                                    |
+| Uploaded files  | [Object storage](system-design/file-storage-design), not the local disk            |
+| Cached data     | A shared [cache](system-design/caching-and-cdn)                                    |
+| Background work | A [message queue](system-design/messaging-and-communication)                       |
 
 **Sticky sessions** (always routing a user to the same server) are a workaround, not a solution. They make load uneven and lose the session when that server fails.
 
@@ -78,15 +78,15 @@ Some components cannot be stateless by nature, such as databases and WebSocket g
 
 ## Scaling Each Layer
 
-| Layer                | How it scales                                                                         | Notes                                       |
-| -------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------- |
-| App / web servers    | Add instances behind a load balancer                                                  | Must be stateless                           |
-| Static content       | Serve from a [CDN](system-design/cdn)                                                 | Offloads traffic from your servers entirely |
-| Cache                | Add nodes and spread keys with [consistent hashing](system-design/consistent-hashing) | Cache misses still hit the database         |
-| Database reads       | [Read replicas](system-design/replication), caching                                   | Replicas lag behind the leader              |
-| Database writes      | Scale up first, then [shard](system-design/sharding)                                  | Hardest layer to scale                      |
-| File storage         | Object storage (S3-style)                                                             | Designed for horizontal growth              |
-| Slow background work | Queue plus a pool of workers                                                          | Workers scale independently of the web tier |
+| Layer                | How it scales                                                                | Notes                                       |
+| -------------------- | ---------------------------------------------------------------------------- | ------------------------------------------- |
+| App / web servers    | Add instances behind a load balancer                                         | Must be stateless                           |
+| Static content       | Serve from a [CDN](system-design/caching-and-cdn)                            | Offloads traffic from your servers entirely |
+| Cache                | Add nodes and spread keys with [consistent hashing](system-design/databases) | Cache misses still hit the database         |
+| Database reads       | [Read replicas](system-design/databases), caching                            | Replicas lag behind the leader              |
+| Database writes      | Scale up first, then [shard](system-design/databases)                        | Hardest layer to scale                      |
+| File storage         | Object storage (S3-style)                                                    | Designed for horizontal growth              |
+| Slow background work | Queue plus a pool of workers                                                 | Workers scale independently of the web tier |
 
 ### Scaling Reads vs Writes
 
@@ -145,7 +145,7 @@ If 5% of the work is serial (p = 0.95), the speed-up is only about 6.9x with 10 
 
 ### Finding the Bottleneck
 
-Do not guess. Measure each resource (CPU, memory, disk, network, connections), look at its **utilization**, **saturation** (queueing), and **errors**, fix the biggest bottleneck, then measure again. A load test before launch shows where the system breaks first. Tools for this are covered in [Observability](system-design/observability).
+Do not guess. Measure each resource (CPU, memory, disk, network, connections), look at its **utilization**, **saturation** (queueing), and **errors**, fix the biggest bottleneck, then measure again. A load test before launch shows where the system breaks first. Tools for this are covered in [Observability](system-design/observability-and-deployment).
 
 ## Trade-offs
 
@@ -191,7 +191,6 @@ Likely thrashing: the thresholds are too close together, there is no cooldown, o
 ## Continue Learning
 
 - [Load Balancing](system-design/load-balancing) — spreading traffic across the servers you add.
-- [Caching Strategies](system-design/caching) — reducing load before it reaches the database.
-- [Replication](system-design/replication) — scaling reads and surviving failures.
-- [Sharding](system-design/sharding) — scaling writes and data size.
+- [Caching and CDN](system-design/caching-and-cdn) — reducing load before it reaches the database.
+- [Databases](system-design/databases) — replication, sharding, and scaling reads and writes.
 - [High Availability](system-design/high-availability) — staying up while you scale.

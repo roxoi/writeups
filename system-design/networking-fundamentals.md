@@ -2,6 +2,8 @@
 title: "IP Addresses, OSI Model, TCP and UDP — Networking Fundamentals for System Design"
 description: "A deep dive into the networking fundamentals every system designer must know: IP addresses (IPv4/IPv6), the OSI model layers, and the differences between TCP and UDP."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
+created: "2026-04-18"
+updated: "2026-10-17"
 thumbnail: "/images/networking-fundamentals.png"
 tags: [networking, ip-address, osi-model, tcp, udp, system-design]
 keywords: ["IP address explained", "OSI model layers", "TCP vs UDP", "Networking fundamentals system design", "IPv4 vs IPv6"]
@@ -42,12 +44,12 @@ Leading zeros in each group can be dropped, and one run of all-zero groups can b
 
 ### Types of IP Addresses
 
-| Type        | Description                                                           | Example                                                |
-| ----------- | --------------------------------------------------------------------- | ------------------------------------------------------ |
-| **Public**  | Globally routable address that is reachable over the internet         | The address your ISP assigns to your router            |
-| **Private** | Reserved for use inside a local network; not routable on the internet | 192.168.x.x, 10.x.x.x, 172.16.x.x – 172.31.x.x         |
-| **Static**  | Manually assigned, does not change                                    | Used for servers, VPNs, geo-location services          |
-| **Dynamic** | Automatically assigned by DHCP, changes over time                     | Common for consumer devices                            |
+| Type        | Description                                                           | Example                                        |
+| ----------- | --------------------------------------------------------------------- | ---------------------------------------------- |
+| **Public**  | Globally routable address that is reachable over the internet         | The address your ISP assigns to your router    |
+| **Private** | Reserved for use inside a local network; not routable on the internet | 192.168.x.x, 10.x.x.x, 172.16.x.x – 172.31.x.x |
+| **Static**  | Manually assigned, does not change                                    | Used for servers, VPNs, geo-location services  |
+| **Dynamic** | Automatically assigned by DHCP, changes over time                     | Common for consumer devices                    |
 
 Public/private describes **reachability**, while static/dynamic describes **how the address is assigned**. They are independent: a production server typically has a static _public_ IP, while a laptop on your home Wi-Fi has a dynamic _private_ IP.
 
@@ -118,13 +120,13 @@ The actual **physical transmission medium** — cables, fiber optics, radio wave
 
 ### OSI Model Summary Table
 
-| OSI Layer                                                | TCP/IP Layer   | Data Unit (PDU)                  | Primary Responsibility                                                             | Common Protocols                 | Key Hardware                  |
-| -------------------------------------------------------- | -------------- | -------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------- | ----------------------------- |
-| 7. Application<br>6. Presentation<br>5. Session          | Application    | Data / Message                   | User interaction, data formatting (encryption, compression), and session tracking. | HTTP, HTTPS, FTP, DNS, SMTP, SSH | Gateway, L7 load balancer     |
-| 4. Transport                                             | Transport      | Segments (TCP) / Datagrams (UDP) | End-to-end connection, flow control, error recovery, and port addressing.          | TCP, UDP                         | Firewall, L4 load balancer    |
-| 3. Network                                               | Internet       | Packets                          | Logical addressing (IP routing) and finding the best path across routers.          | IPv4, IPv6, ICMP, OSPF           | Router, Layer 3 switch        |
-| 2. Data Link                                             | Network Access | Frames                           | Physical addressing (MAC address), hop-to-hop delivery, and error detection.       | Ethernet, Wi-Fi (802.11), PPP, ARP | Switch, Bridge              |
-| 1. Physical                                              | Network Access | Bits                             | Cable types, voltage, electrical signaling, and raw bit transmission.              | Cables, Fiber Optics             | Hub, Repeater, NIC            |
+| OSI Layer                                       | TCP/IP Layer   | Data Unit (PDU)                  | Primary Responsibility                                                             | Common Protocols                   | Key Hardware               |
+| ----------------------------------------------- | -------------- | -------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------- | -------------------------- |
+| 7. Application<br>6. Presentation<br>5. Session | Application    | Data / Message                   | User interaction, data formatting (encryption, compression), and session tracking. | HTTP, HTTPS, FTP, DNS, SMTP, SSH   | Gateway, L7 load balancer  |
+| 4. Transport                                    | Transport      | Segments (TCP) / Datagrams (UDP) | End-to-end connection, flow control, error recovery, and port addressing.          | TCP, UDP                           | Firewall, L4 load balancer |
+| 3. Network                                      | Internet       | Packets                          | Logical addressing (IP routing) and finding the best path across routers.          | IPv4, IPv6, ICMP, OSPF             | Router, Layer 3 switch     |
+| 2. Data Link                                    | Network Access | Frames                           | Physical addressing (MAC address), hop-to-hop delivery, and error detection.       | Ethernet, Wi-Fi (802.11), PPP, ARP | Switch, Bridge             |
+| 1. Physical                                     | Network Access | Bits                             | Cable types, voltage, electrical signaling, and raw bit transmission.              | Cables, Fiber Optics               | Hub, Repeater, NIC         |
 
 > ARP is usually shown at Layer 2 (sometimes called "Layer 2.5") because it resolves IP addresses to MAC addresses on a single link.
 
@@ -162,16 +164,16 @@ UDP is a **connectionless protocol** that sends packets (datagrams) without esta
 
 ### TCP vs UDP Comparison
 
-| Feature            | TCP                        | UDP                                |
-| ------------------ | -------------------------- | ---------------------------------- |
-| Connection type    | Connection-oriented        | Connectionless                     |
-| Delivery guarantee | Guaranteed                 | Not guaranteed                     |
-| Ordering           | In-order delivery          | No ordering                        |
-| Retransmission     | Yes, on packet loss        | No                                 |
-| Speed              | Slower                     | Faster                             |
-| Overhead           | High                       | Low                                |
-| Broadcasting       | Not supported              | Supported                          |
-| Use cases          | HTTPS, SSH, FTP, databases | Live streaming, DNS, VoIP, gaming  |
+| Feature            | TCP                        | UDP                               |
+| ------------------ | -------------------------- | --------------------------------- |
+| Connection type    | Connection-oriented        | Connectionless                    |
+| Delivery guarantee | Guaranteed                 | Not guaranteed                    |
+| Ordering           | In-order delivery          | No ordering                       |
+| Retransmission     | Yes, on packet loss        | No                                |
+| Speed              | Slower                     | Faster                            |
+| Overhead           | High                       | Low                               |
+| Broadcasting       | Not supported              | Supported                         |
+| Use cases          | HTTPS, SSH, FTP, databases | Live streaming, DNS, VoIP, gaming |
 
 ### System Design Decision: TCP vs UDP
 

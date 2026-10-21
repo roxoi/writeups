@@ -4,7 +4,7 @@ description: "How services communicate through events: event types, choreography
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/event-driven-architecture.png"
+thumbnail: "/images/message-broker.png"
 tags: [event-driven, architecture, messaging, outbox, choreography, system-design]
 keywords: ["Event-driven architecture", "Choreography vs orchestration", "Outbox pattern", "Event schema evolution", "At-least-once delivery", "Idempotent consumer"]
 ---
@@ -12,8 +12,6 @@ keywords: ["Event-driven architecture", "Choreography vs orchestration", "Outbox
 # Event-Driven Architecture
 
 In event-driven architecture (EDA), services **communicate by publishing and consuming events** through a message broker, instead of calling each other directly with synchronous requests. A service announces that something happened; any number of other services react in their own time.
-
-![Event-Driven Architecture](/images/event-driven-architecture.png)
 
 ## The Basics
 
@@ -29,7 +27,7 @@ In event-driven architecture (EDA), services **communicate by publishing and con
 ### Key Components
 
 - **Event producers** generate events when something happens (an order is placed).
-- **Event broker / router** receives events and delivers them to interested consumers (Apache Kafka, RabbitMQ, cloud queues and topics). See [Message Queues](system-design/message-queues) and [Kafka](system-design/kafka).
+- **Event broker / router** receives events and delivers them to interested consumers (Apache Kafka, RabbitMQ, cloud queues and topics). See [Message Queues](system-design/messaging-and-communication) and Kafka.
 - **Event consumers** react to events and update their own state or trigger further work.
 
 ### Example: Placing an Order
@@ -72,7 +70,7 @@ There are two ways to coordinate a multi-step workflow across services:
 | Failure handling | Spread across services                                                  | Centralized                                                               |
 | Best for         | Simple flows with few steps                                             | Complex flows with branching and compensation                             |
 
-Complex business processes with rollback (a saga) often use an orchestrator for clarity. See [Distributed Transactions](system-design/distributed-transactions).
+Complex business processes with rollback (a saga) often use an orchestrator for clarity. See [Distributed Transactions](system-design/distributed-systems-essentials).
 
 ## Delivery Guarantees and Idempotency
 
@@ -92,7 +90,7 @@ Ways to make a consumer idempotent:
 - Use **natural idempotency**: "set status to SHIPPED" is safe to repeat, "add 1 to counter" is not.
 - Use a **unique constraint** in the database so duplicates fail harmlessly.
 
-See [Idempotency and Retries](system-design/idempotency-and-retries).
+See [Idempotency and Retries](system-design/messaging-and-communication).
 
 ## Ordering
 
@@ -139,7 +137,7 @@ Compatibility rules:
 ## Challenges
 
 - **Eventual consistency:** after an event is published, other services' data is briefly out of date.
-- **Debugging:** a flow spans many services and happens asynchronously. You need correlation IDs and [distributed tracing](system-design/observability).
+- **Debugging:** a flow spans many services and happens asynchronously. You need correlation IDs and [distributed tracing](system-design/observability-and-deployment).
 - **Duplicates and ordering** must be handled explicitly.
 - **Testing** asynchronous flows is harder than request-response.
 - **Hidden coupling:** if services depend on each other's events without clear ownership, you get a tangled web that is hard to change.
@@ -192,8 +190,6 @@ Add only optional fields, never remove or repurpose existing ones, use a schema 
 
 ## Continue Learning
 
-- [Message Queues and Pub/Sub](system-design/message-queues) — the building blocks of event delivery.
-- [Event Streaming (Kafka)](system-design/kafka) — the most common event log in practice.
+- [Messaging and Communication](system-design/messaging-and-communication) — the building blocks of event delivery.
 - [CQRS and Event Sourcing](system-design/cqrs-and-event-sourcing) — events as the source of truth.
-- [Distributed Transactions](system-design/distributed-transactions) — sagas for multi-service workflows.
-- [Idempotency and Retries](system-design/idempotency-and-retries) — making duplicates harmless.
+- [Distributed Systems Essentials](system-design/distributed-systems-essentials) — sagas for multi-service workflows.

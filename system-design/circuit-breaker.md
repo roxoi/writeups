@@ -4,7 +4,7 @@ description: "How circuit breakers prevent cascading failures: the three states,
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/circuit-breaker.png"
+thumbnail: "/images/microservices.png"
 tags: [circuit-breaker, resilience, fault-tolerance, microservices, reliability, system-design]
 keywords: ["Circuit breaker pattern", "Cascading failure", "Resilience patterns", "Half-open state", "Resilience4j", "Bulkhead and retry"]
 ---
@@ -12,8 +12,6 @@ keywords: ["Circuit breaker pattern", "Cascading failure", "Resilience patterns"
 # Circuit Breaker Pattern
 
 The circuit breaker prevents **cascading failures** by **stopping calls to a failing service** and giving it time to recover. It is named after the electrical device that cuts power when current is dangerous, protecting the rest of the circuit.
-
-![Circuit Breaker](/images/circuit-breaker.png)
 
 ## The Problem
 
@@ -79,7 +77,7 @@ An open circuit should lead to a **graceful degradation**, not just an error:
 - **Cached data:** return the last known good value (product details, recommendations).
 - **Default or empty response:** show a generic list instead of personalized recommendations.
 - **Alternative service:** route to a backup provider.
-- **Queue for later:** accept the request and process it when the dependency recovers (see [Message Queues](system-design/message-queues)).
+- **Queue for later:** accept the request and process it when the dependency recovers (see [Message Queues](system-design/messaging-and-communication)).
 - **Fail fast with a clear error** when no safe fallback exists, such as a payment authorization. Never fake a success.
 
 Decide per dependency whether it is **critical** (no fallback exists) or **non-critical** (degrade quietly).
@@ -88,14 +86,14 @@ Decide per dependency whether it is **critical** (no fallback exists) or **non-c
 
 The circuit breaker is one tool of several. They work best together:
 
-| Pattern                                          | Role                                                                                                                                           |
-| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Timeout**                                      | Limits how long any single call waits. Without timeouts, a breaker never sees the failure.                                                     |
-| **Retry with backoff and jitter**                | Recovers from brief, transient errors. Retry only idempotent operations. See [Idempotency and Retries](system-design/idempotency-and-retries). |
-| **Circuit breaker**                              | Stops repeated calls when a dependency is persistently unhealthy.                                                                              |
-| **Bulkhead**                                     | Isolates resources (thread or connection pools) per dependency so one slow dependency cannot use them all.                                     |
-| **[Rate limiting](system-design/rate-limiting)** | Protects a service from too much incoming load.                                                                                                |
-| **Fallback**                                     | Provides a degraded result when the call fails or the circuit is open.                                                                         |
+| Pattern                                          | Role                                                                                                                                               |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Timeout**                                      | Limits how long any single call waits. Without timeouts, a breaker never sees the failure.                                                         |
+| **Retry with backoff and jitter**                | Recovers from brief, transient errors. Retry only idempotent operations. See [Idempotency and Retries](system-design/messaging-and-communication). |
+| **Circuit breaker**                              | Stops repeated calls when a dependency is persistently unhealthy.                                                                                  |
+| **Bulkhead**                                     | Isolates resources (thread or connection pools) per dependency so one slow dependency cannot use them all.                                         |
+| **[Rate limiting](system-design/rate-limiting)** | Protects a service from too much incoming load.                                                                                                    |
+| **Fallback**                                     | Provides a degraded result when the call fails or the circuit is open.                                                                             |
 
 Guidelines for combining them:
 
@@ -104,12 +102,12 @@ Guidelines for combining them:
 - Keep retries few, and use exponential backoff with jitter so clients do not retry in lock-step.
 - Put a **separate breaker per dependency** (and often per endpoint), not one shared breaker for everything.
 
-See [Fault Tolerance](system-design/fault-tolerance) for the bigger picture.
+See [Fault Tolerance](system-design/high-availability) for the bigger picture.
 
 ## Where to Place It
 
 - **Client side**, around outbound calls to each dependency. This is the classic placement.
-- In a **service mesh** or sidecar proxy, which can eject unhealthy instances (often called outlier detection) without changing application code. See [Service Discovery and Service Mesh](system-design/service-discovery-and-mesh).
+- In a **service mesh** or sidecar proxy, which can eject unhealthy instances (often called outlier detection) without changing application code. See [Service Discovery and Service Mesh](system-design/messaging-and-communication).
 - In the **[API gateway](system-design/api-gateway)** for calls to backend services.
 
 ## Libraries and Tools
@@ -144,7 +142,7 @@ Treat breaker state as a first-class signal:
 
 - Track **state changes** (closed to open, open to half-open) and alert on them.
 - Track the **number of rejected calls**, **failure rate**, and **slow-call rate** per dependency.
-- Dashboards should show which dependencies are currently open. See [Observability](system-design/observability).
+- Dashboards should show which dependencies are currently open. See [Observability](system-design/observability-and-deployment).
 
 ## Trade-offs
 
@@ -191,8 +189,7 @@ Isolating resources such as thread or connection pools per dependency so that a 
 
 ## Continue Learning
 
-- [Fault Tolerance](system-design/fault-tolerance) — timeouts, bulkheads, and graceful degradation together.
-- [Idempotency and Retries](system-design/idempotency-and-retries) — retrying safely.
+- [High Availability](system-design/high-availability) — the wider goal these patterns serve: failover, redundancy, and graceful degradation.
+- [Messaging and Communication](system-design/messaging-and-communication) — idempotency and retrying safely.
 - [Microservices Architecture](system-design/microservices) — where cascading failures are a real risk.
-- [Observability](system-design/observability) — seeing breaker state in production.
-- [High Availability](system-design/high-availability) — the wider goal these patterns serve.
+- [Observability and Deployment](system-design/observability-and-deployment) — seeing breaker state in production.

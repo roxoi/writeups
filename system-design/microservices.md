@@ -35,7 +35,7 @@ Microservices decompose an application into a collection of **small, independent
 ## Disadvantages
 
 - **Distributed-system complexity:** network latency, partial failures, timeouts, and service discovery.
-- **Harder data consistency:** no ACID transactions across services (see [Distributed Transactions](system-design/distributed-transactions)).
+- **Harder data consistency:** no ACID transactions across services (see [Distributed Transactions](system-design/distributed-systems-essentials)).
 - **Harder testing:** integration across services is difficult to test.
 - **Operational overhead:** many deployments, many pipelines, monitoring and log aggregation for each.
 - **Cost of mistakes:** wrong service boundaries are expensive to fix.
@@ -65,11 +65,11 @@ Each service owns its tables or database. It may share a database _server_ for c
 
 This means you lose cross-service joins and transactions, so you need other techniques:
 
-| Need                                       | Technique                                                                                                                                             |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Query data from several services           | **API composition** (an aggregator calls each service), or a **read model** built from events (see [CQRS](system-design/cqrs-and-event-sourcing))     |
-| Keep data consistent across services       | **Saga** pattern: a sequence of local transactions with compensating actions (see [Distributed Transactions](system-design/distributed-transactions)) |
-| Reliably publish an event after a DB write | **Transactional outbox** (see [Event-Driven Architecture](system-design/event-driven))                                                                |
+| Need                                       | Technique                                                                                                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Query data from several services           | **API composition** (an aggregator calls each service), or a **read model** built from events (see [CQRS](system-design/cqrs-and-event-sourcing))           |
+| Keep data consistent across services       | **Saga** pattern: a sequence of local transactions with compensating actions (see [Distributed Transactions](system-design/distributed-systems-essentials)) |
+| Reliably publish an event after a DB write | **Transactional outbox** (see [Event-Driven Architecture](system-design/event-driven))                                                                      |
 
 ## Communication Between Services
 
@@ -83,21 +83,21 @@ This means you lose cross-service joins and transactions, so you need other tech
 Related building blocks:
 
 - [API Gateway](system-design/api-gateway) as the client-facing entry point.
-- [Service Discovery and Service Mesh](system-design/service-discovery-and-mesh) so services can find each other and communicate securely.
-- [REST](system-design/rest-api) and [gRPC](system-design/grpc) for service APIs.
+- [Service Discovery and Service Mesh](system-design/messaging-and-communication) so services can find each other and communicate securely.
+- [REST](system-design/messaging-and-communication) and gRPC for service APIs.
 
 ## Resilience
 
 In a distributed system, every call can fail or be slow. Design every service call defensively:
 
 - **Timeouts** on every remote call. A call without a timeout can hold resources forever.
-- **Retries with exponential backoff and jitter,** only for safe (idempotent) operations (see [Idempotency and Retries](system-design/idempotency-and-retries)).
+- **Retries with exponential backoff and jitter,** only for safe (idempotent) operations (see [Idempotency and Retries](system-design/messaging-and-communication)).
 - **[Circuit breakers](system-design/circuit-breaker)** to stop calling a failing service.
 - **Bulkheads** to isolate resources (thread pools, connection pools) per dependency, so one slow dependency cannot exhaust everything.
 - **Fallbacks and graceful degradation** when a non-critical dependency is down.
 - **[Rate limiting](system-design/rate-limiting)** to protect services from overload.
 
-See [Fault Tolerance](system-design/fault-tolerance) for how these fit together.
+See [Fault Tolerance](system-design/high-availability) for how these fit together.
 
 ## Observability and Testing
 
@@ -107,7 +107,7 @@ With many services, debugging "why was this request slow?" is impossible without
 - **Metrics** per service (latency, error rate, saturation).
 - **Distributed tracing** (Jaeger, Zipkin, OpenTelemetry) to follow one request across services.
 
-See [Observability](system-design/observability).
+See [Observability](system-design/observability-and-deployment).
 
 For testing, rely on many fast unit tests per service, plus **contract tests** (such as consumer-driven contracts) to verify that the API a service provides matches what its callers expect, instead of relying only on slow end-to-end tests.
 
@@ -189,6 +189,6 @@ With a small team, an early product, an unclear domain, or weak DevOps automatio
 
 - [Monolithic Architecture](system-design/monolith) — the alternative, and the starting point.
 - [Event-Driven Architecture](system-design/event-driven) — decoupling services with events.
-- [Distributed Transactions](system-design/distributed-transactions) — sagas and the outbox pattern.
-- [Service Discovery and Service Mesh](system-design/service-discovery-and-mesh) — how services find and secure communication with each other.
+- [Distributed Systems Essentials](system-design/distributed-systems-essentials) — sagas and the outbox pattern.
+- [Messaging and Communication](system-design/messaging-and-communication) — service discovery, queues, REST and gRPC between services.
 - [Circuit Breaker Pattern](system-design/circuit-breaker) — containing failures between services.

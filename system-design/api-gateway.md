@@ -4,7 +4,7 @@ description: "What an API gateway does, how it differs from a load balancer and 
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/api-gateway.png"
+thumbnail: "/images/microservices.png"
 tags: [api-gateway, microservices, architecture, bff, security, system-design]
 keywords: ["API Gateway", "API Gateway design", "Backend for Frontend", "API Gateway vs load balancer", "Kong", "Microservices entry point"]
 ---
@@ -12,8 +12,6 @@ keywords: ["API Gateway", "API Gateway design", "Backend for Frontend", "API Gat
 # API Gateway
 
 An API gateway is a **single entry point** for client requests to a system made of many backend services. It receives every request, applies common policies, and routes it to the right service.
-
-![API Gateway](/images/api-gateway.png)
 
 ## Why You Need One
 
@@ -37,11 +35,11 @@ Partner ──┘             │
 ## Responsibilities
 
 - **Request routing:** forward requests to the correct service based on path, host, headers, or version (`/orders/*` goes to the Order Service).
-- **Authentication and authorization:** validate tokens or API keys before forwarding (see [OAuth & JWT](system-design/oauth-jwt)).
+- **Authentication and authorization:** validate tokens or API keys before forwarding (see [OAuth & JWT](system-design/auth-and-security)).
 - **[Rate limiting](system-design/rate-limiting):** prevent abuse and protect backends.
 - **SSL/TLS termination:** handle HTTPS at the edge. Internal traffic should still be encrypted where possible (for example with mTLS) rather than assumed safe.
 - **Request/response transformation:** adapt between client-facing and backend formats.
-- **Protocol translation:** expose REST to clients while talking [gRPC](system-design/grpc) internally.
+- **Protocol translation:** expose REST to clients while talking [gRPC](system-design/messaging-and-communication) internally.
 - **Aggregation (API composition):** combine responses from several services into one, reducing client round trips.
 - **Caching:** cache responses for frequently requested data.
 - **Load balancing:** spread requests across instances of a service.
@@ -67,12 +65,12 @@ These overlap and are often confused:
 | **Reverse proxy** | Sit in front of servers, forward client requests (TLS, caching, compression)                                          | HTTP generally                |
 | **API gateway**   | A reverse proxy **plus API-aware features**: auth, rate limiting, routing by API version, aggregation, transformation | APIs, clients, and policies   |
 
-In practice they are layered or combined. A typical setup has a cloud load balancer in front of several gateway instances, and tools like NGINX or Envoy can play all three roles depending on configuration. See [Load Balancing](system-design/load-balancing) and [Proxies](system-design/proxies).
+In practice they are layered or combined. A typical setup has a cloud load balancer in front of several gateway instances, and tools like NGINX or Envoy can play all three roles depending on configuration. See [Load Balancing](system-design/load-balancing) and Proxies.
 
 ### North-South vs East-West Traffic
 
 - **North-south:** traffic between external clients and your system. This is the gateway's job.
-- **East-west:** traffic between your internal services. That is usually handled by a [service mesh](system-design/service-discovery-and-mesh) or direct client libraries, not the gateway.
+- **East-west:** traffic between your internal services. That is usually handled by a [service mesh](system-design/messaging-and-communication) or direct client libraries, not the gateway.
 
 ## Backend for Frontend (BFF) Pattern
 
@@ -91,7 +89,7 @@ Each BFF is owned by the team that owns that client, so they can change it witho
 - Validate identity at the gateway (for example JWT signature, expiry, and audience), then pass trusted identity information to services.
 - Do not assume everything behind the gateway is trusted. Services should still authorize requests for their own data and use mutual TLS between services (defense in depth).
 - Strip or overwrite internal headers coming from clients so they cannot spoof identity headers.
-- Combine with a web application firewall (WAF) and DDoS protection at the edge. See [Security Best Practices](system-design/security-best-practices).
+- Combine with a web application firewall (WAF) and DDoS protection at the edge. See [Security Best Practices](system-design/auth-and-security).
 
 ## Pitfalls
 
@@ -161,6 +159,6 @@ Typically validated at the gateway, but services should still authorize access t
 
 - [Rate Limiting](system-design/rate-limiting) — a core gateway responsibility.
 - [Microservices Architecture](system-design/microservices) — the architecture gateways front.
-- [Service Discovery and Service Mesh](system-design/service-discovery-and-mesh) — east-west traffic between services.
-- [OAuth & JWT](system-design/oauth-jwt) — what the gateway validates.
-- [Proxies](system-design/proxies) — how reverse proxies work.
+- [Messaging and Communication](system-design/messaging-and-communication) — service discovery, gRPC, and communication between services.
+- [Authentication and Security](system-design/auth-and-security) — what the gateway validates.
+- [Load Balancing](system-design/load-balancing) — how reverse proxies work.

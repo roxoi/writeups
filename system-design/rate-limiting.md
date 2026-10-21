@@ -4,7 +4,7 @@ description: "How to control request rates: where to enforce limits, the five co
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/rate-limiting.png"
+thumbnail: "/images/system-design-arch.png"
 tags: [rate-limiting, throttling, token-bucket, redis, reliability, system-design]
 keywords: ["Rate limiting", "Token bucket algorithm", "Sliding window rate limiter", "Distributed rate limiting", "Leaky bucket", "HTTP 429"]
 ---
@@ -196,7 +196,7 @@ Choose per endpoint, and make the decision explicit.
 
 ### Client-Side Behavior
 
-Well-behaved clients should honor `Retry-After`, use **exponential backoff with jitter** when retrying (see [Idempotency and Retries](system-design/idempotency-and-retries)), and avoid synchronized retries from many clients at once, which can create a retry storm.
+Well-behaved clients should honor `Retry-After`, use **exponential backoff with jitter** when retrying (see [Idempotency and Retries](system-design/messaging-and-communication)), and avoid synchronized retries from many clients at once, which can create a retry storm.
 
 ## Trade-offs
 
@@ -247,7 +247,7 @@ Rate limiting caps what each client can send. Load shedding drops traffic when t
 ## Continue Learning
 
 - [API Gateway](system-design/api-gateway) — where limits are usually enforced.
-- [Caching Strategies](system-design/caching) — Redis as a shared fast store.
-- [Idempotency and Retries](system-design/idempotency-and-retries) — how clients should retry safely.
+- [Caching and CDN](system-design/caching-and-cdn) — Redis as a shared fast store.
+- [Messaging and Communication](system-design/messaging-and-communication) — idempotency and safe retries.
 - [Design a Rate Limiter](system-design/rate-limiter-design) — a full design walkthrough.
 - [Circuit Breaker Pattern](system-design/circuit-breaker) — protecting callers from failing services.

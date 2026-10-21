@@ -19,8 +19,6 @@ A useful analogy is constructing a building. Before anyone lays bricks, an archi
 
 ![What is System Design](/images/system-design-intro.png)
 
----
-
 ## A Quick Example
 
 Suppose you are asked to build a photo-sharing app. A working prototype is easy: one server, one database, photos saved on disk. It works perfectly for you and ten friends.
@@ -99,7 +97,7 @@ This shows two ways to improve it: fail less often (raise MTBF) or recover faste
 - **In series** (a request needs _all_ of them), availabilities multiply. Two services at 99.9% each give 0.999 × 0.999 ≈ **99.8%**, about 17.5 hours of downtime per year instead of 8.77. Every extra dependency in the request path lowers your availability.
 - **In parallel** (redundant copies, any one can serve), the chance of _all_ failing is small. Two replicas at 99% each give 1 − (0.01 × 0.01) = **99.99%**. This assumes failures are independent. If both replicas share a rack, power supply, or region, the real number is lower.
 
-Common ways to improve availability include [load balancing](system-design/load-balancing) with health checks and failover, and [replicating data](system-design/replication) across nodes. See [High Availability](system-design/high-availability) for the full picture.
+Common ways to improve availability include [load balancing](system-design/load-balancing) with health checks and failover, and [replicating data](system-design/databases) across nodes. See [High Availability](system-design/high-availability) for the full picture.
 
 ### 4. Performance
 
@@ -107,7 +105,7 @@ Measured primarily by **latency** (time to complete a single request) and **thro
 
 Averages hide problems, so latency is usually reported in **percentiles**. The p99 latency is the value that 99% of requests are faster than. If your average is 100 ms but your p99 is 3 seconds, one in a hundred users is having a very bad experience, and those slow requests add up quickly for a user who makes many calls per page.
 
-[Caching](system-design/caching) and [CDNs](system-design/cdn) are among the most effective tools for reducing latency. See [Latency vs Throughput](system-design/latency-vs-throughput) for more.
+[Caching](system-design/caching-and-cdn) and CDNs are among the most effective tools for reducing latency. See [Latency vs Throughput](system-design/cheat-sheet) for more.
 
 ### 5. Maintainability
 
@@ -121,19 +119,19 @@ How easily can the system be understood, modified, and operated over time? Maint
 
 Beyond the five pillars, most designs also have to weigh:
 
-- **Consistency**: whether every reader sees the latest write (see [CAP Theorem](system-design/cap-theorem) and [Consistency Models](system-design/consistency-models)).
-- **Security**: protecting data and access (see [Security Best Practices](system-design/security-best-practices)).
+- **Consistency**: whether every reader sees the latest write (see [CAP Theorem](system-design/databases) and Consistency Models).
+- **Security**: protecting data and access (see [Security Best Practices](system-design/auth-and-security)).
 - **Cost**: infrastructure and engineering time are both finite.
 
 ## The System Design Process
 
 A structured approach to [system design interviews](system-design/system-design-interview-guide) and real-world architecture work follows these stages:
 
-1. **Requirements Clarification**: understand functional requirements (what the system must do) and non-functional requirements (how well it must do it: latency, availability, consistency). See [Functional vs Non-Functional Requirements](system-design/requirements).
-2. **Estimation and Constraints**: back-of-the-envelope calculations for traffic (requests per second, RPS), storage needs, and bandwidth help scope the solution. See [Capacity Estimation](system-design/capacity-estimation).
-3. **Data Model Design**: define entities and relationships, and choose between SQL and NoSQL databases (see [SQL vs NoSQL](system-design/sql-vs-nosql)).
-4. **API Design**: define the interface contracts between services and clients (see [REST API Design](system-design/rest-api)).
-5. **High-Level Component Design**: identify major components: [DNS](system-design/dns), [load balancers](system-design/load-balancing), [databases](system-design/sql-vs-nosql), [caches and CDNs](system-design/caching), and [message queues](system-design/message-queues).
+1. **Requirements Clarification**: understand functional requirements (what the system must do) and non-functional requirements (how well it must do it: latency, availability, consistency). See [Functional vs Non-Functional Requirements](system-design/system-design-interview-guide).
+2. **Estimation and Constraints**: back-of-the-envelope calculations for traffic (requests per second, RPS), storage needs, and bandwidth help scope the solution. See [Capacity Estimation](system-design/cheat-sheet).
+3. **Data Model Design**: define entities and relationships, and choose between SQL and NoSQL databases (see [SQL vs NoSQL](system-design/databases)).
+4. **API Design**: define the interface contracts between services and clients (see [REST API Design](system-design/messaging-and-communication)).
+5. **High-Level Component Design**: identify major components: [DNS](system-design/dns), [load balancers](system-design/load-balancing), [databases](system-design/databases), [caches and CDNs](system-design/caching-and-cdn), and [message queues](system-design/messaging-and-communication).
 6. **Detailed Design**: deep dive into critical components: partitioning strategy, caching policy, replication model.
 7. **Identify and Resolve Bottlenecks**: single points of failure, hot spots, and latency sources must be addressed.
 
@@ -158,17 +156,17 @@ This series focuses on **high-level design**. SDE interviews commonly include bo
 
 Real systems are not designed at full scale on day one. They grow in stages, and each stage exists to solve a specific bottleneck. Seeing this progression is the best way to understand why each building block exists.
 
-| Stage                             | Bottleneck you hit                                                 | What you add                                                     | Read more                                                                                          |
-| --------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| 1. Single server                  | Everything shares one machine; if it dies, everything dies         | Start simple: web app, database, and files on one box            | [Client-Server Architecture](system-design/client-server-architecture)                             |
-| 2. Separate web and data tiers    | App and database compete for CPU and memory                        | Move the database to its own server so each scales independently | [SQL vs NoSQL](system-design/sql-vs-nosql)                                                         |
-| 3. Horizontal scaling             | One app server cannot handle the traffic                           | Run many stateless app servers behind a load balancer            | [Scaling](system-design/scaling), [Load Balancing](system-design/load-balancing)                   |
-| 4. Caching and CDN                | Database is overloaded; users far away see slow pages              | Cache hot data in memory, serve static content from the edge     | [Caching](system-design/caching), [CDN](system-design/cdn)                                         |
-| 5. Database replication           | One database is a read bottleneck and a single point of failure    | Add read replicas and automatic failover                         | [Replication](system-design/replication)                                                           |
-| 6. Sharding                       | Data or write volume exceeds what one database can hold            | Split data across multiple databases                             | [Sharding](system-design/sharding)                                                                 |
-| 7. Asynchronous processing        | Slow work (emails, video encoding) blocks user requests            | Move it to background workers via a queue                        | [Message Queues](system-design/message-queues)                                                     |
-| 8. Service decomposition          | A large codebase and team slow each other down                     | Split into independently deployable services                     | [Microservices](system-design/microservices)                                                       |
-| 9. Multi-region and observability | A regional outage takes everything down; problems are hard to find | Deploy across regions, add metrics, logs, and traces             | [Disaster Recovery](system-design/disaster-recovery), [Observability](system-design/observability) |
+| Stage                             | Bottleneck you hit                                                 | What you add                                                     | Read more                                                                        |
+| --------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| 1. Single server                  | Everything shares one machine; if it dies, everything dies         | Start simple: web app, database, and files on one box            | [Client-Server Architecture](system-design/networking-fundamentals)              |
+| 2. Separate web and data tiers    | App and database compete for CPU and memory                        | Move the database to its own server so each scales independently | [SQL vs NoSQL](system-design/databases)                                          |
+| 3. Horizontal scaling             | One app server cannot handle the traffic                           | Run many stateless app servers behind a load balancer            | [Scaling](system-design/scaling), [Load Balancing](system-design/load-balancing) |
+| 4. Caching and CDN                | Database is overloaded; users far away see slow pages              | Cache hot data in memory, serve static content from the edge     | [Caching](system-design/caching-and-cdn), CDN                                    |
+| 5. Database replication           | One database is a read bottleneck and a single point of failure    | Add read replicas and automatic failover                         | [Replication](system-design/databases)                                           |
+| 6. Sharding                       | Data or write volume exceeds what one database can hold            | Split data across multiple databases                             | [Sharding](system-design/databases)                                              |
+| 7. Asynchronous processing        | Slow work (emails, video encoding) blocks user requests            | Move it to background workers via a queue                        | [Message Queues](system-design/messaging-and-communication)                      |
+| 8. Service decomposition          | A large codebase and team slow each other down                     | Split into independently deployable services                     | [Microservices](system-design/microservices)                                     |
+| 9. Multi-region and observability | A regional outage takes everything down; problems are hard to find | Deploy across regions, add metrics, logs, and traces             | [Disaster Recovery](system-design/observability-and-deployment), Observability   |
 
 Every stage adds complexity as well as capacity. A system with 100 users does not need sharding or microservices, and adding them early costs real engineering time for no benefit. The skill is knowing _which bottleneck you have right now_ and picking the simplest tool that fixes it.
 
@@ -250,38 +248,39 @@ The remaining guides in this series cover each building block of system design i
 
 ## Continue Learning
 
-### Getting Started
+### Start Here
 
-- [System Design Basics & Terminology](system-design/basics-and-terminology) — the vocabulary used in every design discussion.
-- [Functional vs Non-Functional Requirements](system-design/requirements) — turning a vague problem into clear requirements.
-- [Capacity Estimation](system-design/capacity-estimation) — back-of-the-envelope math for traffic, storage, and bandwidth.
+- [System Design Interview Guide](system-design/system-design-interview-guide) — a step-by-step framework for answering design questions.
+- [System Design Cheat Sheet](system-design/cheat-sheet) — latency numbers, formulas, trade-offs, and practice questions.
 
-### Core Concepts
+### Fundamentals
 
-- [Client-Server Architecture](system-design/client-server-architecture) — how clients and servers interact.
 - [Networking Fundamentals](system-design/networking-fundamentals) — how data moves between clients and servers.
 - [DNS](system-design/dns) — how domain names are resolved to IP addresses.
-- [HTTP, HTTPS, and TLS](system-design/http-and-https) — the protocols behind almost every request.
-- [Latency vs Throughput](system-design/latency-vs-throughput) — measuring and reasoning about performance.
-- [CAP Theorem](system-design/cap-theorem) — the consistency and availability trade-off.
-
-### Building Blocks
-
-- [Vertical vs Horizontal Scaling](system-design/scaling) — scaling strategies for growing systems.
+- [Scaling](system-design/scaling) — vertical vs horizontal scaling, stateless services, and autoscaling.
 - [Load Balancing](system-design/load-balancing) — distributing traffic across servers.
-- [Caching Strategies](system-design/caching) — serving data faster.
-- [Content Delivery Networks (CDN)](system-design/cdn) — serving data closer to users.
-- [SQL vs NoSQL](system-design/sql-vs-nosql) — choosing how to store data.
-- [Message Queues](system-design/message-queues) — how services communicate asynchronously.
+- [Caching and CDN](system-design/caching-and-cdn) — serving data faster and closer to users.
+- [Databases](system-design/databases) — storing, indexing, replicating, and sharding data.
+- [Messaging and Communication](system-design/messaging-and-communication) — queues, Kafka, and APIs.
+
+### Architecture and Reliability
+
+- [Microservices Architecture](system-design/microservices) and [Monolithic Architecture](system-design/monolith) — structuring systems.
+- [Event-Driven Architecture](system-design/event-driven) and [CQRS and Event Sourcing](system-design/cqrs-and-event-sourcing) — decoupling with events.
+- [High Availability](system-design/high-availability), [Circuit Breaker Pattern](system-design/circuit-breaker), and [Rate Limiting](system-design/rate-limiting) — designing for failure.
+- [Distributed Systems Essentials](system-design/distributed-systems-essentials) — sagas, consensus, locks, clocks, and IDs.
+- [Observability and Deployment](system-design/observability-and-deployment) and [Authentication and Security](system-design/auth-and-security) — running and protecting systems.
 
 ### Case Studies
 
 - [Design a URL Shortener](system-design/url-shortener-design)
-- [Design Twitter](system-design/twitter-design)
+- [Design a Rate Limiter](system-design/rate-limiter-design)
 - [Design WhatsApp](system-design/whatsapp-design)
+- [Design Twitter](system-design/twitter-design)
+- [Design a Notification System](system-design/notification-system-design)
+- [Design Search Autocomplete](system-design/typeahead-design)
+- [Design a Web Crawler](system-design/web-crawler-design)
+- [Design a File Storage Service](system-design/file-storage-design)
+- [Design a Ticket Booking System](system-design/ticket-booking-design)
 - [Design Uber](system-design/uber-design)
 - [Design Netflix](system-design/netflix-design)
-
-### Interview Preparation
-
-- [System Design Interview Guide](system-design/system-design-interview-guide) — a framework for approaching system design interviews.

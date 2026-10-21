@@ -4,7 +4,7 @@ description: "Separating reads from writes with CQRS, storing state as a log of 
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/command-and-query-responsibility-segregation.png"
+thumbnail: "/images/databases.png"
 tags: [cqrs, event-sourcing, architecture, event-driven, system-design]
 keywords: ["CQRS pattern", "Event sourcing", "Command Query Responsibility Segregation", "Read model projection", "Event store", "CQRS vs event sourcing"]
 ---
@@ -12,8 +12,6 @@ keywords: ["CQRS pattern", "Event sourcing", "Command Query Responsibility Segre
 # CQRS and Event Sourcing
 
 **CQRS** (Command and Query Responsibility Segregation) separates **write operations (commands)** from **read operations (queries)** into distinct models. **Event sourcing** stores a system's state as a **sequence of events** instead of overwriting the current state. They are separate patterns that are often used together, so this guide covers both.
-
-![CQRS Pattern](/images/command-and-query-responsibility-segregation.png)
 
 ## Part 1: CQRS
 
@@ -64,7 +62,7 @@ A user submits a form and then immediately views a page that does not show their
 - Return the **created or updated data** in the command response and show it directly in the UI.
 - **Optimistically update** the UI, then confirm.
 - Read from the write model for a short time after a write, or pass a **version or timestamp** so the query waits until the read model has caught up.
-- Route the user's own reads to a source that is guaranteed up to date (see [Consistency Models](system-design/consistency-models)).
+- Route the user's own reads to a source that is guaranteed up to date (see [Consistency Models](system-design/databases)).
 
 ### When to Use CQRS
 
@@ -200,6 +198,6 @@ No. They are independent patterns. CQRS can use ordinary state storage on the wr
 ## Continue Learning
 
 - [Event-Driven Architecture](system-design/event-driven) — the events that feed projections.
-- [Consistency Models](system-design/consistency-models) — what eventual consistency means for users.
-- [Distributed Transactions](system-design/distributed-transactions) — coordinating across services.
-- [Event Streaming (Kafka)](system-design/kafka) — a common transport for events.
+- [Databases](system-design/databases) — what eventual consistency means for users.
+- [Distributed Systems Essentials](system-design/distributed-systems-essentials) — coordinating across services.
+- [Messaging and Communication](system-design/messaging-and-communication) — a common transport for events.

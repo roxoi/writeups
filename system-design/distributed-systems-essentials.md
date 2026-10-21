@@ -4,7 +4,7 @@ description: "The distributed systems concepts every system design interview exp
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-10-17"
 updated: "2026-10-17"
-thumbnail: "/images/distributed-systems-essentials.png"
+thumbnail: "/images/system-design-arch.png"
 tags: [distributed-systems, saga, two-phase-commit, raft, consensus, leader-election, snowflake, bloom-filter, system-design]
 keywords: ["Distributed systems basics", "Saga pattern vs two-phase commit", "Raft consensus explained", "Leader election and fencing token", "Distributed lock", "Snowflake ID generation", "Bloom filter", "Lamport clock vector clock"]
 ---
@@ -14,8 +14,6 @@ keywords: ["Distributed systems basics", "Saga pattern vs two-phase commit", "Ra
 Once a system runs on more than one machine, new problems appear that don't exist on a single server. This guide covers the handful of ideas that come up again and again in system design interviews and in real architectures: coordinating transactions across services, agreeing on a single leader, locking safely, ordering events, generating unique IDs, and answering questions approximately but cheaply.
 
 Related topics are covered elsewhere: consistent hashing, replication, quorums, and CAP are in [Databases](system-design/databases); idempotency, Kafka, and the outbox pattern are in [Messaging and Communication](system-design/messaging-and-communication) and [Event-Driven Architecture](system-design/event-driven).
-
-![Distributed Systems Essentials](/images/distributed-systems-essentials.png)
 
 ## Why Distributed Systems Are Hard
 

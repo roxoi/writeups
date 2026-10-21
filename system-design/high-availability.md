@@ -4,7 +4,7 @@ description: "How to design systems that stay up: availability math, redundancy,
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 created: "2026-04-18"
 updated: "2026-10-17"
-thumbnail: "/images/high-availability.png"
+thumbnail: "/images/system-design-arch.png"
 tags: [availability, high-availability, redundancy, failover, reliability, system-design]
 keywords: ["High availability system design", "Availability nines", "Active-active vs active-passive", "Failover", "Split brain", "Single point of failure"]
 ---
@@ -95,7 +95,7 @@ Simple to reason about, but the standby capacity sits idle, and failover itself 
 All nodes serve traffic at the same time. If one fails, the others absorb its load.
 
 - Better resource use and no failover event for stateless tiers.
-- Harder for **stateful** components. Multiple writers can create conflicting data, so you need conflict handling (see [Consistency Models](system-design/consistency-models) and [Replication](system-design/replication)).
+- Harder for **stateful** components. Multiple writers can create conflicting data, so you need conflict handling (see [Consistency Models](system-design/databases) and Replication).
 
 ### N+1 Redundancy and Capacity After Failure
 
@@ -119,9 +119,9 @@ A failure domain is a group of resources that can fail together. Spread redundan
 | Region                 | Large-scale natural disaster, regional cloud outage    |
 | Software               | A bad deploy or a bug that hits every node identically |
 
-**Multi-AZ** is the standard baseline for HA: low latency between zones, and it survives a data center failure. **Multi-region** survives a regional outage but brings higher latency, higher cost, and data-replication challenges (see [Disaster Recovery](system-design/disaster-recovery)).
+**Multi-AZ** is the standard baseline for HA: low latency between zones, and it survives a data center failure. **Multi-region** survives a regional outage but brings higher latency, higher cost, and data-replication challenges (see [Disaster Recovery](system-design/observability-and-deployment)).
 
-Software is also a failure domain. Ten identical servers running the same buggy release are not redundant against that bug, which is why [deployment strategies](system-design/deployment-strategies) like canary releases matter for availability.
+Software is also a failure domain. Ten identical servers running the same buggy release are not redundant against that bug, which is why [deployment strategies](system-design/observability-and-deployment) like canary releases matter for availability.
 
 ## How Failover Works
 
@@ -147,7 +147,7 @@ Prevention techniques:
 - **Quorum:** a node only acts as leader if it can reach a majority of the cluster. With a partition, at most one side has a majority.
 - **Fencing:** the old leader is cut off from shared resources (using fencing tokens, or by forcibly powering it off).
 
-See [Consensus and Coordination](system-design/consensus-and-coordination) for how leader election does this safely.
+See [Consensus and Coordination](system-design/distributed-systems-essentials) for how leader election does this safely.
 
 ## High Availability vs Fault Tolerance vs Disaster Recovery
 
@@ -160,7 +160,7 @@ These terms are related but different:
 | **Disaster Recovery** | Restore service after a major event                              | Defined by RPO (data loss tolerated) and RTO (time to recover)            |
 | **Reliability**       | Behave correctly                                                 | A system can be up (available) and still wrong (unreliable)               |
 
-Most business systems aim for HA, and reserve true fault tolerance for cases like payment switches or flight control where even a brief interruption is unacceptable. See [Fault Tolerance](system-design/fault-tolerance).
+Most business systems aim for HA, and reserve true fault tolerance for cases like payment switches or flight control where even a brief interruption is unacceptable. See Fault Tolerance.
 
 ## Design Principles for High Availability
 
@@ -171,7 +171,7 @@ Most business systems aim for HA, and reserve true fault tolerance for cases lik
 - **Degrade gracefully.** Serve cached or reduced functionality rather than an error page.
 - **Separate critical from non-critical dependencies.** If recommendations are down, the product page should still load.
 - **Test failure on purpose.** Failover that has never been exercised usually does not work. Practices like game days and chaos engineering (randomly killing instances in production-like environments) find problems before real outages do.
-- **Measure what users experience** using SLIs and SLOs (see [SLI, SLO, and SLA](system-design/sli-slo-sla)).
+- **Measure what users experience** using SLIs and SLOs (see [SLI, SLO, and SLA](system-design/observability-and-deployment)).
 
 ## Trade-offs
 
@@ -216,8 +216,6 @@ The remaining two must carry the load, reaching about 105% utilization, so they 
 
 ## Continue Learning
 
-- [Fault Tolerance](system-design/fault-tolerance) — surviving failures without interruption.
-- [Replication](system-design/replication) — copying data for availability.
-- [Disaster Recovery](system-design/disaster-recovery) — RPO, RTO, and multi-region.
-- [SLI, SLO, and SLA](system-design/sli-slo-sla) — turning availability into targets.
+- [Databases](system-design/databases) — replication, failover, and quorums.
+- [Observability and Deployment](system-design/observability-and-deployment) — RPO, RTO, and multi-region.
 - [Load Balancing](system-design/load-balancing) — routing around failed servers.
