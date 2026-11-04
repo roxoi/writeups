@@ -737,9 +737,9 @@ Questions to answer for yourself:
 
 | #   | Module                                        | Read more                                                       |
 | --- | --------------------------------------------- | --------------------------------------------------------------- |
-| 1   | **Getting Started, JSX & Components**         | [Open Module 1](react/getting-started-jsx-and-components)       |
-| 2   | **State, Events & Forms**                     | [Open Module 2](react/state-events-and-forms)                   |
-| 3   | **Effects, Refs & Custom Hooks**              | [Open Module 3](react/effects-refs-and-custom-hooks)            |
-| 4   | **Reducers, Context & App-Wide State**        | [Open Module 4](react/reducers-context-and-app-state)           |
-| 5   | **Routing, Data Fetching & React 19 Actions** | [Open Module 6](react/routing-data-fetching-and-actions)        |
-| 6   | **Testing, TypeScript, Security & Capstone**  | [Open Module 7](react/testing-typescript-security-and-capstone) |
+| 1   | **Getting Started, JSX & Components**         | [Open Module 1](reactjs/getting-started-jsx-and-components)       |
+| 2   | **State, Events & Forms**                     | [Open Module 2](reactjs/state-events-and-forms)                   |
+| 3   | **Effects, Refs & Custom Hooks**              | [Open Module 3](reactjs/effects-refs-and-custom-hooks)            |
+| 4   | **Reducers, Context & App-Wide State**        | [Open Module 4](reactjs/reducers-context-and-app-state)           |
+| 5   | **Routing, Data Fetching & React 19 Actions** | [Open Module 6](reactjs/routing-data-fetching-and-actions)        |
+| 6   | **Testing, TypeScript, Security & Capstone**  | [Open Module 7](reactjs/testing-typescript-security-and-capstone) |

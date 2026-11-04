@@ -1,5 +1,5 @@
 ---
-title: "Complete ReactJS Tutorial: From Zero to Production-Ready"
+title: "Complete ReactJS Tutorial"
 description: "A beginner-friendly hub for learning React 19 - start with JSX and components, move on to state, effects, hooks, rendering and performance, routing and data fetching, and finish with testing, security, deployment and a full capstone project."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/react-tutorial.png"
@@ -21,13 +21,13 @@ It targets **React 19.2**, the current stable line at the time of writing. Every
 
 | #   | Module                                        | What it answers                                                                                            | Read more                                                       |
 | --- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| 1   | **Getting Started, JSX & Components**         | What is React, how do I set up a project, what is JSX, and how do components, props, lists and keys work?  | [Open Module 1](react/getting-started-jsx-and-components)       |
-| 2   | **State, Events & Forms**                     | How does a component remember things, why is state a snapshot, and how do I build forms the right way?     | [Open Module 2](react/state-events-and-forms)                   |
-| 3   | **Effects, Refs & Custom Hooks**              | How do I talk to the outside world, when do I _not_ need an effect, and how do I write my own hooks?       | [Open Module 3](react/effects-refs-and-custom-hooks)            |
-| 4   | **Reducers, Context & App-Wide State**        | How do I manage complex state, avoid prop drilling, and choose between Context, Zustand and Redux Toolkit? | [Open Module 4](react/reducers-context-and-app-state)           |
-| 5   | **How React Renders & Performance**           | What happens on every render, what is reconciliation, and how do memo, the Compiler and Suspense help?     | [Open Module 5](react/rendering-performance-and-suspense)       |
-| 6   | **Routing, Data Fetching & React 19 Actions** | How do I build multi-page apps, fetch server data with caching, and use Actions and optimistic updates?    | [Open Module 6](react/routing-data-fetching-and-actions)        |
-| 7   | **Testing, TypeScript, Security & Capstone**  | How do I test, type, secure, structure and deploy a React app, and what comes after the single-page app?   | [Open Module 7](react/testing-typescript-security-and-capstone) |
+| 1   | **Getting Started, JSX & Components**         | What is React, how do I set up a project, what is JSX, and how do components, props, lists and keys work?  | [Open Module 1](reactjs/getting-started-jsx-and-components)       |
+| 2   | **State, Events & Forms**                     | How does a component remember things, why is state a snapshot, and how do I build forms the right way?     | [Open Module 2](reactjs/state-events-and-forms)                   |
+| 3   | **Effects, Refs & Custom Hooks**              | How do I talk to the outside world, when do I _not_ need an effect, and how do I write my own hooks?       | [Open Module 3](reactjs/effects-refs-and-custom-hooks)            |
+| 4   | **Reducers, Context & App-Wide State**        | How do I manage complex state, avoid prop drilling, and choose between Context, Zustand and Redux Toolkit? | [Open Module 4](reactjs/reducers-context-and-app-state)           |
+| 5   | **How React Renders & Performance**           | What happens on every render, what is reconciliation, and how do memo, the Compiler and Suspense help?     | [Open Module 5](reactjs/rendering-performance-and-suspense)       |
+| 6   | **Routing, Data Fetching & React 19 Actions** | How do I build multi-page apps, fetch server data with caching, and use Actions and optimistic updates?    | [Open Module 6](reactjs/routing-data-fetching-and-actions)        |
+| 7   | **Testing, TypeScript, Security & Capstone**  | How do I test, type, secure, structure and deploy a React app, and what comes after the single-page app?   | [Open Module 7](reactjs/testing-typescript-security-and-capstone) |
 
 ## React in one minute (basic definitions)
 
@@ -66,11 +66,11 @@ flowchart TD
     E --> F["4. EFFECTS<br/>useEffect callbacks run (timers, fetches...)"]
 ```
 
-[Module 1](react/getting-started-jsx-and-components) shows the "describe, don't command" style. [Module 2](react/state-events-and-forms) adds state. [Module 5](react/rendering-performance-and-suspense) explains this pipeline in full detail.
+[Module 1](reactjs/getting-started-jsx-and-components) shows the "describe, don't command" style. [Module 2](reactjs/state-events-and-forms) adds state. [Module 5](reactjs/rendering-performance-and-suspense) explains this pipeline in full detail.
 
 ## What you should know before you start
 
-You do **not** need to know any React. You do need basic JavaScript. If a row below is unfamiliar, spend an evening on it first. [Module 1, Topic 1.2](react/getting-started-jsx-and-components#12-the-javascript-you-need-before-react) has a quick refresher, and your [C++ to Java and JS](cpp-to-java-and-js) post covers JavaScript syntax from a different angle.
+You do **not** need to know any React. You do need basic JavaScript. If a row below is unfamiliar, spend an evening on it first. [Module 1, Topic 1.2](reactjs/getting-started-jsx-and-components#12-the-javascript-you-need-before-react) has a quick refresher, and your [C++ to Java and JS](cpp-to-java-and-js) post covers JavaScript syntax from a different angle.
 
 | Skill                                              | Why React needs it                                              |
 | -------------------------------------------------- | --------------------------------------------------------------- |
@@ -101,7 +101,7 @@ You do **not** need to know any React. You do need basic JavaScript. If a row be
 
 **If you already know React basics:** skim Modules 1 and 2. Spend your time on Module 3 ("You might not need an effect"), Module 5 (rendering) and Module 6 (React 19 Actions). Those are where experienced developers still have gaps.
 
-**If an interview is close:** read **Interview traps** and **Tricky questions and answers** in every module, then the cheat sheets. The most-asked topics are keys and reconciliation ([Module 5](react/rendering-performance-and-suspense)), `useEffect` ([Module 3](react/effects-refs-and-custom-hooks)), state snapshots ([Module 2](react/state-events-and-forms)) and `useMemo` / `useCallback` ([Module 5](react/rendering-performance-and-suspense)).
+**If an interview is close:** read **Interview traps** and **Tricky questions and answers** in every module, then the cheat sheets. The most-asked topics are keys and reconciliation ([Module 5](reactjs/rendering-performance-and-suspense)), `useEffect` ([Module 3](reactjs/effects-refs-and-custom-hooks)), state snapshots ([Module 2](reactjs/state-events-and-forms)) and `useMemo` / `useCallback` ([Module 5](reactjs/rendering-performance-and-suspense)).
 
 **If you want to go full-stack:** finish all seven modules, then continue to Node.js / Bun and Next.js (see the roadmap below).
 
@@ -109,31 +109,31 @@ You do **not** need to know any React. You do need basic JavaScript. If a row be
 
 | If you want to understand...                      | Go to                                                                                                                           |
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| Project setup with Vite                           | [Module 1, Topic 1.3](react/getting-started-jsx-and-components#13-setting-up-a-project-with-vite)                               |
-| JSX rules, props, children                        | [Module 1, Topics 1.4–1.5](react/getting-started-jsx-and-components#14-jsx-html-like-syntax-inside-javascript)                  |
-| Lists and the `key` prop                          | [Module 1, Topic 1.6](react/getting-started-jsx-and-components#16-conditional-rendering-lists-and-keys)                         |
-| `useState`, stale state, updater functions        | [Module 2, Topic 2.2](react/state-events-and-forms#22-usestate-and-why-state-is-a-snapshot)                                     |
-| Updating objects and arrays immutably             | [Module 2, Topic 2.3](react/state-events-and-forms#23-immutability-updating-objects-and-arrays)                                 |
-| Controlled vs uncontrolled inputs, forms          | [Module 2, Topic 2.6](react/state-events-and-forms#26-forms-controlled-and-uncontrolled-inputs)                                 |
-| `useEffect`, cleanup, dependency array            | [Module 3, Topic 3.2](react/effects-refs-and-custom-hooks#32-useeffect-anatomy-setup-cleanup-dependencies)                      |
-| Fetching in an effect (and race conditions)       | [Module 3, Topic 3.3](react/effects-refs-and-custom-hooks#33-fetching-data-in-an-effect-and-its-traps)                          |
-| `useRef`, DOM access, `ref` as a prop             | [Module 3, Topic 3.6](react/effects-refs-and-custom-hooks#36-refs-escaping-react-to-touch-the-dom)                              |
-| Writing a custom hook                             | [Module 3, Topic 3.7](react/effects-refs-and-custom-hooks#37-custom-hooks-reusing-logic)                                        |
-| `useReducer`                                      | [Module 4, Topic 4.1](react/reducers-context-and-app-state#41-usereducer-state-with-rules)                                      |
-| Context, prop drilling, provider pattern          | [Module 4, Topic 4.2](react/reducers-context-and-app-state#42-context-skipping-the-middle-components)                           |
-| Zustand and Redux Toolkit                         | [Module 4, Topic 4.5](react/reducers-context-and-app-state#45-external-state-libraries-zustand-and-redux-toolkit)               |
-| Render phase, commit phase, reconciliation, Fiber | [Module 5, Topics 5.1–5.2](react/rendering-performance-and-suspense#51-the-render-pipeline-trigger-render-commit)               |
-| `memo`, `useMemo`, `useCallback`, React Compiler  | [Module 5, Topics 5.4–5.5](react/rendering-performance-and-suspense#54-the-optimisation-toolbox)                                |
-| `useTransition`, `Suspense`, `lazy`, `<Activity>` | [Module 5, Topics 5.6–5.7](react/rendering-performance-and-suspense#56-concurrent-rendering-usetransition-and-usedeferredvalue) |
-| React Router v7                                   | [Module 6, Topic 6.1](react/routing-data-fetching-and-actions#61-client-side-routing-with-react-router-v7)                      |
-| TanStack Query (server state)                     | [Module 6, Topic 6.2](react/routing-data-fetching-and-actions#62-server-state-with-tanstack-query)                              |
-| `useActionState`, `useOptimistic`, `use`          | [Module 6, Topic 6.3](react/routing-data-fetching-and-actions#63-react-19-actions-useactionstate-useoptimistic-and-use)         |
-| TypeScript with React                             | [Module 7, Topic 7.1](react/testing-typescript-security-and-capstone#71-typescript-with-react)                                  |
-| Testing components                                | [Module 7, Topic 7.2](react/testing-typescript-security-and-capstone#72-testing-with-vitest-and-react-testing-library)          |
-| XSS, token storage, `VITE_` secrets               | [Module 7, Topic 7.4](react/testing-typescript-security-and-capstone#74-security-for-react-apps)                                |
-| Deploying (static hosting, Docker + nginx)        | [Module 7, Topic 7.6](react/testing-typescript-security-and-capstone#76-build-and-deploy)                                       |
-| Server Components and why Next.js exists          | [Module 7, Topic 7.7](react/testing-typescript-security-and-capstone#77-beyond-the-spa-ssr-ssg-and-server-components)           |
-| A full project to build                           | [Module 7, Capstone](react/testing-typescript-security-and-capstone#capstone-lab-build-taskflow)                                |
+| Project setup with Vite                           | [Module 1, Topic 1.3](reactjs/getting-started-jsx-and-components#13-setting-up-a-project-with-vite)                               |
+| JSX rules, props, children                        | [Module 1, Topics 1.4–1.5](reactjs/getting-started-jsx-and-components#14-jsx-html-like-syntax-inside-javascript)                  |
+| Lists and the `key` prop                          | [Module 1, Topic 1.6](reactjs/getting-started-jsx-and-components#16-conditional-rendering-lists-and-keys)                         |
+| `useState`, stale state, updater functions        | [Module 2, Topic 2.2](reactjs/state-events-and-forms#22-usestate-and-why-state-is-a-snapshot)                                     |
+| Updating objects and arrays immutably             | [Module 2, Topic 2.3](reactjs/state-events-and-forms#23-immutability-updating-objects-and-arrays)                                 |
+| Controlled vs uncontrolled inputs, forms          | [Module 2, Topic 2.6](reactjs/state-events-and-forms#26-forms-controlled-and-uncontrolled-inputs)                                 |
+| `useEffect`, cleanup, dependency array            | [Module 3, Topic 3.2](reactjs/effects-refs-and-custom-hooks#32-useeffect-anatomy-setup-cleanup-dependencies)                      |
+| Fetching in an effect (and race conditions)       | [Module 3, Topic 3.3](reactjs/effects-refs-and-custom-hooks#33-fetching-data-in-an-effect-and-its-traps)                          |
+| `useRef`, DOM access, `ref` as a prop             | [Module 3, Topic 3.6](reactjs/effects-refs-and-custom-hooks#36-refs-escaping-react-to-touch-the-dom)                              |
+| Writing a custom hook                             | [Module 3, Topic 3.7](reactjs/effects-refs-and-custom-hooks#37-custom-hooks-reusing-logic)                                        |
+| `useReducer`                                      | [Module 4, Topic 4.1](reactjs/reducers-context-and-app-state#41-usereducer-state-with-rules)                                      |
+| Context, prop drilling, provider pattern          | [Module 4, Topic 4.2](reactjs/reducers-context-and-app-state#42-context-skipping-the-middle-components)                           |
+| Zustand and Redux Toolkit                         | [Module 4, Topic 4.5](reactjs/reducers-context-and-app-state#45-external-state-libraries-zustand-and-redux-toolkit)               |
+| Render phase, commit phase, reconciliation, Fiber | [Module 5, Topics 5.1–5.2](reactjs/rendering-performance-and-suspense#51-the-render-pipeline-trigger-render-commit)               |
+| `memo`, `useMemo`, `useCallback`, React Compiler  | [Module 5, Topics 5.4–5.5](reactjs/rendering-performance-and-suspense#54-the-optimisation-toolbox)                                |
+| `useTransition`, `Suspense`, `lazy`, `<Activity>` | [Module 5, Topics 5.6–5.7](reactjs/rendering-performance-and-suspense#56-concurrent-rendering-usetransition-and-usedeferredvalue) |
+| React Router v7                                   | [Module 6, Topic 6.1](reactjs/routing-data-fetching-and-actions#61-client-side-routing-with-react-router-v7)                      |
+| TanStack Query (server state)                     | [Module 6, Topic 6.2](reactjs/routing-data-fetching-and-actions#62-server-state-with-tanstack-query)                              |
+| `useActionState`, `useOptimistic`, `use`          | [Module 6, Topic 6.3](reactjs/routing-data-fetching-and-actions#63-react-19-actions-useactionstate-useoptimistic-and-use)         |
+| TypeScript with React                             | [Module 7, Topic 7.1](reactjs/testing-typescript-security-and-capstone#71-typescript-with-react)                                  |
+| Testing components                                | [Module 7, Topic 7.2](reactjs/testing-typescript-security-and-capstone#72-testing-with-vitest-and-react-testing-library)          |
+| XSS, token storage, `VITE_` secrets               | [Module 7, Topic 7.4](reactjs/testing-typescript-security-and-capstone#74-security-for-react-apps)                                |
+| Deploying (static hosting, Docker + nginx)        | [Module 7, Topic 7.6](reactjs/testing-typescript-security-and-capstone#76-build-and-deploy)                                       |
+| Server Components and why Next.js exists          | [Module 7, Topic 7.7](reactjs/testing-typescript-security-and-capstone#77-beyond-the-spa-ssr-ssg-and-server-components)           |
+| A full project to build                           | [Module 7, Capstone](reactjs/testing-typescript-security-and-capstone#capstone-lab-build-taskflow)                                |
 
 ## Tools you will use
 
