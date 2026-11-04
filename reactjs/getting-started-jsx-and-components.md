@@ -29,8 +29,6 @@ keywords: ["What is React", "React JSX explained", "React props and children", "
 
 ## 1.1 What Is React and Why Does It Exist?
 
-### The idea in plain words
-
 **React** is a JavaScript library for building user interfaces. You build the screen out of small, reusable pieces called **components**: a button, a search box, a product card, a whole page. You then combine them like building blocks.
 
 To see _why_ React exists, look at the problem it solves.
@@ -269,8 +267,6 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 ## 1.4 JSX: HTML-Like Syntax Inside JavaScript
 
-### The idea in plain words
-
 **JSX** lets you write markup next to your logic. It looks like HTML, but it is JavaScript. A compiler (Babel, SWC or esbuild inside Vite) converts it before the browser sees it.
 
 ```jsx
@@ -340,8 +336,6 @@ const buttonProps = { type: 'submit', disabled: false, className: 'btn' };
 - "Why can't a component return two sibling elements?" A function returns one value, and JSX compiles to one object. Wrap them in a parent or a Fragment.
 
 ## 1.5 Components and Props
-
-### The idea in plain words
 
 A **component** is a JavaScript function that returns JSX. Props are its inputs, just like function arguments.
 

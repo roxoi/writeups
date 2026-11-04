@@ -60,8 +60,6 @@ Principles tell you when your design is going wrong. Patterns are common fixes. 
 
 ## 5.1 SOLID Principles
 
-### The idea in plain words
-
 SOLID is five guidelines that all aim at one thing: making code **cheap to change**. The name is just the first letter of each rule:
 
 | Letter | Rule                  | In one sentence                                           |
@@ -79,8 +77,6 @@ For every principle below, the same pattern repeats: a plain-words explanation, 
 ---
 
 ### S: Single Responsibility Principle (SRP)
-
-#### The idea in plain words
 
 Imagine one employee who is the accountant, the electrician and the receptionist. If the tax law changes, the electrician's work is disturbed. If the phone system changes, the accounting is disturbed. Everything is tangled together.
 
@@ -207,8 +203,6 @@ How to read the refactor: each class now answers to exactly one actor. `Invoice`
 
 ### O: Open/Closed Principle (OCP)
 
-#### The idea in plain words
-
 Think of a power strip. When you buy a new gadget, you plug it in. You do not open the wall and rewire the house.
 
 **OCP says: software should be open for extension, closed for modification.** New behavior is added by _writing new code_, not by editing code that is already tested and working. Every time you edit old, working code, you risk breaking something that used to be fine.
@@ -297,8 +291,6 @@ Also note the **expression problem**: with polymorphism, new _types_ are easy bu
 ---
 
 ### L: Liskov Substitution Principle (LSP)
-
-#### The idea in plain words
 
 If you order "a vehicle" from a rental company and they send you a bicycle, you can ride it, and that is fine. But if you ordered "a vehicle to carry six people" and they send a bicycle, something has broken, even though a bicycle is technically a vehicle.
 
@@ -406,8 +398,6 @@ Yes. Fix: `Bird` has no `fly()`. Introduce `interface Flyable { void fly(); }` a
 
 ### I: Interface Segregation Principle (ISP)
 
-#### The idea in plain words
-
 Imagine a TV remote with 80 buttons when you only ever use five. You do not need a remote that complex, and if the manufacturer changes one obscure button, you still have to deal with the new remote.
 
 **ISP says: no client should be forced to depend on methods it does not use.** Prefer several small interfaces, each for one role, over one big "fat" interface.
@@ -473,8 +463,6 @@ final class ReportService {
 ---
 
 ### D: Dependency Inversion Principle (DIP)
-
-#### The idea in plain words
 
 A lamp has a plug. The plug fits a standard wall socket. The lamp does _not_ have the wire soldered directly into the power station. Because both the lamp and the power station agree on the **socket standard**, you can move the lamp to any house and swap the power station without touching the lamp.
 
@@ -618,8 +606,6 @@ Look at the test: `saved::add` is a plain method reference that acts as a fake `
 
 ## 5.2 Creational Patterns
 
-### The idea in plain words
-
 SOLID told you _how to judge_ a design. Now we start the patterns, the named recipes. **Creational patterns** are about one question: **how are objects created?**
 
 The problem: whenever your code writes `new SomeConcreteClass()`, it becomes glued to that exact class. If you later need a different class, you must edit every place that wrote `new`. Creational patterns move the creation step somewhere controlled, so the rest of the code is not coupled to concrete classes or construction details.
@@ -629,8 +615,6 @@ This part covers four of them: **Singleton** (exactly one instance), **Factory M
 ---
 
 ### Singleton
-
-#### The idea in plain words
 
 A country has one government. A computer has one clock. Sometimes you really need **exactly one instance** of a class, with one agreed way to reach it.
 
@@ -806,8 +790,6 @@ public class SingletonStressTest {
 
 ### Factory Method
 
-#### The idea in plain words
-
 You walk into a restaurant and say "I'll have the soup of the day." You do not go into the kitchen and pick the ingredients. Whoever is running that kitchen decides _which_ soup you get. You just receive a bowl of soup and eat it.
 
 **Intent:** define an interface for creating an object, but let **subclasses decide which class to instantiate**. The creator uses the product only through its abstraction, so it never has to say `new EmailChannel()`.
@@ -926,8 +908,6 @@ final class ChannelFactory {
 
 ### Abstract Factory
 
-#### The idea in plain words
-
 Furniture comes in matching sets. A "Modern" set has a modern chair and a modern sofa. A "Victorian" set has a Victorian chair and a Victorian sofa. You never want a modern chair with a Victorian sofa.
 
 **Intent:** provide an interface for creating **families of related objects** without specifying their concrete classes. The key guarantee: products that come from one factory are **compatible with each other**.
@@ -1029,8 +1009,6 @@ Notice that `DataPipeline` receives _one_ `CloudFactory` and asks it for both th
 ---
 
 ### Builder (added)
-
-#### The idea in plain words
 
 Ordering a custom sandwich: bread, then cheese, then sauce, then toppings. You say each choice, and at the end the counter assembles it and hands it over. You do not shout twelve unlabeled options in a single sentence.
 

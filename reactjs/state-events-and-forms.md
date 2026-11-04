@@ -29,8 +29,6 @@ keywords: ["React useState explained", "React state is a snapshot", "Immutable s
 
 ## 2.1 Events: Responding to the User
 
-### The idea in plain words
-
 An **event handler** is a function that runs when the user does something: click, type, submit, hover. In React you attach it as a prop on a JSX element.
 
 ```jsx
@@ -103,8 +101,6 @@ Events **bubble** up the tree: a click on a button also fires `onClick` on every
 - "Can I use `addEventListener` in React?" Yes, in an effect for things outside your JSX (like `window` scroll). For normal elements, use the `onX` props.
 
 ## 2.2 `useState` and Why State Is a Snapshot
-
-### The idea in plain words
 
 A normal variable inside a function is thrown away when the function ends. A component function runs again on every render, so a normal variable cannot remember anything. **State** is how React gives a component memory.
 

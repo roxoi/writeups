@@ -29,8 +29,6 @@ keywords: ["React useReducer explained", "React Context API tutorial", "Context 
 
 ## 4.1 `useReducer`: State with Rules
 
-### The idea in plain words
-
 `useState` is perfect for simple state. When one component has **many state values changed by many different handlers** (a cart, a form wizard, a game), the update logic spreads across the file and becomes hard to follow. **`useReducer`** moves all update logic into **one function** that you can read top to bottom.
 
 Think of a bank. With `useState`, every customer walks up to the vault and changes the balance directly. With `useReducer`, customers fill in a **slip** ("deposit 500") and hand it to a **teller** who follows fixed rules. The slip is the **action**. The teller is the **reducer**.
@@ -175,8 +173,6 @@ App (has `user`)
 ```
 
 Three components carry a prop they do not care about. If `Avatar` later needs another value, all of them change.
-
-### The idea in plain words
 
 **Context** is like a broadcast. A component high in the tree **provides** a value, and any component below can **read** it directly without it passing through the layers between.
 

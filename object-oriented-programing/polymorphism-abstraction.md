@@ -40,8 +40,6 @@ This module covers both, explains exactly how each one works inside the machine,
 
 ## 4.1: Compile-Time Polymorphism (Overload Resolution & Name Mangling)
 
-### The idea in plain words
-
 You can give several functions the same name as long as their parameters differ. This is called **overloading**:
 
 ```cpp
@@ -238,8 +236,6 @@ f(true);       // (g)
 Lesson: a catch-all `template<class T> void f(T)` **outbids every overload that needs a promotion or conversion**. Constrain it (SFINAE with `enable_if`, or C++20 concepts) or give it a distinct name. Interviewers use this to test whether you know the _rank order_, not just "closest type."
 
 ## 4.2: Runtime Polymorphism & Dynamic Binding
-
-### The idea in plain words
 
 Now the opposite situation. You have a pointer to a `Shape`, but you do not know at compile time whether the object behind it is a `Circle` or a `Square`. You still want `shape->area()` to run the _right_ version.
 
@@ -438,8 +434,6 @@ struct AreaVisitor : Visitor {
 Trade-offs: adding a **new operation** is easy (write a new `Visitor`), but adding a **new shape** forces changes to every visitor (this is the _expression problem_). For a closed set of types, `variant` plus `visit` (4.6) does the same without a hierarchy. In Java, sealed interfaces with pattern-matching `switch` give exhaustive checking and remove most Visitor boilerplate.
 
 ## 4.3: Under the Hood: VTABLE and VPTR
-
-### The idea in plain words
 
 How does a program "choose at run time"? With a simple trick:
 
@@ -648,8 +642,6 @@ So the adjustment happens in two places: **at the upcast site** (+16, caller sid
 
 ## 4.4: Abstract Classes vs. Interfaces
 
-### The idea in plain words
-
 Sometimes a class is only a _promise_, not something you can build.
 
 - An **abstract class** is a half-finished blueprint. It has at least one **pure virtual function** (written `= 0`), which means "children must provide this." You cannot create an object of an abstract class. But it may still hold data, constructors and finished methods.
@@ -821,8 +813,6 @@ Caveat: `dynamic_cast` across **shared-library boundaries** compares `typeinfo`,
 **Java:** add a `default` method to the interface (`default boolean remove(String k) { return false; }`). Old implementers keep working, because the JVM resolves interface method bodies at link time by name and descriptor, with no baked-in slot numbers. The remaining risks are _behavioral_ (the default may be wrong for them) and the diamond conflicts of Topic 3.2.
 
 ## 4.5: Virtual Destructors
-
-### The idea in plain words
 
 Suppose you have a `Base*` that really points to a `Derived` object, and you `delete` it. Which destructor should run? Obviously `Derived`'s, because only `Derived` knows how to clean up its own members.
 
@@ -1015,8 +1005,6 @@ template <class T, class... A> shared_ptr<IService> make(A&&... a) {
 Add `final` on leaf classes, `-Wnon-virtual-dtor` and `-Wdelete-non-virtual-dtor`, ASan plus LSan in CI, and a code-review rule: _"any class with a virtual function gets a virtual destructor or a protected one."_
 
 ## 4.6 Static Polymorphism — Templates, CRTP, `variant` & Type Erasure
-
-### The idea in plain words
 
 You have now seen runtime polymorphism (virtual functions). It is flexible, but it costs a pointer hop per call, and it requires every type to inherit from a common base.
 

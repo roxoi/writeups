@@ -322,8 +322,6 @@ Sometimes the cheapest fix for "this component got into a bad state" is to remou
 
 ## 5.5 React Compiler 1.0: Memoization Without the Hooks
 
-### The idea in plain words
-
 The **React Compiler** is a build-time tool that reads your components and automatically adds the memoization you would otherwise write by hand with `memo`, `useMemo` and `useCallback`. It reached **stable 1.0** and is recommended for new apps.
 
 ```jsx

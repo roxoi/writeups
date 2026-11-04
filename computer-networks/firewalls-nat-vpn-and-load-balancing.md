@@ -42,8 +42,6 @@ Each of these boxes uses the details you learned earlier (IP addresses, ports, T
 
 ## 5.1: NAT and PAT
 
-### The idea in plain words
-
 Module 2 told you that IPv4 has only about 4.3 billion addresses, far fewer than the devices in the world. The fix that kept IPv4 alive is **NAT**: an entire home or company uses **private addresses** inside, and a router **rewrites** the addresses so that everyone shares **one (or a few) public addresses** on the Internet.
 
 Think of a **company with one main phone number**. Employees have internal extensions. When an employee calls out, the switchboard shows the main number. When someone calls back, the switchboard remembers who made the call and connects the reply to the right extension.
@@ -133,8 +131,6 @@ Two hosts can both use source port 51000, because the router gives each one a **
 **Answer:** With **WebRTC** and **ICE**. Each phone asks a **STUN** server "what public IP and port do you see for me?" and exchanges that information through a **signaling server**. Then both phones send packets to each other's public address at the same time (**UDP hole punching**), so each NAT creates a mapping that lets the other side's packets in. If the NATs are too strict (for example symmetric NAT), the call falls back to a **TURN** relay that forwards the media. TURN always works, but costs bandwidth and adds latency.
 
 ## 5.2: Firewalls and Network Segmentation
-
-### The idea in plain words
 
 A **firewall** is a **security guard** that checks traffic against a list of rules and decides to **allow** or **block** each packet or connection. Its default stance should be **"deny everything, then allow only what is needed"** (**default deny**).
 
@@ -253,8 +249,6 @@ A compromise of the web tier then cannot reach the database directly, because on
 
 ## 5.3: VPNs, Tunnels and Proxies
 
-### The idea in plain words
-
 A **VPN** (Virtual Private Network) creates a **private, encrypted tunnel** across a public network such as the Internet, so two networks or devices behave as if they were connected by a private cable.
 
 It builds on **encapsulation** from Module 1: the **whole original packet** is encrypted and put **inside** a new outer packet, which travels across the Internet to the other end of the tunnel, where it is unwrapped.
@@ -358,8 +352,6 @@ A traditional VPN gives a user **broad access** to a whole network once connecte
 
 ## 5.4: Load Balancing
 
-### The idea in plain words
-
 One server cannot handle millions of users, and it is a **single point of failure**. A **load balancer (LB)** sits in front of a group of servers, receives all the traffic, and **spreads it across the servers**. It gives you three things: **scalability** (add servers), **availability** (stop sending traffic to a dead server), and **flexibility** (deploy without downtime).
 
 ```mermaid
@@ -461,8 +453,6 @@ An LB is also a potential **single point of failure**. Common solutions:
 **Answer:** **Global layer:** **anycast or latency-based, health-checked DNS** sends each user to the nearest healthy **region**, and fails over to another region if one is down. **Regional layer:** a cloud or **active-active** L4 load balancer (ECMP/anycast, or a managed service) spans **multiple availability zones**. **Proxy layer:** a fleet of **L7 proxies** (NGINX/Envoy) behind it terminates TLS and routes by path, with **health checks**, **outlier detection**, **retries with limits** and **connection draining**. **Services:** stateless instances across zones, with shared state in a replicated store. Test failover regularly, and size the system so that **losing one zone or region** does not overload the rest.
 
 ## 5.5: CDNs, Anycast and DDoS Protection
-
-### The idea in plain words
 
 The speed of light is a hard limit. A user in Mumbai fetching an image from a server in Virginia pays a long **round trip**, however fast the link. A **CDN** (Content Delivery Network) solves this by putting **copies of your content on servers around the world**, called **edge servers** or **PoPs** (points of presence), so users fetch from a server **near them**.
 

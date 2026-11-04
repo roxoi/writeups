@@ -110,8 +110,6 @@ Frameworks solve all of these. The three you should know in 2026 are **Express**
 
 ## 4.3 Express 5
 
-### The idea in plain words
-
 **Express** is the most widely used Node.js web framework: a thin layer over `node:http` with **routing** and **middleware**. Express **5** is the current major version (the first v5 shipped in 2024, and it has been the default on npm since March 2025). It requires **Node.js 18+**.
 
 ```bash
@@ -361,8 +359,6 @@ Bun's release notes list HTTP/2 support in `Bun.serve` in recent 1.4 releases, p
 - "What is a web-standard handler?" A function from `Request` to `Response`. Because those objects are the same as in the browser's `fetch`, the code is portable across runtimes.
 
 ## 4.5 REST API Design
-
-### The idea in plain words
 
 REST organizes an API around **resources** (things), named with **nouns** in the URL, and uses HTTP **methods** as the verbs. A client that knows the pattern can guess the URLs.
 

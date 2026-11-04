@@ -94,8 +94,6 @@ Most home boxes combine a **modem**, a **router**, a **switch** and a **Wi-Fi ac
 
 ## 1.2: Packets, Switching & Network Performance
 
-### The idea in plain words
-
 When you send a 5 MB photo, the network does not push it down the wire as one giant block. It is cut into small pieces called **packets**. Each packet carries:
 
 - a **header**: addresses and control information (like the envelope),
@@ -363,8 +361,6 @@ A **collision domain** is a group of devices that can interfere with each other'
 **Answer:** The broadcast domain is too big. Split it into **VLANs** (virtual LANs), which are separate broadcast domains on the same switches, and connect them with a router or Layer 3 switch so only the traffic that needs to cross does so. Also check for a **loop** (a cable plugged in a circle), which can cause a broadcast storm. Switches use **Spanning Tree Protocol** to block loops.
 
 ## 1.5: Ethernet, MAC Addresses and Frames
-
-### The idea in plain words
 
 On one local link, devices need a way to say "this data is for that card." That is the job of the **Data Link layer**, and for wired networks the dominant standard is **Ethernet**. Each network card has a **MAC address**, and the data travels in **frames**.
 

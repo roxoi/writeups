@@ -46,8 +46,6 @@ In Part 1 you learned how to judge a design (SOLID) and how to create objects (c
 
 ### Strategy
 
-#### The idea in plain words
-
 You open a maps app. You can choose "fastest", "shortest" or "avoid tolls". The app does not rewrite itself for each choice. It has one "get me there" screen and **swaps the route algorithm** behind it.
 
 **Intent:** define a family of algorithms, put each behind a common interface, and make them interchangeable. The caller picks one and uses it through the interface.
@@ -121,8 +119,6 @@ How to read it: `Checkout` is the stable part. The formulas are the varying part
 **Q5. (SDE-3) How do you choose the strategy at run time?** Through a registry map (as above), a factory (Part 1), or configuration. Keep strategies **stateless and immutable** where you can, so one instance can be shared by many threads.
 
 ### Observer
-
-#### The idea in plain words
 
 You subscribe to a newsletter. The publisher does not phone you. It sends one email to the list. New subscribers can join and old ones can leave without the publisher changing anything.
 
@@ -226,8 +222,6 @@ How to read it: `OrderService` only says "an order was placed." Who cares about 
 **Q5. Java built-ins?** `java.util.Observable` is deprecated since Java 9 (not type-safe, not thread-safe by design). Prefer `PropertyChangeListener`, `Flow` (reactive streams), or your own tiny bus as above.
 
 ### Decorator
-
-#### The idea in plain words
 
 You order a coffee. Then you add milk. Then caramel. Each topping wraps what you already have and adds something, and it is still "a coffee" at the end. You did not need a class for "milk-caramel-coffee".
 
@@ -533,8 +527,6 @@ final class NotificationApp {
 
 ### State
 
-#### The idea in plain words
-
 A vending machine acts differently depending on whether you have inserted a coin. Press "dispense" with no coin and nothing happens. With a coin, it gives the item. The machine is the same machine, but its **state** changes what each button does.
 
 **Intent:** let an object change its behavior when its internal state changes, so it appears to change its class.
@@ -622,8 +614,6 @@ NEW --pay--> PAID --ship--> SHIPPED --deliver--> DELIVERED
 **Q5. When is State overkill?** With two or three states and little behavior, a simple enum plus a few checks is clearer. Use the pattern when the same `switch (status)` appears in many methods.
 
 ### Chain of Responsibility
-
-#### The idea in plain words
 
 You complain about a bill. The front desk tries to fix it. If it cannot, it passes you to a supervisor. If the supervisor cannot, it goes to a manager. Each person either handles the problem or passes it along, and you do not need to know who will end up solving it.
 

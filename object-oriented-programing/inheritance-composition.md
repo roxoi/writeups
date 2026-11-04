@@ -34,8 +34,6 @@ Module 2 taught you how to protect one object's rules. Module 3 asks what happen
 
 ## 3.1: The "Is-A" Relationship & Memory Layouts
 
-### The idea in plain words
-
 A `Dog` **is an** `Animal`. Everywhere an `Animal` is expected, you can use a `Dog`. That is called **public inheritance**, and it models an "is-a" relationship (this idea of "can be used in place of" is called _substitutability_, and Topic 3.4 explores it deeply).
 
 The key fact for this topic is physical: **a `Dog` object contains a complete `Animal` object inside it.** Picture a Russian nesting doll. The Animal part is stored first, and the Dog's own extra fields come right after.
@@ -179,8 +177,6 @@ void  use(void* v) {
 ```
 
 ## 3.2: The Diamond Problem & Multiple Inheritance
-
-### The idea in plain words
 
 Suppose `Scanner` and `Printer` both inherit from `Device`, and then `Copier` inherits from both `Scanner` and `Printer`. The inheritance diagram looks like a diamond.
 
@@ -372,8 +368,6 @@ Java's rules (class beats interface, more-specific interface beats less-specific
 
 ## 3.3: Object Initialization Chains
 
-### The idea in plain words
-
 When you build an object that sits at the bottom of a family tree, **the parts are built in a strict order**, like building a house: foundation first, then walls, then the roof, then you move in. When the object is destroyed, everything happens in **exact reverse**, like demolition.
 
 The **initialization chain** is that exact, language-defined sequence. If you know it, you can predict every constructor and destructor call. If you do not, you will get bugs where one part uses another part that does not exist yet.
@@ -557,8 +551,6 @@ struct D : Base {
 Also valid but less common: a **function-try-block** (`D() try : ... {} catch (...) { /* log; rethrown automatically */ }`) lets you _observe_ the exception, but it cannot suppress it or access members.
 
 ## 3.4: Composition vs. Inheritance & the Liskov Substitution Principle
-
-### The idea in plain words
 
 There are two ways to reuse a class:
 
@@ -764,8 +756,6 @@ public:
 Java's `HashSet` / `InstrumentedHashSet` (Effective Java Item 18) is the same bug, and the same fix (a forwarding wrapper). Interview sound bite: _"Inheritance breaks encapsulation: the subclass depends on the superclass's implementation, not just its interface."_
 
 ## 3.5 Overriding vs. Hiding, `override`/`final`, Default Arguments & Covariant Returns
-
-### The idea in plain words
 
 When a child class defines a function with the same name as a parent's function, two very different things can happen, and mixing them up causes some of the most confusing bugs in C++:
 

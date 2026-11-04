@@ -30,8 +30,6 @@ keywords: ["React Router v7 tutorial", "TanStack Query v5 tutorial", "React 19 u
 
 ## 6.1 Client-Side Routing with React Router v7
 
-### The idea in plain words
-
 A normal website loads a **new HTML page** for every URL. A **single-page app (SPA)** loads one HTML page. A router watches the URL (using the browser's History API), decides which component should be on screen, and swaps it **without a reload**. Back and forward buttons still work, and every screen still has its own shareable URL.
 
 React Router v7 works in three modes: **declarative** (`<BrowserRouter>` + `<Routes>`), **data** (`createBrowserRouter` + `<RouterProvider>`, with loaders and actions), and **framework** (a Vite plugin that adds server rendering). This module uses **data mode**, the best fit for a Vite SPA. All imports come from `react-router`.
@@ -459,8 +457,6 @@ export const productKeys = {
 **Answer:** One. Queries with the same key share a single cache entry and one in-flight request (deduplication). Both components subscribe to it and re-render when it updates. That is why you can call the same query hook freely in many components instead of lifting data to a parent and drilling it down.
 
 ## 6.3 React 19 Actions: `useActionState`, `useOptimistic` and `use`
-
-### The idea in plain words
 
 Forms and mutations all follow the same pattern: set a pending flag, call the server, catch errors, update the UI, reset the flag. People wrote this by hand in every form. React 19 builds it in. An **Action** is an **async function** that React runs inside a **transition**, so React tracks its **pending state**, **errors** and **optimistic updates** for you.
 

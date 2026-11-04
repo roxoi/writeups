@@ -154,8 +154,6 @@ For stronger safety, also resolve symlinks with `fs.realpath`, and prefer storin
 
 ## 3.2 Buffers and Encodings
 
-### The idea in plain words
-
 Computers store everything as **bytes**. Text is bytes plus an **encoding** that says how to turn them into characters. A **Buffer** is Node's container for raw bytes, and it is a subclass of `Uint8Array`. You meet buffers when dealing with files, sockets, crypto, and images.
 
 ```js
@@ -196,8 +194,6 @@ header[4]; // 1     (a single byte)
 > **Bun note:** `Buffer` works in Bun, and Bun encourages the standard `Uint8Array` and `TextEncoder`/`TextDecoder`. Bun's release notes report large speedups for `Buffer` reads and writes.
 
 ## 3.3 `EventEmitter`
-
-### The idea in plain words
 
 The **observer pattern**: an object announces "something happened" by emitting a named **event**, and any code that cares has registered a listener. Streams, HTTP servers, sockets and process signals are all event emitters, so understanding this is essential.
 
@@ -257,8 +253,6 @@ for await (const [o] of on(orders, 'order:placed')) {
 - "How does an `EventEmitter` leak memory?" Listeners hold references to closures and objects. Registering new listeners per request on a long-lived emitter without removing them grows memory forever.
 
 ## 3.4 Streams and Backpressure
-
-### The idea in plain words
 
 You have a 5 GB log file. `readFile` would try to put **all 5 GB into memory** at once. It will fail or take the server down. A **stream** reads the file in small chunks (64 KB at a time), hands each chunk to the next step, and discards it. Memory stays tiny no matter how big the file is. Think of a **conveyor belt** instead of carrying the whole warehouse in your arms.
 

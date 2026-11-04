@@ -35,8 +35,6 @@ IP (Module 2) gets a packet to the right **host**. But IP makes no promises: a p
 
 ## 3.1: The Transport Layer, Ports and Sockets
 
-### The idea in plain words
-
 A building has one street address (the IP address), but many offices inside. The **port number** is the office number: it tells the host which program should receive the data. A web server, an SSH server and a database can all run on one machine, each listening on its own port.
 
 This is called **multiplexing** (many programs share one network connection, on the sending side) and **demultiplexing** (the host sorts arriving data to the right program, on the receiving side).
@@ -144,8 +142,6 @@ import socket
 
 ## 3.2: UDP: Fast and Light
 
-### The idea in plain words
-
 **UDP** (User Datagram Protocol) is the simplest transport protocol. It takes your message, adds a tiny header with the ports, and hands it to IP. That is all. It does **not**:
 
 - set up a connection first (**connectionless**),
@@ -216,8 +212,6 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 **Answer:** The **application** handles loss in ways that suit real-time media. It uses **jitter buffers** to smooth uneven arrival, **sequence numbers and timestamps** (RTP) to reorder and sync, **packet loss concealment** (guessing the missing audio), **forward error correction** (sending extra data so small losses can be repaired without a resend), and **adaptive bitrate** (lowering quality when the network gets worse). Retransmitting an old audio packet would arrive too late to play, so TCP's reliability would make the call _worse_.
 
 ## 3.3: TCP: Reliable, Ordered Byte Streams
-
-### The idea in plain words
 
 **TCP** (Transmission Control Protocol) is a phone call, not a postcard. First you **connect**. Then both sides talk, and TCP guarantees that:
 
@@ -379,8 +373,6 @@ stateDiagram-v2
 
 ## 3.5: Reliability: Sequence Numbers, ACKs and Retransmission
 
-### The idea in plain words
-
 TCP numbers every byte. The receiver tells the sender "I have everything **up to** number N," and the sender knows what to re-send if that number stops moving. TCP's ACKs are **cumulative**: an ACK of 5001 means "everything from the start up to byte 5000 has arrived."
 
 ### How loss is detected
@@ -438,8 +430,6 @@ A cumulative ACK cannot say "I also have 2001–5000." **SACK**, a TCP option ne
 
 ## 3.6: Flow Control: Not Overwhelming the Receiver
 
-### The idea in plain words
-
 A fast sender can easily overflow a slow receiver's buffer. So every ACK carries a **window** value: "I can accept this many more bytes." The sender may have at most that much **unacknowledged** data in flight. This is the **receive window (rwnd)**, and the mechanism is the **sliding window**.
 
 ```
@@ -487,8 +477,6 @@ This ties back to the bandwidth-delay product in Module 1. To fill a link, the w
 **Answer:** The sender **stops sending data**. It periodically sends tiny **window probe** segments (with a timer that backs off) to ask if space has opened up. When the receiver's application reads data, the receiver sends a **window update** with a non-zero window, and the sender resumes. A permanently zero window often means the receiving application is stuck or too slow.
 
 ## 3.7: Congestion Control: Not Overwhelming the Network
-
-### The idea in plain words
 
 Flow control protects the receiver. But what protects the **network** in the middle? If every sender transmits as fast as it can, routers' queues overflow and packets are dropped, which causes retransmissions, which makes things even worse (**congestion collapse**, which really happened to the early Internet in 1986).
 

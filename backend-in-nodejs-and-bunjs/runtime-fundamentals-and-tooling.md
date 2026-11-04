@@ -30,8 +30,6 @@ keywords: ["What is Node.js", "Node.js vs Bun", "Node.js LTS 2026", "CommonJS vs
 
 ## 1.1 What Are Node.js and Bun?
 
-### The idea in plain words
-
 JavaScript was born inside the browser. It could change a web page but could not read a file or open a network port. In 2009 **Node.js** took Chrome's JavaScript engine (V8), put it in a normal program, and added the things a server needs: files, network sockets, processes, timers. Suddenly JavaScript could run **anywhere**, and one language could power both the front end (your React app) and the back end.
 
 ```mermaid

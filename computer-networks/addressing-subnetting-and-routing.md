@@ -36,8 +36,6 @@ In Module 1 you learned that the **Internet layer** moves packets between networ
 
 ## 2.1: IPv4 Addresses
 
-### The idea in plain words
-
 An **IPv4 address** is a 32-bit number. People write it as four numbers from 0 to 255, separated by dots (**dotted decimal**): `192.168.1.10`. Each number is one **octet**, which is 8 bits.
 
 Think of a street address: "Flat 12, Green Road, Pune." The **network part** (like "Green Road, Pune") is shared by everyone in the same network. The **host part** (like "Flat 12") picks one device inside it. Routers only look at the network part, so they can send a packet toward the right "street" without knowing every flat in the world.
@@ -109,8 +107,6 @@ This wasted a lot of addresses. In 1993 it was replaced by **CIDR** (Topic 2.2),
 **Answer:** Private addresses are only meaningful inside one network. Packets with private source or destination addresses are not routed on the public Internet. If two such networks need to talk, you need NAT (Module 5), or you must renumber one of them. This is a real problem when two companies merge, or when you connect two cloud networks that both used `10.0.0.0/16`.
 
 ## 2.2: Subnet Masks, CIDR and Subnetting
-
-### The idea in plain words
 
 A **subnet mask** tells you where the network part of an address ends and the host part begins. It is 32 bits long: ones for the network part, zeros for the host part.
 
@@ -236,8 +232,6 @@ Python's `ipaddress` module is a quick way to check your subnet math.
 
 ## 2.3: IPv6
 
-### The idea in plain words
-
 IPv4 ran out of addresses. **IPv6** is the replacement. Its addresses are **128 bits**, enough for about 3.4 × 10³⁸ addresses, so many that every device can have its own public address and there is no need for NAT.
 
 An IPv6 address is written as **eight groups of four hexadecimal digits**, separated by colons:
@@ -306,8 +300,6 @@ A normal LAN subnet is a **/64**: the first 64 bits are the network prefix, and 
 **Answer:** Start with **dual stack**, since it is the least risky: every device keeps IPv4 and also gets IPv6. Request a large enough prefix from the ISP (such as `/48`), design a `/64` per subnet, and apply the **same firewall policy** to IPv6 as to IPv4 (a common mistake is leaving IPv6 open). Make sure DNS has both `A` and `AAAA` records, test applications that hard-code IPv4 addresses, and monitor both stacks. Later, plan to retire IPv4 internally and use NAT64 where an IPv6-only network must reach legacy IPv4 services.
 
 ## 2.4: Getting Connected: DHCP and ARP
-
-### The idea in plain words
 
 You plug a laptop into a network. It has no IP address, does not know its gateway, and does not know anybody's MAC address. How does it become useful in a second or two? Two small protocols do the work:
 
@@ -380,8 +372,6 @@ To put a packet on the local link, the sender needs the destination's **MAC addr
 **Answer:** The attacker sends forged ARP replies saying "the gateway's IP is at *my* MAC." Victims update their ARP caches and send traffic to the attacker, who forwards it onward and reads or changes it. Defenses: **Dynamic ARP Inspection** on switches (validates ARP against the DHCP snooping table), port security that limits MACs per port, static ARP entries on critical hosts, VLAN segmentation, and **end-to-end encryption** such as TLS or SSH, so that a man in the middle sees only ciphertext.
 
 ## 2.5: Routing
-
-### The idea in plain words
 
 **Routing** is how a packet finds its way across many networks. Each router only knows enough to decide the **next hop**. It does not plan the whole trip. Like asking for directions at every junction, each router points the packet one step closer to its goal.
 
@@ -467,8 +457,6 @@ Two terms: **convergence** is the time it takes all routers to agree on the new 
 **Answer:** Two layers of defense. **During forwarding**, the **TTL** field is reduced at every hop, and a packet whose TTL reaches zero is dropped, so a loop cannot last forever. **In the routing protocols**, each has its own loop prevention: link-state protocols like OSPF give every router the same map, so they calculate loop-free paths. Distance-vector protocols use tricks such as **split horizon** and a maximum hop count (RIP's 15). BGP rejects any route that already contains its own AS number in the path.
 
 ## 2.6: The IP Header, ICMP, Ping and Traceroute
-
-### The idea in plain words
 
 The IP header is the "envelope" every packet carries. **ICMP** is IP's built-in **message system**: it is how routers and hosts report problems ("that network is unreachable," "your packet took too long") and how tools like `ping` and `traceroute` work.
 

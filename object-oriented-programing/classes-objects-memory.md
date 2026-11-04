@@ -30,8 +30,6 @@ Each topic starts with a plain-language idea, then goes step by step deeper into
 
 ## 1.1: Classes vs. Objects
 
-### The idea in plain words
-
 A **class** is a plan, like the drawing of a house. An **object** is a real house built from that plan. One plan can build many houses. Each house has its own furniture, but they all follow the same drawing.
 
 ```cpp
@@ -207,8 +205,6 @@ struct Base {
 
 ## 1.2: Stack vs. Heap Allocation
 
-### The idea in plain words
-
 A program keeps its data in a few places. The two most important are:
 
 - **The stack** is like a pile of plates, or a scratchpad. When a function starts, it puts its local variables on top. When the function ends, everything it put there is removed automatically. It is very fast and you never clean it up yourself.
@@ -358,8 +354,6 @@ void no_leak() {
 
 ## 1.3: Constructors Deep-Dive
 
-### The idea in plain words
-
 A **constructor** is a special function that runs when an object is created. Its job is to put the object into a good starting state, and to make sure the object's **class invariants** (rules that must always be true, like "size is never negative") hold from the very first moment.
 
 The kinds of constructor:
@@ -507,8 +501,6 @@ int main() { Tracer x = make1(); Tracer y = make2(); Tracer z = make3(true); }
 - Interview takeaway: **do not write `return std::move(local);`**. It blocks NRVO and triggers a "pessimizing move" warning.
 
 ## 1.4: Destructors & Garbage Collection
-
-### The idea in plain words
 
 A **destructor** is a function that runs automatically when an object's life ends. It gives back whatever the object was holding: memory, files, locks, network connections.
 
@@ -663,8 +655,6 @@ In Java, the same graph is collected, because neither node is reachable from a G
 
 ## 1.5: The `this` Pointer / Reference
 
-### The idea in plain words
-
 When you write `dog.birthday()`, how does the single shared `birthday()` function know _which_ dog to change? The answer: every non-static member function secretly receives one extra argument, the address of the object it was called on. Inside the function that address is called **`this`**.
 
 So `this` means "the object I am working on right now."
@@ -800,8 +790,6 @@ class Session : public std::enable_shared_from_this<Session> {
 ```
 
 ## 1.6 Rule of 0/3/5 and Move Semantics
-
-### The idea in plain words
 
 By now you have seen three questions every resource-owning class must answer:
 

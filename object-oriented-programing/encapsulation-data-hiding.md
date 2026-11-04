@@ -33,8 +33,6 @@ That is all "encapsulation" means. You put data and the rules for changing it in
 
 ## 2.1: Access Modifiers (public / protected / private)
 
-### The idea in plain words
-
 Think of a house. The **front door and living room** are open to guests (`public`). The **family rooms** are open only to family (`protected`: the class and its children). The **bedroom** is only for you (`private`: only the class itself).
 
 In code:
@@ -199,8 +197,6 @@ What actually gives you a boundary:
 Interview framing: _encapsulation protects invariants from well-meaning callers (bugs), not from adversaries._
 
 ## 2.2: Class Invariants & Mutators
-
-### The idea in plain words
 
 Some things must **always be true** about an object. A bank account balance should never be negative. A date range should never have an end before its start. A rule like that is called a **class invariant**.
 
@@ -396,8 +392,6 @@ If several threads call `remove`, add a `std::mutex` held across the check and t
 
 ## 2.3: True Immutability
 
-### The idea in plain words
-
 An **immutable** object never changes after it is built. A printed book is immutable: to "change" it you print a new edition. Immutable objects are wonderful because nobody can break their rules, and many threads can read them with no locks.
 
 The word to be careful about is **true** (deep) immutability. An object is truly immutable only if _everything reachable from it_ is also unchangeable, through every path. A glass jar with a locked lid is not immutable if the jar holds a pointer to something you can still edit.
@@ -589,8 +583,6 @@ Interview takeaway: **"immutable" objects with `mutable` caches must pay for the
 
 ## 2.4 Leaky Encapsulation — Returned References, Views & Defensive Copies
 
-### The idea in plain words
-
 You can make every field private and still lose all your protection with one careless getter. Imagine a safe with a strong lock, but you hand a visitor a window that opens inside the safe. Encapsulation **leaks** when a function gives out something that lets callers reach, change, or outlive the object's internal state. That "something" could be:
 
 - a non-const reference, pointer or iterator,
@@ -727,8 +719,6 @@ template <class Fn> void forEach(Fn&& fn) const {
 Choose by the read/write ratio: a visitor for rare reads, a snapshot for small data, copy-on-write snapshots for read-heavy hot paths. The general rule: **never return a reference to guarded state.**
 
 ## 2.5 PIMPL, ABI Stability & the Compilation Firewall
-
-### The idea in plain words
 
 Here is a surprise for beginners: `private` hides a member's _name_, but the member is still written in your header file. Anyone who includes the header can see exactly which private variables exist, and the compiler uses them to decide how big your object is.
 

@@ -43,8 +43,6 @@ This module teaches you to answer those questions in an organized way.
 
 ## 6.1: What Happens When You Type a URL and Press Enter?
 
-### The idea in plain words
-
 This is the most famous networking interview question, because the full answer touches **every layer**. A good answer is not a memorized list. It is a **story** that follows one request from your keyboard to a server and back, mentioning each layer briefly, and then going deeper where the interviewer asks.
 
 ### The whole journey in one diagram
@@ -131,8 +129,6 @@ Almost all of the difference comes from **RTT multiplied by the number of round 
 **Answer:** Most of the cost disappears. **DNS** is cached. The **TCP and TLS connection is reused** (HTTP keep-alive or HTTP/2), so there is no handshake and no slow start from scratch (the congestion window is already grown). The browser may serve resources from its **HTTP cache** with no request at all, or send a cheap **conditional request** and receive a **304**. So the request costs roughly **1 RTT plus server time**, or nothing.
 
 ## 6.2: Numbers Every Engineer Should Know
-
-### The idea in plain words
 
 In a system design interview, you often must **estimate**: how much bandwidth, how many servers, how long a transfer takes. You do not need exact values. You need **good orders of magnitude** and a clear method. This topic gives you both.
 
@@ -237,8 +233,6 @@ Bandwidth-delay product = bandwidth × RTT                              (Module 
 **Answer:** **Bandwidth:** 50,000 × 20 KB = 1,000,000 KB/s = 1 GB/s = **8 Gbps** of response traffic (plus requests, usually much smaller). **Concurrency (Little's Law):** 50,000 × 0.08 = **4,000** requests in flight. If one server comfortably handles about 500 concurrent requests, I need about 8 servers for the load, and more for **headroom (say 2×, to survive a failure and spikes)**, so around **16**. The 8 Gbps also suggests **multiple 10 Gbps load-balancer links**, or terminating at a managed cloud load balancer, and compressing responses to cut bandwidth. I would state the assumptions and say I would confirm them by load testing.
 
 ## 6.3: Troubleshooting the Network, Layer by Layer
-
-### The idea in plain words
 
 When something is broken, panic and guessing waste time. Experts use a **method**: test one layer at a time, from the bottom up (or from the user's symptom down), and each test **rules out** a whole set of causes. The layered model from Module 1 is a troubleshooting map.
 
@@ -345,8 +339,6 @@ Look at **who sent the first RST or FIN**, **how long the gaps are** (a 200 ms o
 **Answer:** Gather evidence before guessing. Ask for the **exact URL, time, and a HAR file or browser timing**. Reproduce from **that region** (a cloud VM or synthetic monitoring there) and run `curl -w` timing, `mtr` and `dig` to see **which phase is slow**: DNS, TCP connect, TLS, time to first byte, or download. A long connect time points to **distance or routing** (fix: CDN, regional deployment, better peering). A long TLS time points to too many round trips (TLS 1.3, resumption, edge termination). A long first-byte time with fast connect points to a **slow origin or cache miss**. A slow download with high loss points to **congestion control and loss** (BBR, HTTP/3). Then verify the fix with the same measurement from the same region.
 
 ## 6.4: Network Design Patterns for Resilient Systems
-
-### The idea in plain words
 
 Networks fail in ways that CPUs and memory do not: packets are delayed, lost, duplicated, reordered, or the network **splits in two**. A system that behaves well must **expect** this. The classic list of wrong assumptions is called the **Fallacies of Distributed Computing**:
 

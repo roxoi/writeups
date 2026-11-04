@@ -286,8 +286,6 @@ Use an **in-memory SQLite** database for fast unit tests of repositories, but ru
 
 ## 5.5 Migrations
 
-### The idea in plain words
-
 A **migration** is a numbered script that changes the schema. The database remembers which ones have run. Every environment (your laptop, CI, staging, production) applies the same scripts in the same order, so the schema is **reproducible** and reviewable in Git, like code.
 
 ```

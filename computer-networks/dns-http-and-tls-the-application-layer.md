@@ -39,8 +39,6 @@ Modules 1–3 built the road: links, IP routing, and TCP (or QUIC) for reliable 
 
 ## 4.1: DNS, the Internet's Phone Book
 
-### The idea in plain words
-
 Computers talk to IP addresses, but people remember names. **DNS** (Domain Name System) is a worldwide, distributed database that answers one question: **"what is the IP address of this name?"** (and a few related questions).
 
 No single server knows everything. DNS is a **hierarchy**, like a phone system with area codes. Each level only knows who to ask next.
@@ -177,8 +175,6 @@ example.com.    300    IN    A    93.184.216.34
 **Answer:** Use a **health-checked** DNS service with a **short TTL** (30–60 seconds): it answers with the primary data center's IP while it is healthy, and switches to the secondary when checks fail. Limits: switchover takes at least **one TTL plus detection time**, some resolvers and clients **ignore small TTLs**, long-lived connections already established do not move, and caching hides the change from many users for a while. For faster failover, combine DNS with **anycast** or a **global load balancer** in front, so the IP stays the same while traffic is redirected behind it.
 
 ## 4.2: HTTP: the Language of the Web
-
-### The idea in plain words
 
 **HTTP** (HyperText Transfer Protocol) is a **request and response** protocol. A client (usually a browser or an app) sends a request. A server sends back one response. That is the whole idea.
 
@@ -346,8 +342,6 @@ $ curl -v https://example.com 2>&1 | head -20
 
 ## 4.3: HTTP/1.1, HTTP/2 and HTTP/3
 
-### The idea in plain words
-
 The meaning of HTTP (methods, status codes, headers) stayed the same across versions. What changed is **how messages are carried on the wire**, to load pages faster. Each version fixes the main pain of the one before.
 
 ### The evolution
@@ -402,8 +396,6 @@ The meaning of HTTP (methods, status codes, headers) stayed the same across vers
 **Answer:** HTTP/2 fixed it at the **HTTP level** (many streams on one connection), but all those streams share **one TCP byte stream**. If a single segment is lost, TCP holds back everything after it until the retransmission arrives, so **every stream stalls**, even those whose data had arrived. This is **TCP-level head-of-line blocking**, and it cannot be fixed without changing TCP, which is in OS kernels and handled by middleboxes. HTTP/3 uses **QUIC over UDP**, where streams are independent, so only the affected stream waits.
 
 ## 4.4: TLS and HTTPS
-
-### The idea in plain words
 
 Plain HTTP is like sending a **postcard**: anyone along the way can read it or change it. **TLS** (Transport Layer Security, the successor to SSL) wraps the connection so that it provides three things:
 
@@ -549,8 +541,6 @@ notAfter=Mar  1 23:59:59 2026 GMT
 
 ## 4.5: Other Application Protocols and Real-Time Patterns
 
-### The idea in plain words
-
 HTTP is not the only language on top of TCP. And plain request-and-response is not enough when a server needs to **push** data to a client, such as chat messages, live prices or notifications. This maps the common choices.
 
 ### Common application protocols
@@ -602,8 +592,6 @@ sequenceDiagram
 **Answer:** **Polling** is simplest but wastes requests and has delay. **Long polling** reduces delay but holds a request open per user. **SSE** gives a simple, one-way, automatically reconnecting stream over normal HTTP, ideal for notifications and feeds. **WebSocket** gives two-way, low-latency messaging, best for chat, collaboration and games, but is more complex to scale. For one-way notifications I would start with **SSE (or WebSocket if two-way is needed)**, and design for scale: terminate connections on a **dedicated tier**, use a **pub/sub system** (such as Redis or Kafka) so any server can deliver to the server holding the user's connection, send **heartbeats** to detect dead connections, set **load balancer timeouts** correctly, and make clients **reconnect with backoff and jitter** to avoid a thundering herd after an outage.
 
 ## 4.6: Putting It Together: One Page Load, Step by Step
-
-### The idea in plain words
 
 When you open `https://www.example.com` for the first time, everything in this module and the last three runs in a chain. This is a short version. Module 6 expands it for system design interviews.
 

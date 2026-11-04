@@ -367,8 +367,6 @@ Before React 19.2, people used a ref that was updated on every render to get the
 
 ## 3.6 Refs: Escaping React to Touch the DOM
 
-### The idea in plain words
-
 A **ref** is a plain box, `{ current: value }`, that React keeps for you across renders. Changing `ref.current` does **not** re-render the component. Use refs for things that are _not_ part of the displayed output.
 
 ```jsx
