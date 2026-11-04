@@ -1,7 +1,9 @@
 ---
 title: "Shell Scripting for DevOps"
 description: "Condensed study notes covering shell scripting for DevOps - from Linux fundamentals and variables to loops, functions, error handling, Makefiles, AWS CLI automation, and a backup-with-rotation project."
-author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com" ]
+author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
+created: "2026-10-17"
+updated: "2026-10-17"
 thumbnail: "/images/shellscripting.png"
 tags: [Shell-Scripting, Bash, DevOps, Linux, AWS]
 keywords: ["Shell scripting for DevOps", "Bash scripting tutorial", "Linux shell script examples", "AWS CLI automation with shell", "Makefile tutorial"]
@@ -423,6 +425,48 @@ fi
 ```
 - `2>/dev/null` redirects **stderr** (error output) to `/dev/null` - a "black hole" device that discards output, useful for silencing expected warnings.
 
+### Safer scripts: strict mode, `trap`, and quoting
+
+Add these three lines near the top of almost every production script:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+```
+
+| Option | What it does |
+|---|---|
+| `set -e` | Exit immediately if a command fails (non-zero status) |
+| `set -u` | Treat an **unset variable** as an error (catches typos like `$DIRR`) |
+| `set -o pipefail` | A pipeline fails if **any** command in it fails (not only the last one) |
+
+**Clean up with `trap`.** Run a function whenever the script exits, even on error or Ctrl+C:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+TMP_DIR=$(mktemp -d)
+cleanup() {
+    echo "Cleaning up $TMP_DIR"
+    rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT                       # runs on any exit
+trap 'echo "Failed at line $LINENO"' ERR  # runs when a command fails
+
+curl -fsSL https://example.com/file.tar.gz -o "$TMP_DIR/file.tar.gz"
+tar -xzf "$TMP_DIR/file.tar.gz" -C "$TMP_DIR"
+```
+
+**Always quote variables:** `rm -rf "$DIR"`, not `rm -rf $DIR`. An empty or space-containing value without quotes can delete the wrong thing.
+
+**Useful habits:**
+- Use `[[ ... ]]` instead of `[ ... ]` in bash for safer conditions.
+- Provide defaults: `${ENVIRONMENT:-dev}`, and require values: `${API_KEY:?API_KEY is required}`.
+- Lint scripts with **ShellCheck** (`shellcheck deploy.sh`) and run it in CI.
+- Use `command -v tool >/dev/null || { echo "tool is required"; exit 1; }` to check dependencies.
+
 ### End-to-end example - deploying an app with error handling
 ```bash
 #!/bin/bash
@@ -508,7 +552,7 @@ OS := $(shell uname)
 build:
 ifeq ($(OS),Linux)
 	@echo "Running in Linux"
-	docker-compose build
+	docker compose build
 else
 	@echo "Please add Windows commands"
 endif
@@ -524,9 +568,9 @@ Declares that certain target names (`build`, `up`, `clean`, etc.) are **not actu
 ```mermaid
 flowchart LR
     Dev["Developer types: make build"] --> MF[Makefile]
-    MF -->|"build: target"| Cmd1[docker-compose build]
+    MF -->|"build: target"| Cmd1[docker compose build]
     Dev2["Developer types: make up"] --> MF
-    MF -->|"up: target"| Cmd2[docker-compose up -d]
+    MF -->|"up: target"| Cmd2[docker compose up -d]
 ```
 
 ## 14. AWS CLI + Shell Automation
