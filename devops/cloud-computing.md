@@ -11,7 +11,7 @@ keywords: ["Cloud computing tutorial for beginners", "IaaS PaaS SaaS explained",
 
 ![Cloud Computing](/images/cloud-computing.png)
 
-Each topic follows the same path: **the idea in plain words, a real-life picture, how it looks in practice, what happens under the hood, common mistakes, and practice questions** that go from easy to hard.
+Each topic follows the same path: **simple definition, a real-life picture, how it looks in practice, what happens under the hood, common mistakes, and practice questions** that go from easy to hard.
 
 The ideas are the same on every provider. Examples use AWS names, with Azure and Google Cloud equivalents in a table at the end.
 

@@ -153,7 +153,7 @@ You do **not** need to know any React. You do need basic JavaScript. If a row be
 Every module follows the same pattern, so you always know where to look.
 
 1. **Words you will meet:** a short glossary. Read it first.
-2. **Numbered topics (1.1, 1.2, ...):** the idea in plain words, then how it really works, then code.
+2. **Numbered topics (1.1, 1.2, ...):** simple definition, then how it really works, then code.
 3. **Interview traps:** the wrong answers people give, and the better ones.
 4. **Tricky questions and answers:** tagged `[SDE-1]`, `[SDE-2]` or `[SDE-3]` so you know the expected depth.
 5. **Hands-On Lab:** a small build to do yourself.
