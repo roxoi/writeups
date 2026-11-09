@@ -561,13 +561,13 @@ graph TB
 ```
 
 ```dockerfile
-# ---- Stage 1: Build ----
+# Stage 1: Build
 FROM python:3.7 AS builder
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# ---- Stage 2: Final (lightweight) ----
+# Stage 2: Final (lightweight)
 FROM python:3.7-slim
 WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.7/site-packages /usr/local/lib/python3.7/site-packages
@@ -578,13 +578,13 @@ CMD ["python", "run.py"]
 ### 10.3 Real-World Java/Maven Example
 
 ```dockerfile
-# ---- Stage 1: build the JAR using Maven ----
+# Stage 1: build the JAR using Maven
 FROM maven:3.8.3-openjdk-17 AS builder
 WORKDIR /app
 COPY . .
 RUN mvn clean install -DskipTests=true
 
-# ---- Stage 2: run the JAR on a slim JRE ----
+# Stage 2: run the JAR on a slim JRE
 FROM openjdk:17-alpine
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar

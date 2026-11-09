@@ -380,13 +380,13 @@ Containers package your app, its runtime and its dependencies into one immutable
 ```dockerfile
 # syntax=docker/dockerfile:1
 
-# ---------- stage 1: install production dependencies ----------
+# stage 1: install production dependencies
 FROM node:26-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev                                  # exact versions from the lockfile, no dev tools
 
-# ---------- stage 2: runtime ----------
+# stage 2: runtime
 FROM node:26-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /app

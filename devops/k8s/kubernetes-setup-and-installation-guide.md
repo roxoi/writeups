@@ -365,35 +365,35 @@ sudo apt-get autoremove -y
 ## 9. Quick Reference Table
 
 ```bash
-# ----- Prereqs -----
+# Prereqs
 sudo apt update && sudo apt upgrade -y
 sudo apt-get install -y docker.io curl wget unzip
 sudo usermod -aG docker $USER && newgrp docker
 
-# ----- kubectl (all methods) -----
+# kubectl (all methods)
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
-# ----- Kind -----
+# Kind
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.24.0/kind-linux-amd64
 chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
 kind create cluster --name my-cluster
 
-# ----- Minikube -----
+# Minikube
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 chmod +x minikube && sudo mv minikube /usr/local/bin/
 minikube start --driver=docker
 
-# ----- kubeadm (master) -----
+# kubeadm (master)
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 mkdir -p $HOME/.kube && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml
 kubeadm token create --print-join-command
 
-# ----- kubeadm (worker) -----
+# kubeadm (worker)
 sudo kubeadm join <master-ip>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 
-# ----- Verify -----
+# Verify
 kubectl get nodes
 kubectl get pods -A
 ```
