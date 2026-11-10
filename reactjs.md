@@ -1,5 +1,5 @@
 ---
-title: "Complete ReactJS Tutorial"
+title: "ReactJS"
 description: "A beginner-friendly hub for learning React 19 - start with JSX and components, move on to state, effects, hooks, rendering and performance, routing and data fetching, and finish with testing, security, deployment and a full capstone project."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/react-tutorial.png"

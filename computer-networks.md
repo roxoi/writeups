@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Computer Networking"
+title: "Computer Networking"
 description: "A beginner-friendly hub for learning computer networking - start with packets and layers, move on to IP, TCP, DNS and HTTP, and build a full picture of how data travels across the internet."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/intro-networking.png"

@@ -1,5 +1,5 @@
 ---
-title: "Complete Next.js Tutorial: From App Router to Production (Next.js 16)"
+title: "Next.js"
 description: "A beginner-friendly hub for learning Next.js 16.4 - the App Router, Server and Client Components, Cache Components and streaming, Server Functions, Route Handlers and proxy, authentication and security, performance and SEO, testing, Docker deployment and a full-stack capstone."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/nextjs-tutorial.png"

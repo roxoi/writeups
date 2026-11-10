@@ -1,5 +1,5 @@
 ---
-title: "Complete Node.js and Bun Tutorial: From Runtime to Production API"
+title: "Node.js and Bun"
 description: "A beginner-friendly hub for learning backend JavaScript with Node.js and Bun - runtime fundamentals, the event loop, core modules and streams, Express 5 and REST APIs, PostgreSQL, authentication and security, testing, real-time features, background jobs, Docker, deployment and a full capstone API."
 author: ["name": "Rajendra Pancholi", "email": "rpancholi522@gmail.com"]
 thumbnail: "/images/nodejs-tutorial.png"
