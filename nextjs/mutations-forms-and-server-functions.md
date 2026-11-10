@@ -517,7 +517,7 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
 
 How the rollback works: while the transition is running, `optimisticTasks` is the temporary version. When it ends, React replaces it with the real `tasks` prop. On **success**, the action called `updateTag`, so the server's response already carries the fresh list (including the toggled task), and the UI does not flicker. On **failure**, the real list is unchanged, so the optimistic change **disappears automatically**, and you show an error message.
 
-The matching Server Function (with the optimistic-locking `version` check from [Part 2, Module 5](nodejs/databases-and-the-data-layer#58-n1-indexes-pool-sizing-and-concurrency)):
+The matching Server Function (with the optimistic-locking `version` check from [Part 2, Module 5](backend-in-nodejs-and-bunjs/databases-and-the-data-layer#58-n1-indexes-pool-sizing-and-concurrency)):
 
 ```ts
 const Toggle = z.object({
@@ -791,7 +791,7 @@ export async function uploadAvatar(
 }
 ```
 
-Remember the request body limit (1 MB by default, adjustable with `serverActions.bodySizeLimit`). For anything large, do not stream files through your Next.js server: have a Server Function return a short-lived **presigned URL** and let the browser upload **straight to object storage**, exactly as in [Part 2, Module 7](nodejs/testing-real-time-and-background-jobs#77-background-jobs-and-queues). Then record the result with a small Server Function.
+Remember the request body limit (1 MB by default, adjustable with `serverActions.bodySizeLimit`). For anything large, do not stream files through your Next.js server: have a Server Function return a short-lived **presigned URL** and let the browser upload **straight to object storage**, exactly as in [Part 2, Module 7](backend-in-nodejs-and-bunjs/testing-real-time-and-background-jobs#77-background-jobs-and-queues). Then record the result with a small Server Function.
 
 ## Tricky Questions and Answers
 

@@ -730,7 +730,7 @@ if (process.env.NODE_ENV !== 'production') globalForPg.pgPool = pool; // reuse a
 
 ### Serverless and pooling
 
-If you deploy on a platform that runs **many short-lived instances** (serverless), each instance opens its own pool and the total can overwhelm Postgres ([Part 2, Module 5](nodejs/databases-and-the-data-layer#58-n1-indexes-pool-sizing-and-concurrency)). Use a **pooler** (PgBouncer, or your provider's pooled connection string), a small `max` per instance, and keep transactions short.
+If you deploy on a platform that runs **many short-lived instances** (serverless), each instance opens its own pool and the total can overwhelm Postgres ([Part 2, Module 5](backend-in-nodejs-and-bunjs/databases-and-the-data-layer#58-n1-indexes-pool-sizing-and-concurrency)). Use a **pooler** (PgBouncer, or your provider's pooled connection string), a small `max` per instance, and keep transactions short.
 
 ### Reuse what you built in Part 2
 

@@ -103,7 +103,7 @@ Be deliberate: if a handler **must** run on every request (a live stream, "curre
 
 ### The same error shape as Part 2
 
-Keep your JSON error responses consistent with [Part 2, Module 4](nodejs/http-servers-and-rest-apis#45-rest-api-design) so a client can treat both backends the same way:
+Keep your JSON error responses consistent with [Part 2, Module 4](backend-in-nodejs-and-bunjs/http-servers-and-rest-apis#45-rest-api-design) so a client can treat both backends the same way:
 
 ```ts
 // lib/http.ts
@@ -204,7 +204,7 @@ Combine it with `SameSite=Lax` cookies and JSON-only bodies (a cross-site form c
 
 ### Pattern 3: Webhooks
 
-A **webhook** is another service calling **you** (Stripe, GitHub, your CMS). The reliable recipe is the same one from [Part 2, Module 7](nodejs/testing-real-time-and-background-jobs#77-background-jobs-and-queues):
+A **webhook** is another service calling **you** (Stripe, GitHub, your CMS). The reliable recipe is the same one from [Part 2, Module 7](backend-in-nodejs-and-bunjs/testing-real-time-and-background-jobs#77-background-jobs-and-queues):
 
 ```ts
 // app/api/webhooks/cms/route.ts
@@ -268,7 +268,7 @@ export async function GET(
 }
 ```
 
-For big exports, return a **stream** (a `ReadableStream`) rather than building the whole string in memory, just as in [Part 2, Module 3](nodejs/core-modules-files-streams-and-events#34-streams-and-backpressure).
+For big exports, return a **stream** (a `ReadableStream`) rather than building the whole string in memory, just as in [Part 2, Module 3](backend-in-nodejs-and-bunjs/core-modules-files-streams-and-events#34-streams-and-backpressure).
 
 ### Pattern 5: Server-Sent Events (live updates)
 
@@ -346,7 +346,7 @@ export async function GET() {
 }
 ```
 
-(The rules from [Part 2, Module 6](nodejs/authentication-and-security#67-http-hardening-helmet-cors-rate-limits-and-timeouts) apply unchanged.)
+(The rules from [Part 2, Module 6](backend-in-nodejs-and-bunjs/authentication-and-security#67-http-hardening-helmet-cors-rate-limits-and-timeouts) apply unchanged.)
 
 #### Interview traps
 
@@ -804,7 +804,7 @@ It works in Server Components, Server Functions, Route Handlers and Proxy. On se
 
 | Need                                      | Use                                                                                                                                                                                                                                                             |
 | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Reliable async work with retries          | A queue and worker process: **BullMQ**, **pg-boss**, or a cloud queue ([Part 2, Module 7](nodejs/testing-real-time-and-background-jobs#77-background-jobs-and-queues)). Enqueue from a Server Function; run the worker as a **separate Node.js or Bun process** |
+| Reliable async work with retries          | A queue and worker process: **BullMQ**, **pg-boss**, or a cloud queue ([Part 2, Module 7](backend-in-nodejs-and-bunjs/testing-real-time-and-background-jobs#77-background-jobs-and-queues)). Enqueue from a Server Function; run the worker as a **separate Node.js or Bun process** |
 | Scheduled jobs (nightly cleanup, reports) | The platform's cron (Vercel Cron, Kubernetes `CronJob`) calling a **protected Route Handler**, or your queue's scheduler                                                                                                                                        |
 | Long-running tasks (video, large imports) | Never in a request handler or serverless function. Use a queue and a worker                                                                                                                                                                                     |
 

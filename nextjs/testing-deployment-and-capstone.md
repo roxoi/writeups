@@ -154,7 +154,7 @@ test("creates a task and invalidates the project's tag", async () => {
 });
 ```
 
-Two cautions. `redirect()` and `notFound()` **throw** by design, so a test that expects a redirect asserts that the call rejects with Next.js's redirect error (or mocks `next/navigation`). And **never mock the database when the point is to test SQL or ownership rules**: use a real test Postgres as in [Part 2, Module 7](nodejs/testing-real-time-and-background-jobs#73-integration-tests-against-http-and-a-real-database).
+Two cautions. `redirect()` and `notFound()` **throw** by design, so a test that expects a redirect asserts that the call rejects with Next.js's redirect error (or mocks `next/navigation`). And **never mock the database when the point is to test SQL or ownership rules**: use a real test Postgres as in [Part 2, Module 7](backend-in-nodejs-and-bunjs/testing-real-time-and-background-jobs#73-integration-tests-against-http-and-a-real-database).
 
 #### Interview traps
 
@@ -411,7 +411,7 @@ flowchart LR
 
 ## 8.4: Docker for Next.js
 
-This connects to the [Docker Full Tutorial](devops/docker/docker-full-tutorial) and to Part 2's [Docker section](nodejs/production-deployment-and-capstone#86-docker-for-nodejs-and-bun). A multi-stage build keeps the final image small and free of build tools.
+This connects to the [Docker Full Tutorial](devops/docker/docker-full-tutorial) and to Part 2's [Docker section](backend-in-nodejs-and-bunjs/production-deployment-and-capstone#86-docker-for-nodejs-and-bun). A multi-stage build keeps the final image small and free of build tools.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -516,7 +516,7 @@ export async function GET() {
 }
 ```
 
-A statically prerendered handler cannot tell you whether the database is reachable, which is why readiness must be **dynamic**. As in [Part 2, Module 8](nodejs/production-deployment-and-capstone#83-health-checks-and-graceful-shutdown), keep dependency checks in **readiness**, never in liveness.
+A statically prerendered handler cannot tell you whether the database is reachable, which is why readiness must be **dynamic**. As in [Part 2, Module 8](backend-in-nodejs-and-bunjs/production-deployment-and-capstone#83-health-checks-and-graceful-shutdown), keep dependency checks in **readiness**, never in liveness.
 
 ### Graceful shutdown
 
@@ -754,7 +754,7 @@ Tag images with the **git SHA** (also your `deploymentId`), so rolling back mean
 
 ## 8.7: Observability: Seeing What Your App Is Doing
 
-Everything from [Part 2, Module 8](nodejs/production-deployment-and-capstone#85-observability-logs-metrics-traces-and-errors) applies: structured logs, RED metrics, traces, error tracking, alerts. Next.js adds hooks to wire them in.
+Everything from [Part 2, Module 8](backend-in-nodejs-and-bunjs/production-deployment-and-capstone#85-observability-logs-metrics-traces-and-errors) applies: structured logs, RED metrics, traces, error tracking, alerts. Next.js adds hooks to wire them in.
 
 ### `instrumentation.ts`
 

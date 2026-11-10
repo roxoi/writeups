@@ -101,7 +101,7 @@ The Next.js authentication guide describes both:
 | **Stateless**         | The session data itself, **signed or encrypted** (`jose`, `iron-session`) | Hard until it expires    | None per request            |
 | **Database sessions** | Only a **random session ID**. The data lives in your database or Redis    | **Easy**: delete the row | One lookup per verification |
 
-This series uses **database sessions**, the same design you built in [Part 2, Module 6](nodejs/authentication-and-security#63-sessions-vs-jwt): a 256-bit random token in an `HttpOnly` cookie, and **only the hash of the token** stored in the `sessions` table. You can revoke instantly (logout, "log out everywhere", password change), and a database leak does not hand an attacker working cookies. The tables and migrations from Part 2 apply unchanged.
+This series uses **database sessions**, the same design you built in [Part 2, Module 6](backend-in-nodejs-and-bunjs/authentication-and-security#63-sessions-vs-jwt): a 256-bit random token in an `HttpOnly` cookie, and **only the hash of the token** stored in the `sessions` table. You can revoke instantly (logout, "log out everywhere", password change), and a database leak does not hand an attacker working cookies. The tables and migrations from Part 2 apply unchanged.
 
 (Stateless encrypted cookies are a fine, simpler choice when you accept the revocation trade-off. The rest of this module works with either, because the **DAL** hides the difference.)
 
@@ -330,7 +330,7 @@ export async function getTeamMemberForUser(viewer: UserDTO, memberId: number) {
 
 ## 6.5: Sign-Up, Login and Logout with Server Functions
 
-You wrote these routes in Express in Part 2. Here they are as Server Functions, reusing the same `hashPassword`/`verifyPassword` (scrypt) from [Part 2, Module 6](nodejs/authentication-and-security#62-password-storage), moved to `lib/password.ts` with `import "server-only"`.
+You wrote these routes in Express in Part 2. Here they are as Server Functions, reusing the same `hashPassword`/`verifyPassword` (scrypt) from [Part 2, Module 6](backend-in-nodejs-and-bunjs/authentication-and-security#62-password-storage), moved to `lib/password.ts` with `import "server-only"`.
 
 ### Small helpers
 
@@ -818,7 +818,7 @@ Everything else stays the same: `requireUser()`, ownership-scoped data functions
 
 ### OAuth ("Sign in with Google") in one paragraph
 
-Use the **Authorization Code flow with PKCE**, verify the ID token (signature, issuer, audience, nonce), check the `state` parameter, and require **exact** registered redirect URIs. Let a library do this ([Part 2, Module 6](nodejs/authentication-and-security#69-oauth-20-and-oidc-sign-in-with-google) has the diagram), and finish by creating **your own** session. Treat an email returned by a provider as verified only if the provider says it is.
+Use the **Authorization Code flow with PKCE**, verify the ID token (signature, issuer, audience, nonce), check the `state` parameter, and require **exact** registered redirect URIs. Let a library do this ([Part 2, Module 6](backend-in-nodejs-and-bunjs/authentication-and-security#69-oauth-20-and-oidc-sign-in-with-google) has the diagram), and finish by creating **your own** session. Treat an email returned by a provider as verified only if the provider says it is.
 
 #### Interview traps
 

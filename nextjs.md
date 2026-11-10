@@ -11,7 +11,7 @@ keywords: ["Complete Next.js tutorial", "Next.js 16 tutorial", "Next.js App Rout
 
 ![Next.js Tutorial](/images/nextjs-tutorial.png)
 
-This is **Part 3**, the final part of the full-stack path. [Part 1](reactjs) taught React. [Part 2](nodejs) taught the Node.js and Bun backend. This part teaches **Next.js**, the framework where React, routing, data, a server and a build system come together in one codebase.
+This is **Part 3**, the final part of the full-stack path. [Part 1](reactjs) taught React. [Part 2](backend-in-nodejs-and-bunjs) taught the Node.js and Bun backend. This part teaches **Next.js**, the framework where React, routing, data, a server and a build system come together in one codebase.
 
 The language is simple. Every topic starts with a plain-words idea, then goes step by step into how things really work, and ends with the traps and questions that appear in full-stack interviews. Code is TypeScript and follows **Next.js 16.4**, the current stable release.
 
@@ -109,7 +109,7 @@ flowchart LR
 
 ## What you should know before you start
 
-You should have done [Part 1](reactjs) (React: components, state, effects, `use`, Actions) and ideally [Part 2](nodejs) (HTTP, SQL, sessions, Zod, Docker). If you skipped Part 2, read at least [Module 4](nodejs/http-servers-and-rest-apis), [Module 5](nodejs/databases-and-the-data-layer) and [Module 6](nodejs/authentication-and-security), because the Next.js modules build directly on those ideas.
+You should have done [Part 1](reactjs) (React: components, state, effects, `use`, Actions) and ideally [Part 2](backend-in-nodejs-and-bunjs) (HTTP, SQL, sessions, Zod, Docker). If you skipped Part 2, read at least [Module 4](backend-in-nodejs-and-bunjs/http-servers-and-rest-apis), [Module 5](backend-in-nodejs-and-bunjs/databases-and-the-data-layer) and [Module 6](backend-in-nodejs-and-bunjs/authentication-and-security), because the Next.js modules build directly on those ideas.
 
 | Skill                                 | Why it matters here                                                |
 | ------------------------------------- | ------------------------------------------------------------------ |
@@ -259,7 +259,7 @@ Every module follows the same pattern, so you always know where to look.
 | Part | Series                        | What you built                                                                                                        |
 | ---- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | 1    | [**ReactJS**](reactjs)          | A client-side TaskFlow app: components, state, effects, routing, server-state caching                                 |
-| 2    | [**Node.js and Bun**](nodejs) | A secure, tested, observable API on PostgreSQL with sessions, real-time and jobs                                      |
+| 2    | [**Node.js and Bun**](backend-in-nodejs-and-bunjs) | A secure, tested, observable API on PostgreSQL with sessions, real-time and jobs                                      |
 | 3    | **Next.js** (this one)        | The whole product as one full-stack app: server rendering, caching, Server Functions, security in depth, self-hosting |
 
 ```mermaid
